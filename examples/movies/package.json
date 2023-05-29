@@ -2,6 +2,7 @@
   "name": "movies",
   "version": "1.0.0",
   "main": "index.js",
+  "private": true,
   "scripts": {
     "start": "expo start --clear",
     "android": "expo start --android",
@@ -31,12 +32,8 @@
     "typescript",
     "template"
   ],
-  "author": "Vladimir Vovk",
+  "author": "Artsiom Barouski",
   "license": "MIT",
-  "homepage": "https://github.com/vladimir-vovk/expo-ts",
-  "bugs": {
-    "url": "https://github.com/vladimir-vovk/expo-ts/issues"
-  },
   "dependencies": {
     "@expo/webpack-config": "^18.0.1",
     "@react-native-async-storage/async-storage": "1.17.11",
@@ -87,6 +84,5 @@
     "lint-staged": "^13.2.2",
     "prettier": "^2.8.8",
     "standard-version": "^9.5.0"
-  },
-  "private": true
+  }
 }
