@@ -7,7 +7,7 @@
   "author": "Artsiom Barouski",
   "license": "ISC",
   "scripts": {
-    "bootstrap": "npx lerna bootstrap",
+    "bootstrap": "npx lerna bootstrap --no-private",
     "publish:ci": "lerna publish"
   },
   "dependencies": {
