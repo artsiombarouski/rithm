@@ -8,7 +8,7 @@
   "license": "ISC",
   "scripts": {
     "ci:bootstrap": "npx lerna bootstrap --no-private",
-    "ci:publish": "lerna publish from-package --yes"
+    "ci:publish": "lerna publish from-package --yes --no-verify-access"
   },
   "dependencies": {
     "react": "18.2.0",
