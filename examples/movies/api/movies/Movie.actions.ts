@@ -1,9 +1,9 @@
 import { BaseService, service } from '@artsiombarouski/rn-core';
-import { NavigationService } from '../../services/Navigation.service';
+import { NavigationService } from '@artsiombarouski/rn-expo-router-service';
 
 @service()
 export class MovieActions extends BaseService {
   onMovieClicked(movieId: string) {
-    this.getService(NavigationService).navigate(`/movies/${movieId}`);
+    this.getService(NavigationService).push(`/movies/${movieId}`);
   }
 }

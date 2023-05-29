@@ -7087,7 +7087,7 @@ expo-pwa@0.0.124:
     commander "2.20.0"
     update-check "1.5.3"
 
-expo-router@^1.5.3:
+expo-router@1.5.3, expo-router@^1.5.3:
   version "1.5.3"
   resolved "https://registry.yarnpkg.com/expo-router/-/expo-router-1.5.3.tgz#bb75600d0d95fce57bdc6b80e0194a90b8d678d3"
   integrity sha512-rZEoRpXjXpfcx549/MI7YRitaBGFOHpIGLO+cb18ecsShl3PzGPIDaBGMnTo0m1h7ip0sAIQg1EFrSAtM4LXLA==
@@ -8555,11 +8555,6 @@ invariant@*, invariant@^2.2.4:
   integrity sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==
   dependencies:
     loose-envify "^1.0.0"
-
-inversify@6.0.1:
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/inversify/-/inversify-6.0.1.tgz#b20d35425d5d8c5cd156120237aad0008d969f02"
-  integrity sha512-B3ex30927698TJENHR++8FfEaJGqoWOgI6ZY5Ht/nLUsFCwHn6akbwtnUAPCgUepAnTpe2qHxhDNjoKLyz6rgQ==
 
 ip-regex@^2.1.0:
   version "2.1.0"
@@ -14727,11 +14722,6 @@ ts-jest@^29.1.0:
     make-error "1.x"
     semver "7.x"
     yargs-parser "^21.0.1"
-
-ts-mixer@6.0.3:
-  version "6.0.3"
-  resolved "https://registry.yarnpkg.com/ts-mixer/-/ts-mixer-6.0.3.tgz#69bd50f406ff39daa369885b16c77a6194c7cae6"
-  integrity sha512-k43M7uCG1AkTyxgnmI5MPwKoUvS/bRvLvUb7+Pgpdlmok8AoqmUaZxUUw8zKM5B1lqZrt41GjYgnvAi0fppqgQ==
 
 ts-node@^10.8.1:
   version "10.9.1"

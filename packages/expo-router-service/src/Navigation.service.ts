@@ -1,5 +1,13 @@
 import { service } from '@artsiombarouski/rn-core';
-import { Href } from 'expo-router/src/link/href';
+
+export type Href = string | HrefObject;
+
+export interface HrefObject {
+  /** Path representing the selected route `/[id]`. */
+  pathname?: string;
+  /** Query parameters for the path. */
+  params?: Record<string, any>;
+}
 
 type Router = {
   /** Navigate to the provided href. */
@@ -14,13 +22,13 @@ type Router = {
 
 @service()
 export class NavigationService {
-  private _router: Router;
+  private _router!: Router;
 
   setRouter(router: Router) {
     this._router = router;
   }
 
-  navigate(path: string) {
+  push(path: string) {
     this._router.push(path);
   }
 }

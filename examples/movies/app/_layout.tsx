@@ -1,18 +1,9 @@
-import React, { PropsWithChildren, useEffect } from 'react';
-import { Stack, useRouter } from 'expo-router';
-import { ServiceContainerBootstrap, useService } from '@artsiombarouski/rn-core';
+import React, { PropsWithChildren } from 'react';
+import { Stack } from 'expo-router';
+import { ServiceContainerBootstrap } from '@artsiombarouski/rn-core';
 import { rootServices, scopedServices } from '../services/Services';
-import { NavigationService } from '../services/Navigation.service';
 import { DefaultTheme, PaperProvider } from 'react-native-paper';
-
-const NavigationLayout = (props: PropsWithChildren) => {
-  const router = useRouter();
-  const navigationService = useService(NavigationService);
-  useEffect(() => {
-    navigationService.setRouter(router);
-  }, [router]);
-  return <>{props.children}</>;
-};
+import { NavigationServiceWrapper } from '@artsiombarouski/rn-expo-router-service';
 
 const ScopedLayout = (props: PropsWithChildren) => {
   return (
@@ -27,13 +18,13 @@ const RootLayout = () => {
     <PaperProvider theme={DefaultTheme}>
       <ServiceContainerBootstrap container={rootServices}>
         <ScopedLayout>
-          <NavigationLayout>
+          <NavigationServiceWrapper>
             <Stack
               screenOptions={{
                 headerShown: false,
               }}
             />
-          </NavigationLayout>
+          </NavigationServiceWrapper>
         </ScopedLayout>
       </ServiceContainerBootstrap>
     </PaperProvider>
