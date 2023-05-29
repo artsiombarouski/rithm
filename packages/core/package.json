@@ -2,7 +2,6 @@
   "name": "@rithm/rn-core",
   "version": "1.0.0",
   "description": "",
-  "private": true,
   "main": "src/index.ts",
   "author": "Artsiom Barouski",
   "license": "ISC",
