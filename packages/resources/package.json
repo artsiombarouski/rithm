@@ -20,5 +20,9 @@
   "devDependencies": {
     "@types/deep-equal": "1.0.1",
     "@types/object.fromentries": "2.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/artsiombarouski/rithm.git"
   }
 }

@@ -10,5 +10,9 @@
     "inversify": "6.0.1",
     "reflect-metadata": "0.1.13",
     "ts-mixer": "6.0.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/artsiombarouski/rithm.git"
   }
 }
