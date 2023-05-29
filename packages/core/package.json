@@ -1,0 +1,14 @@
+{
+  "name": "@rithm/rn-core",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "main": "src/index.ts",
+  "author": "Artsiom Barouski",
+  "license": "ISC",
+  "dependencies": {
+    "inversify": "6.0.1",
+    "reflect-metadata": "0.1.13",
+    "ts-mixer": "6.0.3"
+  }
+}

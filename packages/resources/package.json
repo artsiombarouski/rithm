@@ -1,0 +1,24 @@
+{
+  "name": "@rithm/rn-resources",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "main": "src/index.ts",
+  "author": "Artsiom Barouski",
+  "license": "ISC",
+  "dependencies": {
+    "@rithm/rn-core": "*",
+    "axios": "1.4.0",
+    "deep-equal": "2.2.1",
+    "eventemitter3": "5.0.1",
+    "lodash": "4.17.21",
+    "mobx": "6.9.0",
+    "mobx-persist": "0.4.1",
+    "mobx-react-lite": "3.4.3",
+    "object.fromentries": "2.0.6"
+  },
+  "devDependencies": {
+    "@types/deep-equal": "1.0.1",
+    "@types/object.fromentries": "2.0.1"
+  }
+}
