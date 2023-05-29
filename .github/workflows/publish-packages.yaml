@@ -19,6 +19,7 @@ jobs:
           # Defaults to the user or organization that owns the workflow file
           scope: '@rithm'
       - run: yarn
-      - run: yarn publish
+      - run: yarn bootstrap
+      - run: yarn publish:ci
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

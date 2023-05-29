@@ -7,7 +7,8 @@
   "author": "Artsiom Barouski",
   "license": "ISC",
   "scripts": {
-    "publish": "lerna publish"
+    "bootstrap": "npx lerna bootstrap",
+    "publish:ci": "lerna publish"
   },
   "dependencies": {
     "react": "18.2.0",
