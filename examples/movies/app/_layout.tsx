@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, useEffect } from 'react';
 import { Stack, useRouter } from 'expo-router';
-import { ServiceContainerBootstrap, useService } from '@rithm/rn-core';
+import { ServiceContainerBootstrap, useService } from '@artsiombarouski/rn-core';
 import { rootServices, scopedServices } from '../services/Services';
 import { NavigationService } from '../services/Navigation.service';
 import { DefaultTheme, PaperProvider } from 'react-native-paper';

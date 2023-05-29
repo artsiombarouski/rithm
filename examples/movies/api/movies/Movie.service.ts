@@ -1,6 +1,6 @@
-import { Resource } from '@rithm/rn-resources/src/Resource';
-import { ResourceApi } from '@rithm/rn-resources';
-import { service } from '@rithm/rn-core';
+import { Resource } from '@artsiombarouski/rn-resources/src/Resource';
+import { ResourceApi } from '@artsiombarouski/rn-resources';
+import { service } from '@artsiombarouski/rn-core';
 import { MovieModel } from './Movie.model';
 import { MovieDbConfig } from '../MovieDbConfig';
 

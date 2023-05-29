@@ -1,5 +1,5 @@
-import { Resource } from '@rithm/rn-resources';
-import { service } from '@rithm/rn-core';
+import { Resource } from '@artsiombarouski/rn-resources';
+import { service } from '@artsiombarouski/rn-core';
 import { UserModel } from './User.model';
 
 @service()

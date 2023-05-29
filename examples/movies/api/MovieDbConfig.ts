@@ -1,10 +1,10 @@
-import { ResourceApiDefaultTransformer } from '@rithm/rn-resources/src/api/ResourceApiDefaultTransform';
+import { ResourceApiDefaultTransformer } from '@artsiombarouski/rn-resources/src/api/ResourceApiDefaultTransform';
 import {
   defaultResourceApiConfig,
   ResourceListQuery,
   ResourcePage,
   ResourceQuery,
-} from '@rithm/rn-resources';
+} from '@artsiombarouski/rn-resources';
 import axios, { AxiosResponse } from 'axios/index';
 
 export class MovieDbConfig {

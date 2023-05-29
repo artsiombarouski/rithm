@@ -1,4 +1,4 @@
-import { service } from '@rithm/rn-core';
+import { service } from '@artsiombarouski/rn-core';
 import { action, makeObservable, observable, runInAction, toJS } from 'mobx';
 import { persist } from 'mobx-persist';
 

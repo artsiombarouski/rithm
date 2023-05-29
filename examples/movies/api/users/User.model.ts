@@ -1,4 +1,4 @@
-import { ResourceModel } from '@rithm/rn-resources';
+import { ResourceModel } from '@artsiombarouski/rn-resources';
 
 export class UserModel extends ResourceModel {
   get name() {

@@ -1,4 +1,4 @@
-import { service } from '@rithm/rn-core';
+import { service } from '@artsiombarouski/rn-core';
 import { Href } from 'expo-router/src/link/href';
 
 type Router = {

@@ -1,4 +1,4 @@
-import { BaseService, service } from '@rithm/rn-core';
+import { BaseService, service } from '@artsiombarouski/rn-core';
 import { NavigationService } from '../../services/Navigation.service';
 
 @service()

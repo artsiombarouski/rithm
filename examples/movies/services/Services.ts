@@ -1,4 +1,4 @@
-import { ServiceContainer } from '@rithm/rn-core';
+import { ServiceContainer } from '@artsiombarouski/rn-core';
 import { withServicePersist } from './Persist';
 import { UserStateService } from './UserState.service';
 import { NavigationService } from './Navigation.service';

@@ -1,4 +1,4 @@
-import { ResourceModel } from '@rithm/rn-resources';
+import { ResourceModel } from '@artsiombarouski/rn-resources';
 import { computed } from 'mobx';
 
 export class TvModel extends ResourceModel {

@@ -1,10 +1,10 @@
-import { service } from '@rithm/rn-core';
+import { service } from '@artsiombarouski/rn-core';
 import {
   Resource,
   ResourceApi,
   ResourceList,
   ResourceListQuery,
-} from '@rithm/rn-resources';
+} from '@artsiombarouski/rn-resources';
 import { TvModel } from './Tv.model';
 import { MovieDbConfig } from '../MovieDbConfig';
 
