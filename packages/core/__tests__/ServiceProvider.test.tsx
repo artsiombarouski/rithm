@@ -1,12 +1,12 @@
 import '@testing-library/jest-dom';
 import { act, render, screen } from '@testing-library/react';
 import {
+  BaseService,
   service,
   ServiceContainer,
   ServiceContainerBootstrap,
   useService,
 } from '../src';
-import { BaseService } from '../src/interfaces/BaseService.interface';
 
 @service()
 class TestService {
