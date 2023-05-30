@@ -46,7 +46,8 @@
     "packages/core",
     "packages/analytics",
     "packages/resources",
-    "packages/expo-router-service"
+    "packages/expo-router-service",
+    "packages/form"
   ],
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
