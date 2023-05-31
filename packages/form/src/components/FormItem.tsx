@@ -16,11 +16,12 @@ export function FormItem<ElementProps = any>(
   props: FormItemComponentProps<ElementProps>,
 ) {
   const formInstance = useFormContext();
-  const { name, title, rules, render, ...restProps } = props;
+  const { name, title, rules, itemContainerStyle, render, ...restProps } =
+    props;
 
   const renderElement = (renderProps: FormElementRenderProps) => {
     return (
-      <View style={{ alignItems: 'flex-start' }}>
+      <View style={[{ alignItems: 'flex-start' }, itemContainerStyle]}>
         <FormTitle title={title} />
         {render(restProps as any, renderProps)}
         <FormError error={renderProps.fieldState.error} />

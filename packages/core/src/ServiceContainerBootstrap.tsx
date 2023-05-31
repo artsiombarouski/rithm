@@ -10,6 +10,7 @@ type Props = {
   container: ServiceContainer;
   loading?: ReactNode;
   onLoaded?: () => void;
+  testId?: string;
 };
 
 export function ServiceContainerBootstrap({
@@ -17,17 +18,20 @@ export function ServiceContainerBootstrap({
   container,
   loading,
   onLoaded,
+  testId,
 }: Props): any {
   const parentContext = useContext(ServiceContext);
   const [isBootstrapped, setBootstrapped] = useState(container.isInitialized);
+  const isReady = isBootstrapped && container.isInitialized;
 
   useEffect(() => {
+    setBootstrapped(false);
     container.parent = parentContext?.serviceContainer;
     container.init().then(() => {
       onLoaded?.();
       setBootstrapped(true);
     });
-  }, []);
+  }, [container.isInitialized]);
 
   if (process.env.NODE_ENV !== 'production') {
     if (typeof children === 'function' && loading) {
@@ -37,7 +41,7 @@ export function ServiceContainerBootstrap({
     }
   }
   if (typeof children === 'function') {
-    return children(isBootstrapped) as any;
+    return children(isReady) as any;
   }
   return (
     <ServiceContext.Provider
@@ -45,7 +49,7 @@ export function ServiceContainerBootstrap({
         serviceContainer: container,
       }}
     >
-      {isBootstrapped ? children : loading ?? <></>}
+      {isReady ? children : loading ?? <></>}
     </ServiceContext.Provider>
   );
 }

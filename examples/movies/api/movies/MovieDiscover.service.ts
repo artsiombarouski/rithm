@@ -9,7 +9,7 @@ export interface MovieDiscoverService extends BaseService {}
 @service()
 export class MovieDiscoverService extends Resource<MovieModel> {
   constructor() {
-    super(() => MovieModel, ResourceApi.of(MovieDbConfig.movieDiscoverUrl));
+    super(() => MovieModel, ResourceApi.create(MovieDbConfig.movieDiscoverUrl));
   }
 
   get store(): ResourceModelStore<MovieModel> {

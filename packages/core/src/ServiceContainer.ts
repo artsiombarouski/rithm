@@ -49,7 +49,7 @@ export class ServiceContainer {
   }
 
   getService<T extends new (...args: any[]) => any>(clazz: T): InstanceType<T> {
-    const serviceName = Reflect.getMetadata('rithm:service', clazz);
+    const serviceName = Reflect.getMetadata(SERVICE_META_KEY, clazz);
     const result = this.services[serviceName] ?? this.parent?.getService(clazz);
     if (!result) {
       throw new Error(`Service not found: ${clazz}`);
@@ -76,7 +76,7 @@ export class ServiceContainer {
     }
   }
 
-  static async notifyLoaded(...components: any[]) {
+  static async notifyLoaded(components: any[]) {
     for (const component of components) {
       if (component.onServicesLoaded) {
         await component.onServicesLoaded();
@@ -84,7 +84,7 @@ export class ServiceContainer {
     }
   }
 
-  static async notifyReady(...components: any[]) {
+  static async notifyReady(components: any[]) {
     for (const component of components) {
       if (component.onServicesReady) {
         await component.onServicesReady();

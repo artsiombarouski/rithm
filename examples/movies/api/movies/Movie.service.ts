@@ -7,6 +7,6 @@ import { MovieDbConfig } from '../MovieDbConfig';
 @service()
 export class MovieService extends Resource<MovieModel> {
   constructor() {
-    super(() => MovieModel, ResourceApi.of(MovieDbConfig.movieUrl));
+    super(() => MovieModel, ResourceApi.create(MovieDbConfig.movieUrl));
   }
 }

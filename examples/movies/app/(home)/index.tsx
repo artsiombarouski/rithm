@@ -1,13 +1,16 @@
 import React from 'react';
 import { View } from 'react-native';
-import { MovieList } from '../../components/MovieList';
+import { useService } from '@artsiombarouski/rn-core';
+import { UserScopeService } from '../../services/UserScopeService';
+import { Text } from 'react-native-paper';
 
-const Movies = () => {
+const Dashboard = () => {
+  const userScopeService = useService(UserScopeService);
   return (
     <View style={{ flex: 1 }}>
-      <MovieList />
+      <Text>Current user scope: {userScopeService.currentUserKey}</Text>
     </View>
   );
 };
 
-export default Movies;
+export default Dashboard;

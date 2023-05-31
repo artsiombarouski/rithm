@@ -1,9 +1,9 @@
-import { FormElementRenderProps, FormItemProps } from '../types';
+import { FormElementRenderProps, FormItemProps, FormValues } from '../types';
 import { TextInput, TextInputProps } from 'react-native-paper';
-import { FieldValues } from 'react-hook-form';
 import { FormItem } from '../components';
+import { StyleSheet } from 'react-native';
 
-export type FormInputProps<T extends FieldValues = FieldValues> =
+export type FormInputProps<T extends FormValues = FormValues> =
   FormItemProps<T> & TextInputProps;
 
 export const FormInput = (props: FormInputProps) => {
@@ -15,6 +15,7 @@ export const FormInput = (props: FormInputProps) => {
       <TextInput
         {...props}
         {...renderProps.field}
+        style={StyleSheet.flatten([styles.inputStyle, props.style])}
         error={!!renderProps.fieldState?.error}
         mode={'outlined'}
       />
@@ -23,3 +24,10 @@ export const FormInput = (props: FormInputProps) => {
 
   return <FormItem<TextInputProps> {...props} render={renderInput} />;
 };
+
+const styles = StyleSheet.create({
+  inputStyle: {
+    width: '100%',
+    marginTop: -4,
+  },
+});

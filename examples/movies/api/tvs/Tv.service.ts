@@ -11,7 +11,7 @@ import { MovieDbConfig } from '../MovieDbConfig';
 @service()
 export class TvService extends Resource<TvModel> {
   constructor() {
-    super(() => TvModel, ResourceApi.of(MovieDbConfig.tvUrl));
+    super(() => TvModel, ResourceApi.create(MovieDbConfig.tvUrl));
   }
 
   createDiscoveryList(query?: ResourceListQuery): ResourceList<TvModel> {

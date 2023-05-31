@@ -1,13 +1,13 @@
 import { PropsWithChildren } from 'react';
-import { FieldValues, FormProvider } from 'react-hook-form';
-import { FormInstance } from './types';
+import { FormProvider } from 'react-hook-form';
+import { FormInstance, FormValues } from './types';
 
-export type FormProps<TFieldValues extends FieldValues = FieldValues> =
+export type FormProps<TFieldValues extends FormValues = FormValues> =
   PropsWithChildren & {
     form: FormInstance<TFieldValues>;
   };
 
-export function Form<TFieldValues extends FieldValues = FieldValues>(
+export function Form<TFieldValues extends FormValues = FormValues>(
   props: FormProps<TFieldValues>,
 ) {
   const { form, children } = props;

@@ -28,7 +28,11 @@ export class NavigationService {
     this._router = router;
   }
 
-  push(path: string) {
+  push(path: Href) {
     this._router.push(path);
+  }
+
+  replace(path: Href) {
+    this._router.replace(path);
   }
 }
