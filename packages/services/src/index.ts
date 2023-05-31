@@ -3,6 +3,7 @@ export * from './ServiceContainerBootstrap';
 export * from './interfaces';
 export * from './extensions';
 export * from './decorators';
+export * from './persist';
 export * from './hooks';
 export * from './utils';
 export * from './types';

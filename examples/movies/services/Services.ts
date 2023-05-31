@@ -1,5 +1,7 @@
-import { ServiceContainer } from '../../../packages/services';
-import { withServicePersist } from './Persist';
+import {
+  ServiceContainer,
+  withServicePersist,
+} from '@artsiombarouski/rn-services';
 import { MovieActions } from '../api/movies/Movie.actions';
 import { MovieService } from '../api/movies/Movie.service';
 import { MovieDiscoverService } from '../api/movies/MovieDiscover.service';

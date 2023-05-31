@@ -36,7 +36,6 @@
   "license": "MIT",
   "dependencies": {
     "@expo/webpack-config": "^18.0.1",
-    "@react-native-async-storage/async-storage": "1.17.11",
     "@react-navigation/drawer": "^6.6.2",
     "@artsiombarouski/rn-services": "*",
     "@artsiombarouski/rn-resources": "*",
@@ -52,7 +51,6 @@
     "jest": "^29.2.1",
     "jest-expo": "^48.0.2",
     "mobx": "^6.9.0",
-    "mobx-persist": "^0.4.1",
     "react": "18.2.0",
     "react-native": "0.71.8",
     "react-native-gesture-handler": "~2.9.0",
