@@ -8,8 +8,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useService } from '../../../packages/services';
-import { useResourceList } from '@artsiombarouski/rn-resources/src/hooks/UseResourceList.hook';
+import { useService } from '@artsiombarouski/rn-services';
+import { useResourceList } from '@artsiombarouski/rn-resources';
 import { observer } from 'mobx-react-lite';
 import { TvService } from '../api/tvs/Tv.service';
 import { TvModel } from '../api/tvs/Tv.model';

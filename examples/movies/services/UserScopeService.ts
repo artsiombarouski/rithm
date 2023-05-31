@@ -2,7 +2,7 @@ import {
   BaseService,
   OnServicesLoaded,
   service,
-} from '../../../packages/services';
+} from '@artsiombarouski/rn-services';
 import { AppUserStoreService } from './AppUserStoreService';
 
 @service()

@@ -2,7 +2,7 @@ import { Drawer } from 'expo-router/drawer';
 import { View } from 'react-native';
 import DrawerContent from '@react-navigation/drawer/src/views/DrawerContent';
 import { useNavigationService } from '@artsiombarouski/rn-expo-router-service/src/hooks/useNavigationService';
-import { useService } from '../../../../packages/services';
+import { useService } from '@artsiombarouski/rn-services';
 import { AppUserStoreService } from '../../services/AppUserStoreService';
 import {
   Avatar,

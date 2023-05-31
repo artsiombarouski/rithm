@@ -1,4 +1,4 @@
-import { service } from '../../../packages/services';
+import { service } from '@artsiombarouski/rn-services';
 import { action, makeObservable, observable, runInAction } from 'mobx';
 import { persist } from 'mobx-persist';
 import { isNothing } from '@artsiombarouski/rn-resources';

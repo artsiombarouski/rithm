@@ -1,9 +1,9 @@
 import React from 'react';
 import { Image, Text, View } from 'react-native';
-import { useService } from '../../../../packages/services';
+import { useService } from '@artsiombarouski/rn-services';
 import { useSearchParams } from 'expo-router';
 import { observer } from 'mobx-react-lite';
-import { useResourceModel } from '@artsiombarouski/rn-resources/src/hooks/UseResourceModel.hook';
+import { useResourceModel } from '@artsiombarouski/rn-resources';
 import { TvService } from '../../api/tvs/Tv.service';
 
 const MovieInfo = observer(() => {

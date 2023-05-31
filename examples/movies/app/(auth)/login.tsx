@@ -1,6 +1,6 @@
 import { ScrollView, View } from 'react-native';
 import { Form, FormInput, FormValues, useForm } from '@artsiombarouski/rn-form';
-import { useService } from '../../../../packages/services';
+import { useService } from '@artsiombarouski/rn-services';
 import { useNavigationService } from '@artsiombarouski/rn-expo-router-service';
 import { AppUserStoreService } from '../../services/AppUserStoreService';
 import { Button } from 'react-native-paper';

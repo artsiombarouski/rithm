@@ -1,4 +1,4 @@
-import { service } from '../../../../packages/services';
+import { service } from '@artsiombarouski/rn-services';
 import {
   Resource,
   ResourceApi,

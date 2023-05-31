@@ -1,5 +1,5 @@
 import { UserStoreService } from './UserStoreService';
-import { service } from '../../../packages/services';
+import { service } from '@artsiombarouski/rn-services';
 
 export type UserPayload = {
   key: string;

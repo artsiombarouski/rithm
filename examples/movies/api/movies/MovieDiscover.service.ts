@@ -1,5 +1,9 @@
-import { BaseService, service } from '../../../../packages/services';
-import { Resource, ResourceApi, ResourceModelStore } from '@artsiombarouski/rn-resources';
+import { BaseService, service } from '@artsiombarouski/rn-services';
+import {
+  Resource,
+  ResourceApi,
+  ResourceModelStore,
+} from '@artsiombarouski/rn-resources';
 import { MovieModel } from './Movie.model';
 import { MovieDbConfig } from '../MovieDbConfig';
 import { MovieService } from './Movie.service';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { useService } from '../../../../packages/services';
+import { useService } from '@artsiombarouski/rn-services';
 import { UserScopeService } from '../../services/UserScopeService';
 import { Text } from 'react-native-paper';
 
