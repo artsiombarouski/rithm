@@ -43,7 +43,7 @@
   },
   "workspaces": [
     "examples/movies",
-    "packages/core",
+    "packages/services",
     "packages/analytics",
     "packages/resources",
     "packages/expo-router-service",

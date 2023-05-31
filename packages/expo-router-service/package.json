@@ -6,7 +6,7 @@
   "author": "Artsiom Barouski",
   "license": "ISC",
   "dependencies": {
-    "@artsiombarouski/rn-core": "*",
+    "@artsiombarouski/rn-services": "*",
     "expo-router": "1.5.3"
   },
   "repository": {

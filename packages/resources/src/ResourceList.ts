@@ -13,7 +13,7 @@ import {
   CancellablePromise,
   CancelState,
   createCancellablePromise,
-} from '@artsiombarouski/rn-core';
+} from '../../services';
 import { ResourceModel } from './ResourceModel';
 import {
   ResourceApi,

@@ -5,9 +5,6 @@
   "main": "src/index.ts",
   "author": "Artsiom Barouski",
   "license": "ISC",
-  "dependencies": {
-    "@artsiombarouski/rn-core": "*"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/artsiombarouski/rithm.git",

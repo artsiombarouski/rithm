@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useService } from '@artsiombarouski/rn-core';
+import { useService } from '../../../packages/services';
 import { useResourceList } from '@artsiombarouski/rn-resources';
 import { observer } from 'mobx-react-lite';
 import { MovieDiscoverService } from '../api/movies/MovieDiscover.service';

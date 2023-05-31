@@ -40,7 +40,7 @@ export default Layout;
 #### In services
 
 ```typescript
-import {BaseService, service} from '@artsiombarouski/rn-core';
+import {BaseService, service} from '@artsiombarouski/rn-services';
 import {NavigationService} from '@artsiombarouski/rn-expo-router-service';
 
 @service()
@@ -54,7 +54,7 @@ export class MovieActions extends BaseService {
 #### Using hooks
 
 ```tsx
-import {useService} from "@artsiombarouski/rn-core";
+import {useService} from "@artsiombarouski/rn-services";
 import {NavigationService} from "@artsiombarouski/rn-expo-router-service";
 
 const Example = () => {

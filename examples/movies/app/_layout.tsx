@@ -4,7 +4,7 @@ import {
   ServiceContainer,
   ServiceContainerBootstrap,
   useService,
-} from '@artsiombarouski/rn-core';
+} from '../../../packages/services';
 import { rootServices, scopedServices } from '../services/Services';
 import { DefaultTheme, PaperProvider } from 'react-native-paper';
 import {

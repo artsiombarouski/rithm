@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, Text, View } from 'react-native';
-import { useService } from '@artsiombarouski/rn-core';
+import { useService } from '../../../../packages/services';
 import { useSearchParams } from 'expo-router';
 import { observer } from 'mobx-react-lite';
 import { useResourceModel } from '@artsiombarouski/rn-resources/src/hooks/UseResourceModel.hook';

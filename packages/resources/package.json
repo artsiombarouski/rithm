@@ -6,7 +6,7 @@
   "author": "Artsiom Barouski",
   "license": "ISC",
   "dependencies": {
-    "@artsiombarouski/rn-core": "*",
+    "@artsiombarouski/rn-services": "*",
     "axios": "1.4.0",
     "deep-equal": "2.2.1",
     "eventemitter3": "5.0.1",

@@ -1,4 +1,4 @@
-import { BaseService, service } from '@artsiombarouski/rn-core';
+import { BaseService, service } from '../../../../packages/services';
 import { NavigationService } from '@artsiombarouski/rn-expo-router-service';
 
 @service()
