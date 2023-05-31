@@ -8,14 +8,14 @@ import { MovieDiscoverService } from '../api/movies/MovieDiscover.service';
 import { TvService } from '../api/tvs/Tv.service';
 import { TvActions } from '../api/tvs/Tv.actions';
 import { NavigationService } from '@artsiombarouski/rn-expo-router-service';
-import { AppUserStoreService } from './AppUserStoreService';
 import { UserScopeService } from './UserScopeService';
+import { UserStoreService } from '@artsiombarouski/rn-user-store-service';
 
 export const rootServices = () =>
   new ServiceContainer({
     services: [
       NavigationService,
-      withServicePersist('user-state', AppUserStoreService),
+      withServicePersist('user-state', UserStoreService),
     ],
   });
 

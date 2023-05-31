@@ -3,7 +3,8 @@ import {
   OnServicesLoaded,
   service,
 } from '@artsiombarouski/rn-services';
-import { AppUserStoreService } from './AppUserStoreService';
+import { UserStoreService } from '@artsiombarouski/rn-user-store-service';
+import { UserPayload } from '../api/User.payload';
 
 @service()
 export class UserScopeService extends BaseService implements OnServicesLoaded {
@@ -14,7 +15,8 @@ export class UserScopeService extends BaseService implements OnServicesLoaded {
   }
 
   onServicesLoaded(): void | Promise<void> {
-    this._currentUserKey =
-      this.getService(AppUserStoreService).currentUser?.key;
+    this._currentUserKey = this.getService(
+      UserStoreService<UserPayload>,
+    ).currentUser?.key;
   }
 }

@@ -2,8 +2,6 @@ import { Drawer } from 'expo-router/drawer';
 import { View } from 'react-native';
 import DrawerContent from '@react-navigation/drawer/src/views/DrawerContent';
 import { useNavigationService } from '@artsiombarouski/rn-expo-router-service/src/hooks/useNavigationService';
-import { useService } from '@artsiombarouski/rn-services';
-import { AppUserStoreService } from '../../services/AppUserStoreService';
 import {
   Avatar,
   Divider,
@@ -14,12 +12,13 @@ import {
 } from 'react-native-paper';
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
+import { useUsers } from '../../services/utils';
 
 const UserView = observer(() => {
   const theme = useTheme();
+  const users = useUsers();
   const navigation = useNavigationService();
-  const userService = useService(AppUserStoreService);
-  const currentUser = userService.currentUser;
+  const currentUser = users.currentUser;
   const [isMenuVisible, setMenuVisible] = useState(false);
 
   if (!currentUser) {
@@ -58,7 +57,7 @@ const UserView = observer(() => {
           />
         }
       >
-        {userService.users.map((user) => {
+        {users.users.map((user) => {
           return (
             <Menu.Item
               key={user.key}
@@ -83,7 +82,7 @@ const UserView = observer(() => {
               }
               onPress={() => {
                 setMenuVisible(false);
-                return userService.setCurrentUser(user.key);
+                return users.setCurrentUser(user.key);
               }}
             />
           );
@@ -101,7 +100,7 @@ const UserView = observer(() => {
           key={'logout'}
           title={'Logout'}
           onPress={() => {
-            userService.logout().then(() => {
+            users.logout().then(() => {
               setMenuVisible(false);
             });
           }}

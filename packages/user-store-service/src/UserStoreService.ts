@@ -1,7 +1,6 @@
 import { service } from '@artsiombarouski/rn-services';
 import { action, makeObservable, observable, runInAction } from 'mobx';
 import { persist } from 'mobx-persist';
-import { isNothing } from '@artsiombarouski/rn-resources';
 
 @service()
 export class UserStoreService<UserPayload extends { key: any }> {
@@ -56,7 +55,8 @@ export class UserStoreService<UserPayload extends { key: any }> {
       this.users = this.users.filter(
         (user) => user.key !== (key ?? this.currentUser?.key),
       );
-      this.currentUser = isNothing(this.users) ? undefined : this.users[0];
+      this.currentUser =
+        !this.users || this.users.length === 0 ? undefined : this.users[0];
     });
   }
 }

@@ -3,7 +3,6 @@ import { Stack } from 'expo-router';
 import {
   ServiceContainer,
   ServiceContainerBootstrap,
-  useService,
 } from '@artsiombarouski/rn-services';
 import { rootServices, scopedServices } from '../services/Services';
 import { DefaultTheme, PaperProvider } from 'react-native-paper';
@@ -11,39 +10,39 @@ import {
   NavigationServiceWrapper,
   useRouteGuard,
 } from '@artsiombarouski/rn-expo-router-service';
-import { AppUserStoreService } from '../services/AppUserStoreService';
 import { observer } from 'mobx-react-lite';
 import { observe } from 'mobx';
+import { useUsers } from '../services/utils';
 
 const RouteGuardLayout = observer((props: PropsWithChildren) => {
-  const userService = useService(AppUserStoreService);
+  const users = useUsers();
   useRouteGuard(
     {
       getRedirect: (segments) => {
-        if (!userService.currentUser && !segments.includes('(auth)')) {
+        if (!users.currentUser && !segments.includes('(auth)')) {
           return '/login';
         }
         return null;
       },
     },
 
-    [userService.currentUser],
+    [users.currentUser],
   );
   return <>{props.children}</>;
 });
 
 const ScopedLayout = (props: PropsWithChildren) => {
-  const userStoreService = useService(AppUserStoreService);
+  const users = useUsers();
   const [currentContainer, setCurrentContainer] = useState<{
     userKey?: string;
     container: ServiceContainer;
   }>({
-    userKey: userStoreService.currentUser?.key,
+    userKey: users.currentUser?.key,
     container: scopedServices(),
   });
 
   useEffect(() => {
-    const unsubscribe = observe(userStoreService, 'currentUser', (change) => {
+    const unsubscribe = observe(users, 'currentUser', (change) => {
       const newKey = change.newValue?.key;
       if (newKey !== currentContainer?.userKey) {
         setCurrentContainer({
@@ -55,7 +54,7 @@ const ScopedLayout = (props: PropsWithChildren) => {
     return () => {
       unsubscribe();
     };
-  }, [userStoreService, currentContainer]);
+  }, [users, currentContainer]);
   return (
     <ServiceContainerBootstrap
       key={currentContainer.userKey}
