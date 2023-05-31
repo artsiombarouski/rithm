@@ -6,9 +6,13 @@
   "author": "Artsiom Barouski",
   "license": "ISC",
   "dependencies": {
+    "dayjs": "^1.11.7",
     "lodash": "^4.17.21",
     "react-hook-form": "^7.44.2",
-    "react-native-paper": "^5.8.0"
+    "react-native-calendars": "^1.1298.0",
+    "react-native-localize": "^3.0.0",
+    "react-native-paper": "^5.8.0",
+    "react-native-paper-dates": "^0.16.2"
   },
   "peerDependencies": {
     "react": "18.2.0",

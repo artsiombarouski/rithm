@@ -1,6 +1,6 @@
-import { ScrollView, View } from 'react-native';
 import {
   Form,
+  FormCalendar,
   FormCheckbox,
   FormInput,
   FormList,
@@ -9,10 +9,12 @@ import {
   FormSelect,
   FormSwitch,
   FormValues,
+  SelectionType,
   useForm,
 } from '@artsiombarouski/rn-form';
-import { Button, Divider, IconButton, Text } from 'react-native-paper';
 import { useState } from 'react';
+import { ScrollView, View } from 'react-native';
+import { Button, Divider, IconButton, Text } from 'react-native-paper';
 
 type FormItemDto = {
   item_input: string;
@@ -46,9 +48,28 @@ const FormListItem = (props: FormListItemRenderProps<FormItemDto>) => {
   );
 };
 
+const DEFAULT_DATE = {
+  [SelectionType.SINGLE]: { date: null },
+  [SelectionType.MULTI]: { dates: [] },
+  [SelectionType.RANGE]: { startDate: null, endDate: null },
+};
+
 const FormExample = () => {
   const [currentValue, setCurrentValue] = useState<FormValues>({});
-  const form = useForm();
+
+  const [selectionType, setSelectionType] = useState<SelectionType>(
+    SelectionType.RANGE,
+  ); //todo
+
+  const [mode, setMode] = useState<'single' | 'dual'>('single'); //todo
+
+  //add button for calendar choose
+  const form = useForm({
+    defaultValues: {
+      calendar: DEFAULT_DATE[selectionType],
+    },
+  });
+
   return (
     <View style={{ flex: 1, display: 'flex', flexDirection: 'row' }}>
       <ScrollView style={{ flex: 0.5 }}>
@@ -146,6 +167,12 @@ const FormExample = () => {
                 </Form>
               );
             }}
+          />
+          <Divider />
+          <FormCalendar
+            name={'calendar'}
+            mode={mode}
+            selectionType={selectionType}
           />
           <Button
             mode={'contained'}
