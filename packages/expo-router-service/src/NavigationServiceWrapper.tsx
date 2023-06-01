@@ -1,4 +1,4 @@
-import { useService } from '../../services';
+import { useService } from '@artsiombarouski/rn-services';
 import { PropsWithChildren, useEffect } from 'react';
 import { NavigationService } from './Navigation.service';
 import { useRouter } from 'expo-router';

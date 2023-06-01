@@ -2,6 +2,8 @@ import '@testing-library/jest-dom';
 import { act, render, screen } from '@testing-library/react';
 import {
   BaseService,
+  OnServicesLoaded,
+  OnServicesReady,
   service,
   ServiceContainer,
   ServiceContainerBootstrap,
@@ -10,7 +12,7 @@ import {
 
 @service()
 class TestService {
-  constructor(testService: SecondTestService) {}
+  constructor() {}
 
   getValue(): string {
     return 'Test service value';
@@ -49,5 +51,52 @@ describe('Service Provider', function () {
     expect(screen.getByTestId('value-field')).toHaveTextContent(
       'Test service value / Second',
     );
+  });
+
+  it('service onLoad + onReady', async () => {
+    @service()
+    class Service1
+      extends BaseService
+      implements OnServicesLoaded, OnServicesReady
+    {
+      isLoadCalled?: boolean;
+      isReadyCalled?: boolean;
+
+      onServicesLoaded(): void | Promise<void> {
+        this.isLoadCalled = true;
+      }
+
+      onServicesReady(): void | Promise<void> {
+        this.isReadyCalled = true;
+      }
+    }
+
+    @service()
+    class Service2
+      extends BaseService
+      implements OnServicesLoaded, OnServicesReady
+    {
+      isLoadCalled?: boolean;
+      isReadyCalled?: boolean;
+
+      onServicesLoaded(): void | Promise<void> {
+        this.isLoadCalled = true;
+      }
+
+      onServicesReady(): void | Promise<void> {
+        this.isReadyCalled = true;
+      }
+    }
+
+    const serviceContainer = new ServiceContainer({
+      services: [Service1, Service2],
+    });
+
+    await serviceContainer.init();
+    expect(serviceContainer.getService(Service1).isLoadCalled).toBeTruthy();
+    expect(serviceContainer.getService(Service1).isReadyCalled).toBeTruthy();
+
+    expect(serviceContainer.getService(Service2).isLoadCalled).toBeTruthy();
+    expect(serviceContainer.getService(Service2).isReadyCalled).toBeTruthy();
   });
 });

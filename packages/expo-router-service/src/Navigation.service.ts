@@ -1,4 +1,4 @@
-import { service } from '../../services';
+import { service } from '@artsiombarouski/rn-services';
 
 export type Href = string | HrefObject;
 

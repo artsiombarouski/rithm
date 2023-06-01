@@ -16,6 +16,7 @@ import {
 import { difference, intersection, isEmpty, isObject } from 'lodash';
 import EventEmitter from 'events';
 import { ResourceApi, ResourceApiResponse, ResourceQuery } from './api';
+import { ResourceModelStoreRegister } from './ResourceModelStoreRegister';
 
 type IndexTree<T> = Map<string, Index<T>>;
 type Index<T> = Map<any, Array<T>>;
@@ -39,7 +40,11 @@ export class ResourceModelStore<T extends ResourceModel> {
   private pendingModels: { [key: Id]: T } = {};
   private extendedActionsNotifier = new EventEmitter();
 
-  constructor(readonly api: ResourceApi<T>, data: Array<Object> = []) {
+  constructor(
+    readonly api: ResourceApi<T>,
+    readonly register: ResourceModelStoreRegister,
+    data: Array<Object> = [],
+  ) {
     this.models = observable.array(data.map((m) => this.build(m)));
     makeObservable(this);
   }
@@ -185,7 +190,7 @@ export class ResourceModelStore<T extends ResourceModel> {
   }
 
   /**
-   * Get or create new model
+   * Get or create new model (without updating existing model)
    */
   obtain(id: Id, data: {} = {}): T {
     let model = this.get(id);
@@ -196,6 +201,9 @@ export class ResourceModelStore<T extends ResourceModel> {
     return model;
   }
 
+  /**
+   * Get or create new model (with updating existing model)
+   */
   resolve(data: { [key: string]: any } = {}, upsert?: boolean): T | undefined {
     const id = data[this.primaryKey];
     if (!id) {
@@ -468,8 +476,7 @@ export class ResourceModelStore<T extends ResourceModel> {
     }
 
     const ModelClass = this.model(attributes);
-    const model: ResourceModel = new ModelClass(attributes);
-    (model as any).modelStore = this;
+    const model: ResourceModel = new ModelClass(this, attributes);
 
     return model as T;
   }
