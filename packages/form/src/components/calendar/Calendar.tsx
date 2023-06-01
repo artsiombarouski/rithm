@@ -10,9 +10,15 @@ import { SelectionType } from './types';
 import { AntDesign } from '@expo/vector-icons';
 import dayjs from 'dayjs';
 import React, { useCallback, useMemo, useState } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import {
+  StyleProp,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
 import { Calendar as BaseCalendar, DateData } from 'react-native-calendars';
-import { MarkingTypes } from 'react-native-calendars/src/types';
+import { MarkingTypes, Theme } from 'react-native-calendars/src/types';
 
 const Arrow = ({ direction, onPress, ...props }: ArrowProps) => {
   return (
@@ -27,15 +33,16 @@ const Arrow = ({ direction, onPress, ...props }: ArrowProps) => {
   );
 };
 
-export const Calendar = ({
-  selectionType,
-  value,
-  onChange,
-  containerStyle,
-  arrowProps,
-  mode = 'dual',
-  ...calendarProps
-}: CalendarProps) => {
+export const Calendar = (props: CalendarProps) => {
+  const {
+    selectionType,
+    value,
+    onChange,
+    containerStyle,
+    arrowProps,
+    mode = 'dual',
+    ...calendarProps
+  } = props;
   const { markingType, ...restCalendarProps } = calendarProps;
 
   const leftArrowMonthShift = mode === 'dual' ? -2 : -1;
@@ -187,6 +194,13 @@ export const Calendar = ({
     }
   };
 
+  const calendarStyle: StyleProp<ViewStyle> = StyleSheet.flatten([
+    // { flex: 1, width: '100%' },
+    restCalendarProps?.style,
+  ]);
+
+  const calendarTheme: Theme = {};
+
   const getSharedCalendarProps = useMemo(
     () => (direction: 'right' | 'left') => {
       const arrowDisabled = mode === 'dual';
@@ -216,14 +230,29 @@ export const Calendar = ({
     ],
   );
 
+  const renderCalendar = (direction: 'left' | 'right') => {
+    return (
+      <View style={{ flex: 1 }}>
+        <BaseCalendar
+          {...getSharedCalendarProps(direction)}
+          style={calendarStyle}
+          theme={calendarTheme}
+        />
+      </View>
+    );
+  };
+
   return (
     <View style={[styles.container, containerStyle]}>
-      <BaseCalendar {...getSharedCalendarProps('left')} />
-      {mode === 'dual' && <BaseCalendar {...getSharedCalendarProps('right')} />}
+      {renderCalendar('left')}
+      {mode === 'dual' && renderCalendar('right')}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flexDirection: 'row' },
+  container: {
+    width: '100%',
+    flexDirection: 'row',
+  },
 });

@@ -15,6 +15,7 @@ import {
 import { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { Button, Divider, IconButton, Text } from 'react-native-paper';
+import dayjs from 'dayjs';
 
 type FormItemDto = {
   item_input: string;
@@ -171,8 +172,10 @@ const FormExample = () => {
           <Divider />
           <FormCalendar
             name={'calendar'}
-            mode={mode}
+            mode={'dual'}
             selectionType={selectionType}
+            minDate={dayjs().subtract(5, 'days').toString()}
+            maxDate={dayjs().add(5, 'd').toString()}
           />
           <Button
             mode={'contained'}

@@ -1,8 +1,7 @@
 import { Calendar, CalendarProps, FormItem } from '../components';
-import { FormElementRenderProps, FormItemProps } from '../types';
-import { FieldValues } from 'react-hook-form';
+import { FormElementRenderProps, FormItemProps, FormValues } from '../types';
 
-export type FormDualCalendarProps<T extends FieldValues = FieldValues> =
+export type FormDualCalendarProps<T extends FormValues = FormValues> =
   FormItemProps<T> & Omit<CalendarProps, 'value' | 'onChange'>;
 
 export const FormCalendar = (props: FormDualCalendarProps) => {
