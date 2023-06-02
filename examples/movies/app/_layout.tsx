@@ -13,6 +13,7 @@ import {
 import { observer } from 'mobx-react-lite';
 import { observe } from 'mobx';
 import { useUsers } from '../services/utils';
+import { NativeBaseProvider } from 'native-base';
 
 const RouteGuardLayout = observer((props: PropsWithChildren) => {
   const users = useUsers();
@@ -69,17 +70,19 @@ const RootLayout = () => {
   const [servicesContainer] = useState(rootServices());
   return (
     <PaperProvider theme={DefaultTheme}>
-      <ServiceContainerBootstrap container={servicesContainer}>
-        <ScopedLayout>
-          <NavigationServiceWrapper>
-            <Stack
-              screenOptions={{
-                headerShown: false,
-              }}
-            />
-          </NavigationServiceWrapper>
-        </ScopedLayout>
-      </ServiceContainerBootstrap>
+      <NativeBaseProvider>
+        <ServiceContainerBootstrap container={servicesContainer}>
+          <ScopedLayout>
+            <NavigationServiceWrapper>
+              <Stack
+                screenOptions={{
+                  headerShown: false,
+                }}
+              />
+            </NavigationServiceWrapper>
+          </ScopedLayout>
+        </ServiceContainerBootstrap>
+      </NativeBaseProvider>
     </PaperProvider>
   );
 };

@@ -15,6 +15,8 @@ export const FormInput = (props: FormInputProps) => {
       <TextInput
         {...props}
         {...renderProps.field}
+        value={renderProps.field.value}
+        onChangeText={renderProps.field.onChange}
         style={StyleSheet.flatten([styles.inputStyle, props.style])}
         error={!!renderProps.fieldState?.error}
         mode={'outlined'}

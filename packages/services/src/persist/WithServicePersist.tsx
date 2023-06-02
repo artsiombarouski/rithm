@@ -10,7 +10,7 @@ const hydrate = createHydrate({
 export function withServicePersist(key: string, service: ServiceInfo) {
   return async () => {
     const result = await ServiceContainer.createService(service);
-    hydrate(key, result);
+    await hydrate(key, result);
     return result;
   };
 }

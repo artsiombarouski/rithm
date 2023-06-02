@@ -11,6 +11,7 @@
     "ci:publish": "lerna publish from-package --yes --no-verify-access --loglevel silly"
   },
   "dependencies": {
+    "native-base": "^3.4.28",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
