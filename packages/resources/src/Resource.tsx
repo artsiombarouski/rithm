@@ -2,20 +2,22 @@ import { ResourceList } from './ResourceList';
 import { ResourceModelStore } from './ResourceModelStore';
 import { ResourceModel } from './ResourceModel';
 import { ResourceApi, ResourceListQuery } from './api';
+import { ResourceModelStoreRegister } from './ResourceModelStoreRegister';
 
 export class Resource<T extends ResourceModel> {
-  private _modelStore?: ResourceModelStore<T>;
+  private readonly _modelStore?: ResourceModelStore<T>;
 
   constructor(
     readonly modelGetter: () => any,
     readonly api: ResourceApi<T>,
-    modelStore?: ResourceModelStore<T>,
+    readonly options?: {
+      modelStore?: ResourceModelStore<T>;
+      storesRegister?: ResourceModelStoreRegister;
+    },
   ) {
-    this._modelStore = modelStore;
-  }
-
-  get store(): ResourceModelStore<T> {
-    if (!this._modelStore) {
+    if (options?.modelStore) {
+      this._modelStore = options.modelStore;
+    } else {
       const getter = this.modelGetter;
 
       class Store extends ResourceModelStore<T> {
@@ -24,8 +26,15 @@ export class Resource<T extends ResourceModel> {
         }
       }
 
-      this._modelStore = new Store(this.api);
+      const register =
+        this.options?.storesRegister ?? ResourceModelStoreRegister.global;
+
+      this._modelStore = new Store(this.api, register);
+      register.add(getter(), this._modelStore);
     }
+  }
+
+  get store(): ResourceModelStore<T> {
     return this._modelStore!;
   }
 

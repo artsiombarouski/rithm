@@ -9,7 +9,7 @@ import { ResourceApiResponse } from './ResourceApiResponse';
 export class ResourceApi<T = Object> {
   private readonly config: ResourceApiConfig;
 
-  static create<T>(
+  static create<T = any>(
     path: string,
     config?: Partial<ResourceApiConfig>,
   ): ResourceApi<T> {

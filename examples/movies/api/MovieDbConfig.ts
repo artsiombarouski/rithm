@@ -48,9 +48,6 @@ class ApiTransformer extends ResourceApiDefaultTransformer {
 
 const networkTransport = axios.create({
   baseURL: MovieDbConfig.baseUrl,
-  headers: {
-    Authorization: `Bearer ${MovieDbConfig.apiKey}`,
-  },
 });
 
 defaultResourceApiConfig.transport = networkTransport;

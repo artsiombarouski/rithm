@@ -2,6 +2,7 @@ export * from './Resource';
 export * from './ResourceList';
 export * from './ResourceModel';
 export * from './ResourceModelStore';
+export * from './ResourceModelStoreRegister';
 export * from './api';
 export * from './types';
 export * from './utils';

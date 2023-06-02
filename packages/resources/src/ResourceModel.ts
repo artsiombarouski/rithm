@@ -20,13 +20,16 @@ import {
 } from './utils';
 import { includes, isEmpty, uniqueId } from 'lodash';
 import { ResourceApiError, ResourceApiResponse, ResourceQuery } from './api';
+import { ResourceModelStoreRegister } from './ResourceModelStoreRegister';
+
+export type ResourceReference = {
+  store: (register: ResourceModelStoreRegister) => ResourceModelStore<any>;
+  canSave?: boolean;
+  canUpdate?: boolean;
+};
 
 export interface ResourceReferences {
-  [key: string]: {
-    store: ResourceModelStore<any>;
-    canSave?: boolean;
-    canUpdate?: boolean;
-  };
+  [key: string]: ResourceReference;
 }
 
 export type ResourceAttributes = {
@@ -111,24 +114,22 @@ export class ResourceModel<IdType extends Id = any> {
   };
 
   constructor(
+    store: ResourceModelStore<any>,
     attributes: ResourceAttributes = {},
     readonly references?: ResourceReferences,
   ) {
+    this.modelStore = store;
     this._debugKey = ++_lastDebugKey;
     makeObservable(this);
 
-    const mergedAttributes = {
-      ...attributes,
-    };
-
-    this.attributes = observable.map(mergedAttributes);
-    this.committedAttributes = observable.map(mergedAttributes);
+    this.attributes = observable.map(attributes);
+    this.committedAttributes = observable.map(attributes);
 
     if (this.references) {
       Object.entries(this.references).forEach(([key, reference]) => {
-        const attrValue = mergedAttributes[key];
+        const attrValue = attributes[key];
         if (attrValue) {
-          reference.store.upsert(attrValue);
+          this.getReferenceStore(reference).upsert(attrValue);
         }
       });
     }
@@ -138,12 +139,12 @@ export class ResourceModel<IdType extends Id = any> {
     return this._debugKey;
   }
 
-  mutate<T>(): T {
+  mutate<T = this>(): T {
     if (!this.modelStore) {
       throw new Error('ModelStore is not defined');
     }
     const ModelClass = this.modelStore.model();
-    const copy = new ModelClass(Object.fromEntries(this.attributes.entries()));
+    const copy = new ModelClass(this.modelStore, Object.fromEntries(this.attributes.entries()));
     copy.parentModel = this;
     return copy;
   }
@@ -230,12 +231,20 @@ export class ResourceModel<IdType extends Id = any> {
       if (raw && this.references?.[attribute]) {
         const reference = this.references[attribute];
         if (Array.isArray(raw)) {
-          return raw.map((e) => reference.store.resolve(e, false)) as any;
+          return raw.map((e) =>
+            this.getReferenceStore(reference).resolve(e, false),
+          ) as any;
         }
-        return reference.store.resolve(raw, false);
+        return this.getReferenceStore(reference).resolve(raw, false);
       }
       return raw;
     }
+  }
+
+  private getReferenceStore(
+    reference: ResourceReference,
+  ): ResourceModelStore<any> {
+    return reference.store(this.modelStore!.register);
   }
 
   /**
@@ -302,7 +311,7 @@ export class ResourceModel<IdType extends Id = any> {
         if (!isNothing(changes[key])) {
           const attrValue = this.attributes.get(key);
           if (attrValue) {
-            reference.store.upsert(attrValue);
+            this.getReferenceStore(reference).upsert(attrValue);
           }
         }
       });
