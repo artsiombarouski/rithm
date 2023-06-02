@@ -87,13 +87,21 @@ const FormExample = () => {
   return (
     <View style={{ padding: 16 }}>
       <Form form={form}>
-        {/*todo: controlProps, errorProps, inputProps, errorProps*/}
+        {/*todo: controlProps, labelProps, helperProps, inputProps, errorProps*/}
         <FormInput
           helperText={'Helper Text'}
           name={'input'}
           title={'Input'}
           rules={{ required: true }}
         />
+        <FormCheckbox
+          name={'checkbox'}
+          title={'Checkbox'}
+          helperText={'Helper Text'}
+          rules={{ required: true }}
+        >
+          <Text ml={4}>Right Text</Text>
+        </FormCheckbox>
         <Button onPress={form.handleSubmit(onSubmit)}>Submit</Button>
       </Form>
     </View>
@@ -108,13 +116,10 @@ const FormExample = () => {
             title={'Input'}
             rules={{ required: true }}
           />
-          <FormInput name={'input2'} title={'Input2'} />
           <Divider />
-          <FormCheckbox
-            name={'checkbox'}
-            title={'Checkbox'}
-            label={'Checkbox example'}
-          />
+          <FormCheckbox name={'checkbox'} title={'Checkbox'}>
+            <Text>Checkbox example</Text>
+          </FormCheckbox>
           <Divider />
           <FormSwitch name={'switch'} title={'Switch'} label={'Switch'} />
           <Divider />
@@ -148,7 +153,9 @@ const FormExample = () => {
               return (
                 <Form form={form}>
                   <FormInput name={'item_input'} />
-                  <FormCheckbox name={'item_checkbox'} label={'Checkbox'} />
+                  <FormCheckbox name={'item_checkbox'}>
+                    <Text>Checkbox</Text>
+                  </FormCheckbox>
                   <Button onPress={form.handleSubmit(props.onSubmit)}>
                     {props.initialValues ? 'Update' : 'Create'}
                   </Button>
@@ -187,11 +194,12 @@ const FormExample = () => {
                     />
                     <FormCheckbox
                       name={'item_checkbox'}
-                      label={'Checkbox'}
                       itemContainerStyle={{
                         flex: 0.5,
                       }}
-                    />
+                    >
+                      <Text>Item Checkbox</Text>
+                    </FormCheckbox>
                     <Button
                       variant={'ghost'}
                       onPress={form.handleSubmit(props.onSubmit)}

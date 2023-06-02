@@ -1,46 +1,28 @@
-import { FormElementRenderProps, FormItemProps, FormValues } from '../types';
-import { Checkbox, CheckboxItemProps } from 'react-native-paper';
 import { FormItem } from '../components';
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+import { FormElementRenderProps, FormItemProps, FormValues } from '../types';
+import { Checkbox, ICheckboxProps } from 'native-base';
 
-export type CheckboxItemExtendedProps = Omit<CheckboxItemProps, 'status'> & {
-  containerStyle?: StyleProp<ViewStyle>;
-};
+export type CheckboxItemExtendedProps = Omit<ICheckboxProps, 'value'>;
 
 export type FormCheckboxProps<T extends FormValues = FormValues> =
   FormItemProps<T> & CheckboxItemExtendedProps;
 
 export const FormCheckbox = (props: FormCheckboxProps) => {
-  const renderSwitch = (
+  const renderCheckbox = (
     props: CheckboxItemExtendedProps,
     { field }: FormElementRenderProps,
   ) => {
-    const { containerStyle, ...restProps } = props;
     return (
-      <View style={[styles.container, containerStyle]}>
-        <Checkbox.Item
-          {...restProps}
-          style={StyleSheet.flatten([styles.item, restProps.style])}
-          status={field.value === true ? 'checked' : 'unchecked'}
-          onPress={() => {
-            field.onChange(!field.value);
-          }}
-        />
-      </View>
+      <Checkbox
+        {...props}
+        isChecked={!!field.value}
+        value={field.name}
+        onChange={field.onChange}
+      />
     );
   };
 
   return (
-    <FormItem<CheckboxItemExtendedProps> {...props} render={renderSwitch} />
+    <FormItem<CheckboxItemExtendedProps> {...props} render={renderCheckbox} />
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-  },
-  item: {
-    paddingLeft: 0,
-    paddingRight: 0,
-  },
-});
