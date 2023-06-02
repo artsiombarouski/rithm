@@ -1,9 +1,9 @@
-import { FormElementRenderProps, FormItemProps, FormValues } from '../types';
-import { Switch, SwitchProps, Text } from 'react-native-paper';
 import { FormItem } from '../components';
+import { FormElementRenderProps, FormItemProps, FormValues } from '../types';
+import { Switch, ISwitchProps, Text } from 'native-base';
 import { StyleSheet, View } from 'react-native';
 
-export type ExtendedSwitchProps = SwitchProps & {
+export type ExtendedSwitchProps = ISwitchProps & {
   label?: string;
 };
 
@@ -18,16 +18,15 @@ export const FormSwitch = (props: FormSwitchProps) => {
     return (
       <View style={styles.container}>
         {label && (
-          <Text style={[styles.label]} variant={'bodyLarge'}>
+          <Text style={[styles.label]} fontSize={'lg'}>
             {label}
           </Text>
         )}
         <Switch
           {...restSwitchProps}
-          ref={field.ref}
           style={[styles.switch, restSwitchProps.style]}
           value={field.value}
-          onValueChange={field.onChange}
+          onToggle={field.onChange}
         />
       </View>
     );
@@ -42,10 +41,10 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 8,
   },
   switch: {
-    margin: 8,
+    marginHorizontal: 8,
+    borderWidth: 0, //when isInvalid - true border breaks styles
   },
   label: {
     flexShrink: 1,

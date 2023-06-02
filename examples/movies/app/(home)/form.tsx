@@ -102,6 +102,7 @@ const FormExample = () => {
         >
           <Text ml={4}>Right Text</Text>
         </FormCheckbox>
+        <FormSwitch name={'switch'} title={'Switch'} label={'Switch'} />
         <Button onPress={form.handleSubmit(onSubmit)}>Submit</Button>
       </Form>
     </View>
