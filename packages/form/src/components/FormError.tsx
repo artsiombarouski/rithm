@@ -1,4 +1,4 @@
-import { Text, useTheme } from 'react-native-paper';
+import { FormControl } from 'native-base';
 import { FieldError } from 'react-hook-form';
 
 export type FormErrorProps = {
@@ -6,18 +6,17 @@ export type FormErrorProps = {
 };
 
 export function FormError(props: FormErrorProps) {
-  const { error } = props;
-  const theme = useTheme();
-  if (!error) {
-    return <></>;
-  }
+  const { error } = props || {};
+  //todo: add theme
   return (
-    <Text style={[{ color: theme.colors.error }]} variant={'bodyMedium'}>
-      {error?.message && error?.message?.length > 0
+    <FormControl.ErrorMessage>
+      {error
         ? error.message
-        : error?.type === 'required'
-        ? 'Field is required'
-        : `Something wrong: ${error.type}`}
-    </Text>
+          ? error.message
+          : error.type === 'required'
+          ? 'Field is required'
+          : `Something wrong: ${error?.type}`
+        : null}
+    </FormControl.ErrorMessage>
   );
 }

@@ -1,5 +1,6 @@
 import React, { PropsWithChildren, useEffect, useState } from 'react';
 import { Stack } from 'expo-router';
+import { NativeBaseProvider } from "native-base";
 import {
   ServiceContainer,
   ServiceContainerBootstrap,
@@ -69,17 +70,19 @@ const RootLayout = () => {
   const [servicesContainer] = useState(rootServices());
   return (
     <PaperProvider theme={DefaultTheme}>
-      <ServiceContainerBootstrap container={servicesContainer}>
-        <ScopedLayout>
-          <NavigationServiceWrapper>
-            <Stack
-              screenOptions={{
-                headerShown: false,
-              }}
-            />
-          </NavigationServiceWrapper>
-        </ScopedLayout>
-      </ServiceContainerBootstrap>
+      <NativeBaseProvider>
+        <ServiceContainerBootstrap container={servicesContainer}>
+          <ScopedLayout>
+            <NavigationServiceWrapper>
+              <Stack
+                screenOptions={{
+                  headerShown: false,
+                }}
+              />
+            </NavigationServiceWrapper>
+          </ScopedLayout>
+        </ServiceContainerBootstrap>
+      </NativeBaseProvider>
     </PaperProvider>
   );
 };

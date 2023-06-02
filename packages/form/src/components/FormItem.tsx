@@ -1,9 +1,10 @@
 import { FormElementRenderProps, FormItemProps } from '../types';
-import { Controller, useFormContext } from 'react-hook-form';
-import { FormTitle } from './FormTitle';
 import { FormError } from './FormError';
-import { View } from 'react-native';
+import { FormHelper } from './FormHelper';
+import { FormTitle } from './FormTitle';
+import { FormControl } from 'native-base';
 import React from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
 
 export type FormItemComponentProps<ElementProps = any> = FormItemProps & {
   render: (
@@ -16,16 +17,28 @@ export function FormItem<ElementProps = any>(
   props: FormItemComponentProps<ElementProps>,
 ) {
   const formInstance = useFormContext();
-  const { name, title, rules, itemContainerStyle, render, ...restProps } =
-    props;
+  const {
+    name,
+    title,
+    helperText,
+    rules,
+    itemContainerStyle,
+    render,
+    ...restProps
+  } = props;
 
   const renderElement = (renderProps: FormElementRenderProps) => {
+    //todo: add FormControl props
     return (
-      <View style={[{ alignItems: 'flex-start' }, itemContainerStyle]}>
+      <FormControl
+        isInvalid={!!renderProps.fieldState?.error}
+        style={itemContainerStyle}
+      >
         <FormTitle title={title} />
         {render(restProps as any, renderProps)}
-        <FormError error={renderProps.fieldState.error} />
-      </View>
+        <FormHelper helperText={helperText} />
+        <FormError error={renderProps.fieldState?.error} />
+      </FormControl>
     );
   };
 

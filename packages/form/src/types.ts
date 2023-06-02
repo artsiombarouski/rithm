@@ -17,6 +17,7 @@ export type FormItemProps<T extends FormValues = FormValues> = {
   title?: string;
   rules?: ControllerProps['rules'];
   itemContainerStyle?: StyleProp<ViewStyle>;
+  helperText?: string;
 };
 
 export type FormInstance<TFieldValues extends FormValues = FormValues> =

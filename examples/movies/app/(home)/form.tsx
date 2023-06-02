@@ -12,10 +12,11 @@ import {
   SelectionType,
   useForm,
 } from '@artsiombarouski/rn-form';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import dayjs from 'dayjs';
+import { Divider, Text, Button, IconButton, Icon } from 'native-base';
 import { useState } from 'react';
 import { ScrollView, View } from 'react-native';
-import { Button, Divider, IconButton, Text } from 'react-native-paper';
-import dayjs from 'dayjs';
 
 type FormItemDto = {
   item_input: string;
@@ -34,7 +35,7 @@ const FormListItem = (props: FormListItemRenderProps<FormItemDto>) => {
       }}
     >
       <Text
-        variant={'titleMedium'}
+        fontSize={'md'}
         style={{
           flexShrink: 1,
           flexGrow: 1,
@@ -43,8 +44,16 @@ const FormListItem = (props: FormListItemRenderProps<FormItemDto>) => {
         {item.item_input}
       </Text>
       <Text>{item.item_checkbox ? 'Checked' : 'Not checked'}</Text>
-      <IconButton icon={'pencil-circle'} onPress={edit} size={20} />
-      <IconButton icon={'delete'} onPress={remove} size={20} />
+      <IconButton
+        icon={<Icon as={MaterialCommunityIcons} name="pencil-circle" />}
+        onPress={edit}
+        size={20}
+      />
+      <IconButton
+        icon={<Icon as={MaterialCommunityIcons} name="delete" />}
+        onPress={remove}
+        size={20}
+      />
     </View>
   );
 };
@@ -71,11 +80,35 @@ const FormExample = () => {
     },
   });
 
+  const onSubmit = (data) => {
+    console.log('data', data);
+  };
+
+  return (
+    <View style={{ padding: 16 }}>
+      <Form form={form}>
+        {/*todo: controlProps, errorProps, inputProps, errorProps*/}
+        <FormInput
+          helperText={'Helper Text'}
+          name={'input'}
+          title={'Input'}
+          rules={{ required: true }}
+        />
+        <Button onPress={form.handleSubmit(onSubmit)}>Submit</Button>
+      </Form>
+    </View>
+  );
+
   return (
     <View style={{ flex: 1, display: 'flex', flexDirection: 'row' }}>
-      <ScrollView style={{ flex: 0.5 }}>
+      <ScrollView style={{ flex: 0.5, padding: 16 }}>
         <Form form={form}>
-          <FormInput name={'input'} title={'Input'} />
+          <FormInput
+            name={'input'}
+            title={'Input'}
+            rules={{ required: true }}
+          />
+          <FormInput name={'input2'} title={'Input2'} />
           <Divider />
           <FormCheckbox
             name={'checkbox'}
@@ -147,7 +180,6 @@ const FormExample = () => {
                     <FormInput
                       name={'item_input'}
                       rules={{ required: true }}
-                      dense={true}
                       itemContainerStyle={{
                         flex: 1,
                         marginRight: 8,
@@ -160,10 +192,15 @@ const FormExample = () => {
                         flex: 0.5,
                       }}
                     />
-                    <Button onPress={form.handleSubmit(props.onSubmit)}>
+                    <Button
+                      variant={'ghost'}
+                      onPress={form.handleSubmit(props.onSubmit)}
+                    >
                       {props.initialValues ? 'Update' : 'Create'}
                     </Button>
-                    <Button onPress={props.dismiss}>Cancel</Button>
+                    <Button variant={'ghost'} onPress={props.dismiss}>
+                      Cancel
+                    </Button>
                   </View>
                 </Form>
               );
@@ -177,12 +214,7 @@ const FormExample = () => {
             minDate={dayjs().subtract(5, 'days').toString()}
             maxDate={dayjs().add(5, 'd').toString()}
           />
-          <Button
-            mode={'contained'}
-            onPress={form.handleSubmit(setCurrentValue)}
-          >
-            Submit
-          </Button>
+          <Button onPress={form.handleSubmit(setCurrentValue)}>Submit</Button>
         </Form>
       </ScrollView>
       <ScrollView style={{ flex: 0.5 }}>

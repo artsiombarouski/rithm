@@ -1,12 +1,10 @@
-import { Text } from 'react-native-paper';
+import { FormControl } from 'native-base';
+import React from 'react';
 
 export type FormTitleProps = {
   title?: string;
 };
 
 export const FormTitle = (props: FormTitleProps) => {
-  if (!props.title) {
-    return <></>;
-  }
-  return <Text variant={'titleMedium'}>{props.title}</Text>;
+  return <FormControl.Label>{props?.title}</FormControl.Label>;
 };
