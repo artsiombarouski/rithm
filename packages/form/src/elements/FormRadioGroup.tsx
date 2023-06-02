@@ -1,7 +1,6 @@
-import { FormElementRenderProps, FormItemProps, FormValues } from '../types';
-import { RadioButton, RadioButtonGroupProps } from 'react-native-paper';
 import { FormItem } from '../components';
-import { StyleSheet, View } from 'react-native';
+import { FormElementRenderProps, FormItemProps, FormValues } from '../types';
+import { Radio, Text, IRadioGroupProps, IRadioProps } from 'native-base';
 
 export type RadioButtonOption = {
   key: any;
@@ -10,48 +9,35 @@ export type RadioButtonOption = {
 
 export type FormRadioGroupProps<T extends FormValues = FormValues> =
   FormItemProps<T> &
-    Omit<RadioButtonGroupProps, 'onValueChange' | 'value' | 'children'> & {
+    Omit<IRadioGroupProps, 'onChange' | 'value' | 'children'> & {
       options: RadioButtonOption[];
+      itemProps?: Omit<IRadioProps, 'value' | 'key'>;
     };
 
 export function FormRadioGroup(props: FormRadioGroupProps) {
-  const { options, ...restProps } = props;
+  const { options, itemProps, ...restProps } = props;
   const renderRadioGroup = (
-    props: RadioButtonGroupProps,
+    props: IRadioGroupProps,
     { field }: FormElementRenderProps,
   ) => {
     return (
-      <View style={styles.container}>
-        <RadioButton.Group
-          {...props}
-          onValueChange={field.onChange}
-          value={field.value}
-        >
-          {options.map((option) => {
-            return (
-              <RadioButton.Item
-                key={option.key}
-                style={styles.item}
-                value={option.key}
-                label={option.label ?? option.key}
-              />
-            );
-          })}
-        </RadioButton.Group>
-      </View>
+      <Radio.Group
+        {...props}
+        name={field.name}
+        onChange={field.onChange}
+        value={field.value}
+      >
+        {options.map((option) => {
+          return (
+            <Radio my={1} {...itemProps} value={option.key} key={option.key}>
+              <Text>{option.label ?? option.key}</Text>
+            </Radio>
+          );
+        })}
+      </Radio.Group>
     );
   };
   return (
-    <FormItem<RadioButtonGroupProps> {...restProps} render={renderRadioGroup} />
+    <FormItem<IRadioGroupProps> {...restProps} render={renderRadioGroup} />
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-  },
-  item: {
-    paddingLeft: 0,
-    paddingRight: 0,
-  },
-});

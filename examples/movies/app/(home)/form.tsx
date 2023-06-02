@@ -97,12 +97,21 @@ const FormExample = () => {
         <FormCheckbox
           name={'checkbox'}
           title={'Checkbox'}
-          helperText={'Helper Text'}
           rules={{ required: true }}
         >
-          <Text ml={4}>Right Text</Text>
+          <Text>Right Text</Text>
         </FormCheckbox>
         <FormSwitch name={'switch'} title={'Switch'} label={'Switch'} />
+        <FormRadioGroup
+          name={'radio'}
+          title={'Radio Group'}
+          options={[
+            { key: 'key1', label: 'Key 1' },
+            { key: 'key2', label: 'Key 2' },
+            { key: 'key3', label: 'Key 3' },
+          ]}
+          rules={{ required: true }}
+        />
         <Button onPress={form.handleSubmit(onSubmit)}>Submit</Button>
       </Form>
     </View>
