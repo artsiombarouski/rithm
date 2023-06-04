@@ -1,21 +1,14 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Button, Icon, Spacer, Text, Menu, IMenuProps } from 'native-base';
 import React, { useCallback, useState } from 'react';
-import { LayoutChangeEvent, ViewProps } from 'react-native';
-import { Menu, MenuProps } from 'react-native-paper';
+import { LayoutChangeEvent } from 'react-native';
 
 export type DropDownItem = {
   key: any;
   label?: string;
 };
 
-export type DropDownAnchorProps = Pick<ViewProps, 'onLayout'> & {
-  onPress: () => void;
-};
-
-export type DropDownProps<T = any> = Omit<
-  MenuProps,
-  'anchor' | 'visible' | 'onDismiss' | 'children' | 'theme'
-> & {
-  anchor: (props: DropDownAnchorProps) => React.ReactNode;
+export type DropDownProps = Omit<IMenuProps, 'trigger'> & {
   onSelect: (item: DropDownItem) => void;
   value?: any;
   options?: DropDownItem[];
@@ -23,9 +16,7 @@ export type DropDownProps<T = any> = Omit<
 };
 
 export function DropDown(props: DropDownProps) {
-  const { anchor, onSelect, value, options, useAnchorSize, ...restProps } =
-    props;
-  const [isVisible, setVisible] = useState<boolean>(false);
+  const { onSelect, value, options, useAnchorSize, ...restProps } = props;
   const [anchorSize, setAnchorSize] = useState<{
     width: number;
     height: number;
@@ -39,22 +30,20 @@ export function DropDown(props: DropDownProps) {
   }, []);
   return (
     <Menu
-      visible={isVisible}
-      onDismiss={() => setVisible(false)}
-      anchor={anchor({
-        onLayout,
-        onPress: () => {
-          setVisible(true);
-        },
-      })}
-      anchorPosition={'bottom'}
+      placement={'bottom'}
       {...restProps}
+      trigger={(triggerProps) => {
+        const title = value ?? 'Click to select something';
+        return (
+          <Button onLayout={onLayout} variant={'outline'} {...triggerProps}>
+            {title}
+          </Button>
+        );
+      }}
     >
       {options?.map((option) => {
         return (
           <Menu.Item
-            title={option.label ?? option.key}
-            trailingIcon={value === option.key ? 'check' : undefined}
             style={
               useAnchorSize && {
                 ...anchorSize,
@@ -64,9 +53,16 @@ export function DropDown(props: DropDownProps) {
             }
             onPress={() => {
               onSelect(option);
-              setVisible(false);
             }}
-          />
+          >
+            <Text>{option.label ?? option.key}</Text>
+            <Spacer />
+            <Icon
+              opacity={value === option.key ? 1 : 0}
+              as={MaterialCommunityIcons}
+              name="check"
+            />
+          </Menu.Item>
         );
       })}
     </Menu>

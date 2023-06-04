@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, useEffect, useState } from 'react';
 import { Stack } from 'expo-router';
-import { NativeBaseProvider } from 'native-base';
+import { NativeBaseProvider, extendTheme } from 'native-base';
 import {
   ServiceContainer,
   ServiceContainerBootstrap,
@@ -67,10 +67,21 @@ const ScopedLayout = (props: PropsWithChildren) => {
 };
 
 const RootLayout = () => {
+  const theme = extendTheme({
+    components: {
+      MenuItem: {
+        baseStyle: {
+          _stack: {
+            width: '100%',
+          },
+        },
+      },
+    },
+  });
   const [servicesContainer] = useState(rootServices());
   return (
     <PaperProvider theme={DefaultTheme}>
-      <NativeBaseProvider>
+      <NativeBaseProvider theme={theme}>
         <ServiceContainerBootstrap container={servicesContainer}>
           <ScopedLayout>
             <NavigationServiceWrapper>

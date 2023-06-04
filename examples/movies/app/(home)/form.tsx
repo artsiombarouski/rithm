@@ -76,7 +76,7 @@ const FormExample = () => {
   //add button for calendar choose
   const form = useForm({
     defaultValues: {
-      calendar: DEFAULT_DATE[selectionType],
+      // calendar: DEFAULT_DATE[selectionType],
     },
   });
 
@@ -111,6 +111,16 @@ const FormExample = () => {
             { key: 'key3', label: 'Key 3' },
           ]}
           rules={{ required: true }}
+        />
+        <FormSelect
+          name={'select'}
+          options={[
+            { key: 'key1', label: 'Key 1' },
+            { key: 'key2', label: 'Key 2' },
+            { key: 'key3', label: 'Key 3' },
+          ]}
+          rules={{ required: true }}
+          useAnchorSize={true}
         />
         <Button onPress={form.handleSubmit(onSubmit)}>Submit</Button>
       </Form>
