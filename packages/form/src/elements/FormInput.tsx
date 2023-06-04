@@ -12,12 +12,12 @@ export const FormInput = (props: FormInputProps) => {
   ) => {
     return (
       <Input
-        {...props}
-        onBlur={renderProps.field.onBlur}
-        value={renderProps.field.value}
-        onChangeText={renderProps.field.onChange}
-        style={[props.style]}
+        size={'lg'}
         variant={'outline'}
+        {...props}
+        value={renderProps.field.value}
+        onBlur={renderProps.field.onBlur}
+        onChangeText={renderProps.field.onChange}
       />
     );
   };

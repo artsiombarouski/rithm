@@ -1,10 +1,11 @@
 import { FormItem } from '../components';
 import { FormElementRenderProps, FormItemProps, FormValues } from '../types';
-import { Switch, ISwitchProps, Text } from 'native-base';
+import { ISwitchProps, ITextProps, Switch, Text } from 'native-base';
 import { StyleSheet, View } from 'react-native';
 
 export type ExtendedSwitchProps = ISwitchProps & {
   label?: string;
+  labelProps?: Partial<ITextProps>;
 };
 
 export type FormSwitchProps<T extends FormValues = FormValues> =
@@ -12,19 +13,22 @@ export type FormSwitchProps<T extends FormValues = FormValues> =
 
 export const FormSwitch = (props: FormSwitchProps) => {
   const renderSwitch = (
-    { label, ...restSwitchProps }: ExtendedSwitchProps,
+    { label, labelProps, ...restSwitchProps }: ExtendedSwitchProps,
     { field }: FormElementRenderProps,
   ) => {
     return (
       <View style={styles.container}>
         {label && (
-          <Text style={[styles.label]} fontSize={'lg'}>
+          <Text
+            style={[styles.label]}
+            fontSize={restSwitchProps.fontSize ?? 'md'}
+            {...labelProps}
+          >
             {label}
           </Text>
         )}
         <Switch
           {...restSwitchProps}
-          style={[styles.switch, restSwitchProps.style]}
           value={field.value}
           onToggle={field.onChange}
         />
@@ -41,10 +45,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  switch: {
-    marginHorizontal: 8,
-    borderWidth: 0, //when isInvalid - true border breaks styles
   },
   label: {
     flexShrink: 1,

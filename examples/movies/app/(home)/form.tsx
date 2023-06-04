@@ -6,7 +6,7 @@ import {
   FormList,
   FormListItemRenderProps,
   FormRadioGroup,
-  FormSelect,
+  FormDropDown,
   FormSwitch,
   FormValues,
   SelectionType,
@@ -14,7 +14,7 @@ import {
 } from '@artsiombarouski/rn-form';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import dayjs from 'dayjs';
-import { Divider, Text, Button, IconButton, Icon } from 'native-base';
+import { Button, Divider, Icon, IconButton, Text } from 'native-base';
 import { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 
@@ -97,11 +97,26 @@ const FormExample = () => {
         <FormCheckbox
           name={'checkbox'}
           title={'Checkbox'}
+          label={'Checkbox example'}
           rules={{ required: true }}
-        >
-          <Text>Right Text</Text>
-        </FormCheckbox>
+        />
+
+        <FormCheckbox
+          name={'checkbox-reversed'}
+          title={'Checkbox'}
+          label={'Checkbox reversed'}
+          checkedLabel={'Also label changed when checked'}
+          reverse={true}
+          rules={{ required: true }}
+        />
         <FormSwitch name={'switch'} title={'Switch'} label={'Switch'} />
+        <FormSwitch
+          name={'switch-large'}
+          title={'Switch'}
+          label={'Switch'}
+          size={'lg'}
+          fontSize={'lg'}
+        />
         <FormRadioGroup
           name={'radio'}
           title={'Radio Group'}
@@ -112,13 +127,12 @@ const FormExample = () => {
           ]}
           rules={{ required: true }}
         />
-        <FormSelect
+        <FormDropDown
           name={'select'}
-          options={[
-            { key: 'key1', label: 'Key 1' },
-            { key: 'key2', label: 'Key 2' },
-            { key: 'key3', label: 'Key 3' },
-          ]}
+          size={'lg'}
+          options={new Array(100).fill(null).map((_, index) => {
+            return { key: `key${index}`, label: `Key ${index}` };
+          })}
           rules={{ required: true }}
           useAnchorSize={true}
         />
@@ -153,7 +167,7 @@ const FormExample = () => {
             ]}
           />
           <Divider />
-          <FormSelect
+          <FormDropDown
             name={'select'}
             options={[
               { key: 'key1', label: 'Key 1' },

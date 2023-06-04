@@ -1,5 +1,5 @@
 export * from './FormInput';
-export * from './FormSelect';
+export * from './FormDropDown';
 export * from './FormSwitch';
 export * from './FormCheckbox';
 export * from './FormRadioGroup';
