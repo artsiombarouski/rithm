@@ -1,6 +1,6 @@
 import { FormItem } from '../components';
 import { FormElementRenderProps, FormItemProps, FormValues } from '../types';
-import { Input, IInputProps } from 'native-base';
+import { IInputProps, Input } from 'native-base';
 
 export type FormInputProps<T extends FormValues = FormValues> =
   FormItemProps<T> & IInputProps;
@@ -13,7 +13,9 @@ export const FormInput = (props: FormInputProps) => {
     return (
       <Input
         {...props}
-        {...renderProps.field}
+        onBlur={renderProps.field.onBlur}
+        value={renderProps.field.value}
+        onChangeText={renderProps.field.onChange}
         style={[props.style]}
         variant={'outline'}
       />

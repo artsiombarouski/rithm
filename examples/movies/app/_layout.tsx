@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, useEffect, useState } from 'react';
 import { Stack } from 'expo-router';
-import { NativeBaseProvider } from "native-base";
+import { NativeBaseProvider } from 'native-base';
 import {
   ServiceContainer,
   ServiceContainerBootstrap,

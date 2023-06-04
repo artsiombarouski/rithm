@@ -13,6 +13,7 @@ import {
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 import { useUsers } from '../../services/utils';
+import { useBreakpointValue } from 'native-base';
 
 const UserView = observer(() => {
   const theme = useTheme();
@@ -111,10 +112,14 @@ const UserView = observer(() => {
 });
 
 const RootLayout = () => {
+  const drawerType = useBreakpointValue({
+    md: 'slide',
+    lg: 'permanent',
+  });
   return (
     <Drawer
       screenOptions={{
-        drawerType: 'permanent',
+        drawerType: drawerType,
       }}
       drawerContent={(props) => {
         return (
