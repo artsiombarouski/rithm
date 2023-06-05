@@ -8,6 +8,7 @@ import {
   Input,
   Pressable,
   Spacer,
+  Spinner,
   stylingProps,
   Text,
   usePropsResolution,
@@ -27,7 +28,7 @@ type LayoutSize = {
   height: number;
 };
 
-export type FormDropDownItem = {
+export type FormDropDownOption = {
   key: any;
   label?: string;
 };
@@ -36,9 +37,10 @@ export type FormDropDownComponentProps = InterfaceSelectProps &
   CustomProps<'Select'> &
   Pick<IMenuProps, 'placement'> & {
     value?: any;
-    options?: FormDropDownItem[];
-    onChange: (item: FormDropDownItem) => void;
+    options?: FormDropDownOption[];
+    onChange: (item: FormDropDownOption) => void;
     useAnchorSize?: boolean;
+    isLoading?: boolean;
   };
 
 export function FormDropDownComponent(props: FormDropDownComponentProps) {
@@ -47,6 +49,7 @@ export function FormDropDownComponent(props: FormDropDownComponentProps) {
     options,
     onChange,
     useAnchorSize,
+    isLoading,
     placement,
     isHovered: isHoveredProp,
     isFocused: isFocusedProp,
@@ -114,16 +117,17 @@ export function FormDropDownComponent(props: FormDropDownComponentProps) {
     'opacity',
   ]);
 
-  const rightIcon =
-    isOpen && dropdownOpenIcon ? (
-      dropdownOpenIcon
-    ) : !isOpen && dropdownCloseIcon ? (
-      dropdownCloseIcon
-    ) : dropdownIcon ? (
-      dropdownIcon
-    ) : (
-      <ChevronDownIcon {..._customDropdownIconProps} size={4} />
-    );
+  const rightIcon = isLoading ? (
+    <Spinner {..._customDropdownIconProps} size={'sm'} />
+  ) : isOpen && dropdownOpenIcon ? (
+    dropdownOpenIcon
+  ) : !isOpen && dropdownCloseIcon ? (
+    dropdownCloseIcon
+  ) : dropdownIcon ? (
+    dropdownIcon
+  ) : (
+    <ChevronDownIcon {..._customDropdownIconProps} size={4} />
+  );
 
   const handleClose = () => {
     setIsOpen(false);
@@ -145,7 +149,6 @@ export function FormDropDownComponent(props: FormDropDownComponentProps) {
         onPress={() => {
           Keyboard.dismiss();
           setIsOpen(true);
-          // triggerProps.onPress?.();
           onOpen && onOpen();
         }}
       >
@@ -174,7 +177,7 @@ export function FormDropDownComponent(props: FormDropDownComponentProps) {
     );
   };
 
-  const ItemView = ({ option }: { option: FormDropDownItem }) => {
+  const ItemView = ({ option }: { option: FormDropDownOption }) => {
     const menuItemRef = React.useRef<any>(null);
     const { _text, _stack } = usePropsResolution(
       'MenuItem',
@@ -232,7 +235,7 @@ export function FormDropDownComponent(props: FormDropDownComponentProps) {
       placement={placement ?? 'bottom'}
       padding={0}
     >
-      <FlatList<FormDropDownItem>
+      <FlatList<FormDropDownOption>
         data={options ?? []}
         keyExtractor={(item) => item.key}
         renderItem={({ item }) => {

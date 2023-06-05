@@ -3,6 +3,7 @@ import {
   FormCalendar,
   FormCheckbox,
   FormDropDown,
+  FormDropDownOption,
   FormInput,
   FormList,
   FormListItemRenderProps,
@@ -16,8 +17,9 @@ import {
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import dayjs from 'dayjs';
 import { Button, Divider, Icon, IconButton, Text } from 'native-base';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ScrollView, View } from 'react-native';
+import { setTimeout } from '@testing-library/react-native/build/helpers/timers';
 
 type FormItemDto = {
   item_input: string;
@@ -56,6 +58,30 @@ const FormListItem = (props: FormListItemRenderProps<FormItemDto>) => {
         size={20}
       />
     </View>
+  );
+};
+
+const LazyLoadSelectOptions = () => {
+  const [options, setOptions] = useState<FormDropDownOption[]>([]);
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setOptions([
+        { key: 'key1', label: 'Key 1' },
+        { key: 'key2', label: 'Key 2' },
+        { key: 'key3', label: 'Key 3' },
+      ]);
+    }, 3000);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, []);
+  return (
+    <FormDropDown
+      name={'dropdown-lazy'}
+      options={options}
+      useAnchorSize={true}
+      isLoading={options.length === 0}
+    />
   );
 };
 
@@ -106,7 +132,6 @@ const FormExample = () => {
           label={'Checkbox example'}
           rules={{ required: true }}
         />
-
         <FormCheckbox
           name={'checkbox-reversed'}
           title={'Checkbox'}
@@ -142,6 +167,7 @@ const FormExample = () => {
           rules={{ required: true }}
           useAnchorSize={true}
         />
+        <LazyLoadSelectOptions />
         <Button onPress={form.handleSubmit(onSubmit)}>Submit</Button>
       </Form>
     </View>
