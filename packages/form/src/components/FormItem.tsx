@@ -21,6 +21,11 @@ export function FormItem<ElementProps = any>(
     name,
     title,
     helperText,
+    tooltipText,
+    tooltipIcon,
+    rightLabel,
+    onRightLabelPress,
+    keepErrorSpace = true,
     rules,
     itemContainerStyle,
     render,
@@ -35,9 +40,19 @@ export function FormItem<ElementProps = any>(
         isRequired={props.rules?.required === true}
         style={itemContainerStyle}
       >
-        {title && <FormTitle title={title} />}
+        {(title || rightLabel) && (
+          <FormTitle
+            title={title}
+            tooltipText={tooltipText}
+            tooltipIcon={tooltipIcon}
+            rightLabel={rightLabel}
+            onRightLabelPress={onRightLabelPress}
+          />
+        )}
         {render(restProps as any, renderProps)}
-        <FormHelper helperText={helperText} />
+        {(helperText || keepErrorSpace) && (
+          <FormHelper helperText={helperText} />
+        )}
         <FormError error={renderProps.fieldState?.error} />
       </FormControl>
     );

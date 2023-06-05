@@ -15,11 +15,11 @@ import {
   useForm,
 } from '@artsiombarouski/rn-form';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { setTimeout } from '@testing-library/react-native/build/helpers/timers';
 import dayjs from 'dayjs';
 import { Button, Divider, Icon, IconButton, Text } from 'native-base';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, View } from 'react-native';
-import { setTimeout } from '@testing-library/react-native/build/helpers/timers';
 
 type FormItemDto = {
   item_input: string;
@@ -119,7 +119,17 @@ const FormExample = () => {
           name={'input'}
           title={'Input'}
           helperText={'Helper Text'}
+          rightLabel={'Right label'}
+          onRightLabelPress={() => {
+            console.log('on right label click');
+          }}
           rules={{ required: true }}
+        />
+        <FormInput
+          name={'input-nokeep-error'}
+          title={'Without error space'}
+          rules={{ required: true }}
+          keepErrorSpace={false}
         />
         <FormPasswordInput
           name={'input-password'}
@@ -140,7 +150,12 @@ const FormExample = () => {
           reverse={true}
           rules={{ required: true }}
         />
-        <FormSwitch name={'switch'} title={'Switch'} label={'Switch'} />
+        <FormSwitch
+          name={'switch'}
+          title={'Switch'}
+          label={'Switch'}
+          tooltipText={'Tooltip text'}
+        />
         <FormSwitch
           name={'switch-large'}
           title={'Switch'}

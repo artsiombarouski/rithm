@@ -1,10 +1,56 @@
-import { FormControl } from 'native-base';
-import React from 'react';
-
-export type FormTitleProps = {
-  title?: string;
-};
+import { FormTitleProps } from '../types';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Flex, FormControl, Spacer, Tooltip, Button, Icon } from 'native-base';
+import React, { useCallback, useMemo } from 'react';
 
 export const FormTitle = (props: FormTitleProps) => {
-  return <FormControl.Label>{props?.title}</FormControl.Label>;
+  const { title, tooltipText, tooltipIcon, rightLabel, onRightLabelPress } =
+    props || {};
+
+  const onPress = useCallback(() => {
+    onRightLabelPress?.();
+  }, [onRightLabelPress]);
+
+  const LeftContent = useMemo(
+    () =>
+      tooltipText ? (
+        <Tooltip placement={'top'} label={tooltipText}>
+          <Flex flexDirection={'row'} alignItems={'center'}>
+            <FormControl.Label>{title}</FormControl.Label>
+            {tooltipIcon ? (
+              tooltipIcon
+            ) : (
+              <Icon as={MaterialCommunityIcons} name="information" ml={1} />
+            )}
+          </Flex>
+        </Tooltip>
+      ) : (
+        <FormControl.Label>{title}</FormControl.Label>
+      ),
+    [tooltipText, title],
+  );
+
+  const RightContent = useMemo(
+    () =>
+      rightLabel ? (
+        typeof rightLabel === 'string' ? (
+          <Button size="md" variant="link" p={0} onPress={onPress}>
+            {rightLabel}
+          </Button>
+        ) : (
+          rightLabel
+        )
+      ) : (
+        <></>
+      ),
+    [rightLabel, onPress],
+  );
+
+  return (
+    <Flex flexDirection={'row'} alignItems={'center'}>
+      {LeftContent}
+      <Spacer />
+      {RightContent}
+    </Flex>
+  );
 };

@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   ControllerFieldState,
   ControllerProps,
@@ -12,13 +13,21 @@ import { StyleProp, ViewStyle } from 'react-native';
 
 export type FormValues = FieldValues;
 
+export type FormTitleProps = {
+  title?: string;
+  tooltipText?: string;
+  tooltipIcon?: React.ReactNode;
+  rightLabel?: string | React.ReactNode;
+  onRightLabelPress?: () => void
+};
+
 export type FormItemProps<T extends FormValues = FormValues> = {
   name: Path<T>;
-  title?: string;
   rules?: ControllerProps['rules'];
   itemContainerStyle?: StyleProp<ViewStyle>;
   helperText?: string;
-};
+  keepErrorSpace?: boolean;
+} & FormTitleProps;
 
 export type FormInstance<TFieldValues extends FormValues = FormValues> =
   UseFormReturn<TFieldValues>;
