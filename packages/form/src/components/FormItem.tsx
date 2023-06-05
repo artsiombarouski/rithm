@@ -32,9 +32,10 @@ export function FormItem<ElementProps = any>(
     return (
       <FormControl
         isInvalid={!!renderProps.fieldState?.error}
+        isRequired={props.rules?.required === true}
         style={itemContainerStyle}
       >
-        <FormTitle title={title} />
+        {title && <FormTitle title={title} />}
         {render(restProps as any, renderProps)}
         <FormHelper helperText={helperText} />
         <FormError error={renderProps.fieldState?.error} />

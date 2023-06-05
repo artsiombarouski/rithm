@@ -2,11 +2,12 @@ import {
   Form,
   FormCalendar,
   FormCheckbox,
+  FormDropDown,
   FormInput,
   FormList,
   FormListItemRenderProps,
+  FormPasswordInput,
   FormRadioGroup,
-  FormDropDown,
   FormSwitch,
   FormValues,
   SelectionType,
@@ -89,9 +90,14 @@ const FormExample = () => {
       <Form form={form}>
         {/*todo: controlProps, labelProps, helperProps, inputProps, errorProps*/}
         <FormInput
-          helperText={'Helper Text'}
           name={'input'}
           title={'Input'}
+          helperText={'Helper Text'}
+          rules={{ required: true }}
+        />
+        <FormPasswordInput
+          name={'input-password'}
+          title={'Enter password'}
           rules={{ required: true }}
         />
         <FormCheckbox
