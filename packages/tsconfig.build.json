@@ -1,26 +1,42 @@
 {
   "compilerOptions": {
-    "composite": true,
-    "module": "commonjs",
+    "esModuleInterop": true,
+    "lib": [
+      "DOM",
+      "ESNext"
+    ],
+    "moduleResolution": "node",
+    "noEmit": false,
+    "resolveJsonModule": true,
+    "target": "ESNext",
+    "strict": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "declarationMap": true,
     "declaration": true,
+    "types": [
+      "jest",
+      "node",
+      "reflect-metadata"
+    ],
+    "composite": true,
+    "module": "ES2022",
+    "jsx": "react-native",
     "noImplicitAny": false,
     "skipLibCheck": true,
     "noUnusedLocals": false,
     "importHelpers": true,
     "removeComments": false,
     "noLib": false,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
     "useUnknownInCatchVariables": false,
-    "target": "es2017",
     "sourceMap": false,
     "allowJs": true,
-    "strict": true,
-    "strictNullChecks": false,
-    "types": [
-      "node",
-      "jest",
-      "reflect-metadata"
-    ]
-  }
+    "strictNullChecks": false
+  },
+  "exclude": [
+    "node_modules",
+    "babel.config.js",
+    "metro.config.js",
+    "jest.config.js"
+  ]
 }

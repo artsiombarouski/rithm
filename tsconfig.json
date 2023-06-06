@@ -17,7 +17,7 @@
     "strict": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "declarationMap": true,
+    "declarationMap": false,
     "declaration": true,
     "types": [
       "jest",

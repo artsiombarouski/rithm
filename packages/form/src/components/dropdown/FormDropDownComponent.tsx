@@ -19,9 +19,9 @@ import { InterfaceSelectProps } from 'native-base/lib/typescript/components/prim
 import { CustomProps } from 'native-base/lib/typescript/components/types';
 import { useFocusRing } from '@react-native-aria/focus';
 import { useHover } from '@react-native-aria/interactions';
-import { useFormControl } from 'native-base/src/components/composites/FormControl';
-import { useMenuItem } from 'native-base/src/components/composites/Menu/useMenu';
 import FormDropDownMenu from './FormDropDownMenu';
+import { useFormControl } from 'native-base/lib/commonjs/components/composites/FormControl';
+import { useMenuItem } from 'native-base/lib/commonjs/components/composites/Menu/useMenu';
 
 type LayoutSize = {
   width: number;
