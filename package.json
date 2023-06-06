@@ -8,6 +8,7 @@
   "license": "ISC",
   "scripts": {
     "build": "tsc -b -v packages",
+    "clean": "tsc -b --clean packages",
     "ci:bootstrap": "npx lerna bootstrap --no-private",
     "ci:publish": "npm run build && lerna publish from-package --yes --no-verify-access --loglevel silly"
   },

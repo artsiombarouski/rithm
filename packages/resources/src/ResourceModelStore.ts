@@ -509,7 +509,7 @@ export class ResourceModelStore<T extends ResourceModel> {
     query?: ResourceQuery,
   ): Promise<any> {
     const url = isObject(endpoint)
-      ? endpoint.rootUrl
+      ? (endpoint as any).rootUrl
       : `${this.url()}/${endpoint}`;
 
     return this.api.post(url, query);
