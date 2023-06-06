@@ -17,6 +17,7 @@
     "strict": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "declarationMap": true,
     "declaration": true,
     "types": [
       "jest",
@@ -24,6 +25,9 @@
       "reflect-metadata"
     ]
   },
+  "include": [
+    "packages/**/*"
+  ],
   "exclude": [
     "node_modules",
     "babel.config.js",

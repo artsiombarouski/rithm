@@ -1,0 +1,23 @@
+{
+  "files": [],
+  "references": [
+    {
+      "path": "./analytics/tsconfig.json"
+    },
+    {
+      "path": "./expo-router-service/tsconfig.json"
+    },
+    {
+      "path": "./form/tsconfig.json"
+    },
+    {
+      "path": "./resources/tsconfig.json"
+    },
+    {
+      "path": "./services/tsconfig.json"
+    },
+    {
+      "path": "./user-store-service/tsconfig.json"
+    }
+  ]
+}
