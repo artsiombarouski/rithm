@@ -1,5 +1,6 @@
 import React, { PropsWithChildren, useEffect, useState } from 'react';
 import { Stack } from 'expo-router';
+import { NativeBaseProvider, extendTheme } from 'native-base';
 import {
   ServiceContainer,
   ServiceContainerBootstrap,
@@ -13,7 +14,6 @@ import {
 import { observer } from 'mobx-react-lite';
 import { observe } from 'mobx';
 import { useUsers } from '../services/utils';
-import { NativeBaseProvider } from 'native-base';
 
 const RouteGuardLayout = observer((props: PropsWithChildren) => {
   const users = useUsers();
@@ -67,10 +67,21 @@ const ScopedLayout = (props: PropsWithChildren) => {
 };
 
 const RootLayout = () => {
+  const theme = extendTheme({
+    components: {
+      MenuItem: {
+        baseStyle: {
+          _stack: {
+            width: '100%',
+          },
+        },
+      },
+    },
+  });
   const [servicesContainer] = useState(rootServices());
   return (
     <PaperProvider theme={DefaultTheme}>
-      <NativeBaseProvider>
+      <NativeBaseProvider theme={theme}>
         <ServiceContainerBootstrap container={servicesContainer}>
           <ScopedLayout>
             <NavigationServiceWrapper>

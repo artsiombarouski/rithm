@@ -1,14 +1,21 @@
 {
   "name": "@artsiombarouski/rn-form",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "",
   "main": "src/index.ts",
   "author": "Artsiom Barouski",
   "license": "ISC",
   "dependencies": {
+    "dayjs": "^1.11.7",
     "lodash": "^4.17.21",
+    "native-base": "^3.4.28",
     "react-hook-form": "^7.44.2",
-    "react-native-paper": "^5.8.0"
+    "react-native-calendars": "^1.1298.0",
+    "react-native-localize": "^3.0.0",
+    "react-native-paper": "^5.8.0",
+    "react-native-paper-dates": "^0.16.2",
+    "react-native-safe-area-context": "3.3.2",
+    "react-native-svg": "12.1.1"
   },
   "peerDependencies": {
     "react": "18.2.0",

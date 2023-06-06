@@ -1,9 +1,10 @@
 import { FormElementRenderProps, FormItemProps } from '../types';
-import { Controller, useFormContext } from 'react-hook-form';
-import { FormTitle } from './FormTitle';
 import { FormError } from './FormError';
-import { View } from 'react-native';
+import { FormHelper } from './FormHelper';
+import { FormTitle } from './FormTitle';
+import { FormControl } from 'native-base';
 import React from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
 
 export type FormItemComponentProps<ElementProps = any> = FormItemProps & {
   render: (
@@ -16,16 +17,44 @@ export function FormItem<ElementProps = any>(
   props: FormItemComponentProps<ElementProps>,
 ) {
   const formInstance = useFormContext();
-  const { name, title, rules, itemContainerStyle, render, ...restProps } =
-    props;
+  const {
+    name,
+    title,
+    helperText,
+    tooltipText,
+    tooltipIcon,
+    rightLabel,
+    onRightLabelPress,
+    keepErrorSpace = true,
+    rules,
+    itemContainerStyle,
+    render,
+    ...restProps
+  } = props;
 
   const renderElement = (renderProps: FormElementRenderProps) => {
+    //todo: add FormControl props
     return (
-      <View style={[{ alignItems: 'flex-start' }, itemContainerStyle]}>
-        <FormTitle title={title} />
+      <FormControl
+        isInvalid={!!renderProps.fieldState?.error}
+        isRequired={props.rules?.required === true}
+        style={itemContainerStyle}
+      >
+        {(title || rightLabel) && (
+          <FormTitle
+            title={title}
+            tooltipText={tooltipText}
+            tooltipIcon={tooltipIcon}
+            rightLabel={rightLabel}
+            onRightLabelPress={onRightLabelPress}
+          />
+        )}
         {render(restProps as any, renderProps)}
-        <FormError error={renderProps.fieldState.error} />
-      </View>
+        {(helperText || keepErrorSpace) && (
+          <FormHelper helperText={helperText} />
+        )}
+        <FormError error={renderProps.fieldState?.error} />
+      </FormControl>
     );
   };
 
