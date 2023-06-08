@@ -9,7 +9,7 @@ export function FormError(props: FormErrorProps) {
   const { error } = props || {};
   //todo: add theme
   return (
-    <FormControl.ErrorMessage mt={1}>
+    <FormControl.ErrorMessage>
       {error
         ? error.message
           ? error.message
