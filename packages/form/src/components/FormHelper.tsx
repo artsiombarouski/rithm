@@ -11,7 +11,6 @@ export const FormHelper = (props: FormHelperProps) => {
     <FormControl.HelperText
       opacity={props?.helperText ? 1 : 0}
       _invalid={styles.invalid}
-      mt={1}
     >
       {props?.helperText ?? 'Invisible text'}
     </FormControl.HelperText>
