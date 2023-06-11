@@ -198,20 +198,12 @@ export class ResourceApi<T = Object> {
     query?: ResourceQuery & ResourceListQuery,
   ) => {
     let targetUrl = `${url}`;
-    const options = this.config.transformer.transformQuery(query);
-    if (options) {
+    const transformQuery = this.config.transformer.transformQuery(query);
+    if (transformQuery) {
       if (!targetUrl.includes('?')) {
         targetUrl += '?';
       }
-      targetUrl += Object.entries(options)
-        .map(([k, v], index) => {
-          const result = `${k}=${v}`;
-          if (index > 0) {
-            return `&${result}`;
-          }
-          return result;
-        })
-        .join('');
+      targetUrl += transformQuery;
     }
     return targetUrl;
   };

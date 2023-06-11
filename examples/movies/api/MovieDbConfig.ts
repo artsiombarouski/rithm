@@ -20,13 +20,16 @@ export class MovieDbConfig {
 class ApiTransformer extends ResourceApiDefaultTransformer {
   transformQuery(
     query?: ResourceQuery & ResourceListQuery,
-  ): { [p: string]: any } | undefined {
-    const result = super.transformQuery(query) ?? {};
-    if (query?.after) {
-      delete result['after'];
-      result['page'] = query.after;
+  ): string | undefined {
+    const { after, ...restQuery } = query ?? {};
+    const result = {
+      ...restQuery,
+    };
+    if (after) {
+      result['page'] = after;
     }
-    return result;
+    console.log('result', result);
+    return ResourceApiDefaultTransformer.mapToQueryString(result);
   }
 
   transformMany<T>(

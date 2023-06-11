@@ -6,7 +6,7 @@ import { ResourceApiTransformer } from './ResourceApiTransformer';
 export class ResourceApiDefaultTransformer extends ResourceApiTransformer {
   transformQuery(
     query?: ResourceQuery & ResourceListQuery,
-  ): { [key: string]: any } | undefined {
+  ): string | undefined {
     if (!query) {
       return;
     }
@@ -60,7 +60,7 @@ export class ResourceApiDefaultTransformer extends ResourceApiTransformer {
     if (after) {
       transformed.after = after;
     }
-    return transformed;
+    return ResourceApiDefaultTransformer.mapToQueryString(transformed);
   }
 
   transformOne<T = Object>(response: AxiosResponse): Promise<T> | T {
@@ -88,5 +88,17 @@ export class ResourceApiDefaultTransformer extends ResourceApiTransformer {
       );
     }
     return ResourceApiError.unknown;
+  }
+
+  static mapToQueryString(query: { [key: string]: any }) {
+    return Object.entries(query)
+      .map(([k, v], index) => {
+        const result = `${k}=${v}`;
+        if (index > 0) {
+          return `&${result}`;
+        }
+        return result;
+      })
+      .join('');
   }
 }
