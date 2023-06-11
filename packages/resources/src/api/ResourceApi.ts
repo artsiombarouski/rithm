@@ -1,4 +1,4 @@
-import { AxiosResponse } from 'axios';
+import { Axios, AxiosResponse } from 'axios';
 import {
   defaultResourceApiConfig,
   ResourceApiConfig,
@@ -21,6 +21,10 @@ export class ResourceApi<T = Object> {
       ...defaultResourceApiConfig,
       ...config,
     };
+  }
+
+  get transport(): Axios {
+    return this.config.transport;
   }
 
   clone(path?: string, config?: Partial<ResourceApiConfig>): ResourceApi<T> {
