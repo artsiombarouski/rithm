@@ -6,7 +6,7 @@ import { persist } from 'mobx-persist';
 export class UserStoreService<UserPayload extends { key: any }> {
   @observable
   @persist('object')
-  currentUser?: UserPayload | undefined;
+  currentUser?: UserPayload | undefined | null;
 
   @observable
   @persist('list')
@@ -36,6 +36,9 @@ export class UserStoreService<UserPayload extends { key: any }> {
       if (existsUser) {
         Object.assign(existsUser, user);
       }
+      if (this.currentUser.key === user.key) {
+        Object.assign(this.currentUser, user);
+      }
     });
   }
 
@@ -56,7 +59,7 @@ export class UserStoreService<UserPayload extends { key: any }> {
         (user) => user.key !== (key ?? this.currentUser?.key),
       );
       this.currentUser =
-        !this.users || this.users.length === 0 ? undefined : this.users[0];
+        !this.users || this.users.length === 0 ? null : this.users[0];
     });
   }
 }
