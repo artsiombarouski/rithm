@@ -1,11 +1,11 @@
 import React from 'react';
 import { FormValues } from '../../types';
-import { Dialog, Portal } from 'react-native-paper';
 import {
   FormListComponentProps,
   FormListFormRenderProps,
 } from './FormListComponent';
 import { cloneDeep } from 'lodash';
+import { Modal } from 'native-base';
 
 export type FormListDialogProps<
   TItem extends FormValues = FormValues,
@@ -37,10 +37,10 @@ export function FormListDialog<
   }
 
   return (
-    <Portal>
-      <Dialog visible={visible} onDismiss={onDismiss}>
-        <Dialog.Content>{content}</Dialog.Content>
-      </Dialog>
-    </Portal>
+    <Modal isOpen={visible} onClose={onDismiss}>
+      <Modal.Content>
+        <Modal.Body>{content}</Modal.Body>
+      </Modal.Content>
+    </Modal>
   );
 }

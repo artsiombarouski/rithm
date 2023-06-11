@@ -1,4 +1,3 @@
-import { StyleSheet, View } from 'react-native';
 import React, {
   Fragment,
   useCallback,
@@ -6,10 +5,12 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { StyleSheet, View } from 'react-native';
 import { FormElementRenderProps, FormValues } from '../../types';
-import { Button } from 'react-native-paper';
 import { FormListDialog } from './FormListDialog';
-import { cloneDeep } from 'lodash';
+import _, { cloneDeep } from 'lodash';
+import { Button, VStack } from 'native-base';
+import { IVStackProps } from 'native-base/lib/typescript/components/primitives/Stack/VStack';
 
 export type FormListItemRenderProps<TItem extends FormValues = FormValues> = {
   item: TItem;
@@ -26,23 +27,36 @@ export type FormListFormRenderProps<
   initialValues?: TItem;
 };
 
+export type FormListActionsProps<TItem> = {
+  onPress: () => void;
+};
+
 export type FormListComponentProps<
   TItem extends FormValues = FormValues,
   TFormValues extends FormValues = FormValues,
 > = {
   mode?: 'inline' | 'modal';
+  actions?: (props: FormListActionsProps<TItem>) => React.ReactElement;
+  placeholder?: string | React.ReactElement;
   renderItem: (props: FormListItemRenderProps<TItem>) => React.ReactElement;
   renderForm: (
     props: FormListFormRenderProps<TItem, TFormValues>,
   ) => React.ReactElement;
   renderProps: FormElementRenderProps<TFormValues>;
+  listItemContainerProps?: IVStackProps;
 };
 
 export function FormListComponent<
   TItem extends FormValues = FormValues,
   TFormValues extends FormValues = FormValues,
 >(props: FormListComponentProps<TItem, TFormValues>) {
-  const { mode = 'modal', renderItem, renderForm, renderProps } = props;
+  const {
+    mode = 'modal',
+    actions,
+    placeholder,
+    renderProps,
+    listItemContainerProps,
+  } = props;
   const ref = useRef<any>();
   const currentValue: TItem[] = renderProps.field.value ?? [];
   const [isItemFormVisible, setItemFormVisible] = useState(false);
@@ -50,6 +64,10 @@ export function FormListComponent<
     TItem | null | undefined
   >();
 
+  const handleAdd = useCallback(() => {
+    setCurrentEditingItem(null);
+    setItemFormVisible(true);
+  }, []);
   const handleSubmit = useCallback(
     (values: FormValues) => {
       if (currentEditingItem) {
@@ -121,21 +139,23 @@ export function FormListComponent<
     }
   }, [isItemFormVisible]);
 
+  const canRenderInlineForm =
+    isItemFormVisible && mode === 'inline' && !currentEditingItem;
+
   return (
     <View style={[styles.container]}>
-      {currentValue.map(renderItemRow)}
-      {isItemFormVisible &&
-        mode === 'inline' &&
-        !currentEditingItem &&
-        renderInlineForm()}
-      <Button
-        onPress={() => {
-          setCurrentEditingItem(null);
-          setItemFormVisible(true);
-        }}
-      >
-        Add element
-      </Button>
+      <VStack {...listItemContainerProps}>
+        {_.isEmpty(currentValue) && !canRenderInlineForm && placeholder}
+        {currentValue.map(renderItemRow)}
+        {canRenderInlineForm && renderInlineForm()}
+      </VStack>
+      {actions ? (
+        React.createElement(actions, {
+          onPress: handleAdd,
+        })
+      ) : (
+        <Button onPress={handleAdd}>Add element</Button>
+      )}
       <FormListDialog<TItem, TFormValues>
         listProps={props}
         onSubmit={handleSubmit}

@@ -1,6 +1,5 @@
 import {
   Form,
-  FormCalendar,
   FormCheckbox,
   FormDropDown,
   FormDropDownOption,
@@ -16,10 +15,18 @@ import {
 } from '@artsiombarouski/rn-form';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { setTimeout } from '@testing-library/react-native/build/helpers/timers';
-import dayjs from 'dayjs';
-import { Button, Divider, Icon, IconButton, Text } from 'native-base';
+import {
+  Box,
+  Button,
+  HStack,
+  Icon,
+  IconButton,
+  Input,
+  ScrollView,
+  Text,
+} from 'native-base';
 import React, { useEffect, useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 
 type FormItemDto = {
   item_input: string;
@@ -50,12 +57,12 @@ const FormListItem = (props: FormListItemRenderProps<FormItemDto>) => {
       <IconButton
         icon={<Icon as={MaterialCommunityIcons} name="pencil-circle" />}
         onPress={edit}
-        size={20}
+        size={8}
       />
       <IconButton
         icon={<Icon as={MaterialCommunityIcons} name="delete" />}
         onPress={remove}
-        size={20}
+        size={8}
       />
     </View>
   );
@@ -112,98 +119,58 @@ const FormExample = () => {
   };
 
   return (
-    <View style={{ padding: 16 }}>
-      <Form form={form}>
-        {/*todo: controlProps, labelProps, helperProps, inputProps, errorProps*/}
-        <FormInput
-          name={'input'}
-          title={'Input'}
-          helperText={'Helper Text'}
-          rightLabel={'Right label'}
-          onRightLabelPress={() => {
-            console.log('on right label click');
-          }}
-          rules={{ required: true }}
-        />
-        <FormInput
-          name={'input-nokeep-error'}
-          title={'Without error space'}
-          rules={{ required: true }}
-          keepErrorSpace={false}
-        />
-        <FormPasswordInput
-          name={'input-password'}
-          title={'Enter password'}
-          rules={{ required: true }}
-        />
-        <FormCheckbox
-          name={'checkbox'}
-          title={'Checkbox'}
-          label={'Checkbox example'}
-          rules={{ required: true }}
-        />
-        <FormCheckbox
-          name={'checkbox-reversed'}
-          title={'Checkbox'}
-          label={'Checkbox reversed'}
-          checkedLabel={'Also label changed when checked'}
-          reverse={true}
-          rules={{ required: true }}
-        />
-        <FormSwitch
-          name={'switch'}
-          title={'Switch'}
-          label={'Switch'}
-          tooltipText={'Tooltip text'}
-        />
-        <FormSwitch
-          name={'switch-large'}
-          title={'Switch'}
-          label={'Switch'}
-          size={'lg'}
-          fontSize={'lg'}
-        />
-        <FormRadioGroup
-          name={'radio'}
-          title={'Radio Group'}
-          options={[
-            { key: 'key1', label: 'Key 1' },
-            { key: 'key2', label: 'Key 2' },
-            { key: 'key3', label: 'Key 3' },
-          ]}
-          rules={{ required: true }}
-        />
-        <FormDropDown
-          name={'select'}
-          size={'lg'}
-          options={new Array(100).fill(null).map((_, index) => {
-            return { key: `key${index}`, label: `Key ${index}` };
-          })}
-          rules={{ required: true }}
-          useAnchorSize={true}
-        />
-        <LazyLoadSelectOptions />
-        <Button onPress={form.handleSubmit(onSubmit)}>Submit</Button>
-      </Form>
-    </View>
-  );
-
-  return (
-    <View style={{ flex: 1, display: 'flex', flexDirection: 'row' }}>
-      <ScrollView style={{ flex: 0.5, padding: 16 }}>
+    <Box flex={1}>
+      <ScrollView p={4}>
         <Form form={form}>
+          {/*todo: controlProps, labelProps, helperProps, inputProps, errorProps*/}
           <FormInput
             name={'input'}
             title={'Input'}
+            helperText={'Helper Text'}
+            rightLabel={'Right label'}
+            onRightLabelPress={() => {
+              console.log('on right label click');
+            }}
             rules={{ required: true }}
           />
-          <Divider />
-          <FormCheckbox name={'checkbox'} title={'Checkbox'}>
-            <Text>Checkbox example</Text>
-          </FormCheckbox>
-          <Divider />
-          <FormSwitch name={'switch'} title={'Switch'} label={'Switch'} />
-          <Divider />
+          <FormInput
+            name={'input-nokeep-error'}
+            title={'Without error space'}
+            rules={{ required: true }}
+            keepErrorSpace={false}
+          />
+          <FormPasswordInput
+            name={'input-password'}
+            title={'Enter password'}
+            rules={{ required: true }}
+          />
+          <FormCheckbox
+            name={'checkbox'}
+            title={'Checkbox'}
+            label={'Checkbox example'}
+            rules={{ required: true }}
+          />
+          <FormCheckbox
+            name={'checkbox-reversed'}
+            title={'Checkbox'}
+            label={'Checkbox reversed'}
+            checkedLabel={'Also label changed when checked'}
+            reverse={true}
+            rules={{ required: true }}
+          />
+          <FormSwitch
+            name={'switch'}
+            title={'Switch'}
+            label={'Switch'}
+            tooltipText={'Tooltip text'}
+          />
+          <FormSwitch
+            name={'switch-large'}
+            title={'Switch'}
+            label={'Switch'}
+            size={'lg'}
+            fontSize={'lg'}
+          />
           <FormRadioGroup
             name={'radio'}
             title={'Radio Group'}
@@ -212,106 +179,91 @@ const FormExample = () => {
               { key: 'key2', label: 'Key 2' },
               { key: 'key3', label: 'Key 3' },
             ]}
+            rules={{ required: true }}
           />
-          <Divider />
           <FormDropDown
             name={'select'}
-            options={[
-              { key: 'key1', label: 'Key 1' },
-              { key: 'key2', label: 'Key 2' },
-              { key: 'key3', label: 'Key 3' },
-            ]}
+            size={'lg'}
+            options={new Array(100).fill(null).map((_, index) => {
+              return { key: `key${index}`, label: `Key ${index}` };
+            })}
+            rules={{ required: true }}
+            useAnchorSize={true}
           />
-          <Divider />
+          <LazyLoadSelectOptions />
           <FormList<FormItemDto>
             name={'itemModal'}
+            mode={'inline'}
             title={'List (modal)'}
             renderItem={FormListItem}
-            renderForm={(props) => {
-              const form = useForm({
-                values: props.initialValues ?? {},
-              });
+            listItemContainerProps={{
+              space: 2,
+              py: 2,
+            }}
+            placeholder={
+              <Input
+                editable={false}
+                value={'Placeholder'}
+                focusable={false}
+                size={'md'}
+                pointerEvents={'none'}
+                _hover={{
+                  isReadOnly: true,
+                }}
+                _focus={{
+                  isReadOnly: true,
+                }}
+              />
+            }
+            actions={(props) => {
               return (
-                <Form form={form}>
-                  <FormInput name={'item_input'} />
-                  <FormCheckbox name={'item_checkbox'}>
-                    <Text>Checkbox</Text>
-                  </FormCheckbox>
-                  <Button onPress={form.handleSubmit(props.onSubmit)}>
-                    {props.initialValues ? 'Update' : 'Create'}
+                <HStack>
+                  <Button onPress={props.onPress} variant={'link'}>
+                    + Add element
                   </Button>
-                </Form>
+                </HStack>
               );
             }}
-          />
-          <Divider />
-          <FormList
-            name={'itemInline'}
-            title={'List (inline)'}
-            mode={'inline'}
-            renderItem={FormListItem}
             renderForm={(props) => {
               const form = useForm({
                 values: props.initialValues ?? {},
               });
               return (
                 <Form form={form}>
-                  <View
-                    style={{
-                      width: '100%',
-                      backgroundColor: 'yellow',
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                    }}
+                  <HStack
+                    style={{ width: '100%' }}
+                    alignItems={'center'}
+                    space={4}
                   >
                     <FormInput
                       name={'item_input'}
-                      rules={{ required: true }}
+                      placeholder={'Input'}
+                      title={'Input'}
                       itemContainerStyle={{
                         flex: 1,
-                        marginRight: 8,
                       }}
                     />
                     <FormCheckbox
                       name={'item_checkbox'}
+                      title={'Checkbox'}
+                      label={<Text>Checkbox</Text>}
                       itemContainerStyle={{
-                        flex: 0.5,
+                        flex: 1,
                       }}
-                    >
-                      <Text>Item Checkbox</Text>
-                    </FormCheckbox>
-                    <Button
-                      variant={'ghost'}
-                      onPress={form.handleSubmit(props.onSubmit)}
-                    >
+                    />
+                    <Button onPress={props.dismiss}>Cancel</Button>
+                    <Button onPress={form.handleSubmit(props.onSubmit)}>
                       {props.initialValues ? 'Update' : 'Create'}
                     </Button>
-                    <Button variant={'ghost'} onPress={props.dismiss}>
-                      Cancel
-                    </Button>
-                  </View>
+                  </HStack>
                 </Form>
               );
             }}
           />
-          <Divider />
-          <FormCalendar
-            name={'calendar'}
-            mode={'dual'}
-            selectionType={selectionType}
-            minDate={dayjs().subtract(5, 'days').toString()}
-            maxDate={dayjs().add(5, 'd').toString()}
-          />
-          <Button onPress={form.handleSubmit(setCurrentValue)}>Submit</Button>
+          <Button onPress={form.handleSubmit(onSubmit)}>Submit</Button>
         </Form>
       </ScrollView>
-      <ScrollView style={{ flex: 0.5 }}>
-        <View>
-          <Text>{JSON.stringify(currentValue, null, '')}</Text>
-        </View>
-      </ScrollView>
-    </View>
+    </Box>
   );
 };
 

@@ -1,7 +1,10 @@
 import React from 'react';
-import { FormItem } from '../components';
+import {
+  FormItem,
+  FormListComponent,
+  FormListComponentProps,
+} from '../components';
 import { FormElementRenderProps, FormItemProps, FormValues } from '../types';
-import { FormListComponent, FormListComponentProps } from '../components/list';
 
 export type FormListProps<
   TItem extends FormValues = FormValues,
