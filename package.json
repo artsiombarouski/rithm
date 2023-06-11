@@ -47,6 +47,7 @@
   "workspaces": [
     "examples/movies",
     "packages/form",
+    "packages/components",
     "packages/services",
     "packages/analytics",
     "packages/resources",

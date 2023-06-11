@@ -40,6 +40,7 @@
     "@artsiombarouski/rn-resources": "*",
     "@artsiombarouski/rn-services": "*",
     "@artsiombarouski/rn-user-store-service": "*",
+    "@artsiombarouski/rn-components": "*",
     "@expo/webpack-config": "^18.0.1",
     "@react-navigation/drawer": "^6.6.2",
     "@types/react": "~18.0.27",
