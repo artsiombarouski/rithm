@@ -111,6 +111,7 @@ const FormExample = () => {
   const form = useForm({
     defaultValues: {
       // calendar: DEFAULT_DATE[selectionType],
+      invites: [{}],
     },
   });
 
@@ -257,6 +258,51 @@ const FormExample = () => {
                     </Button>
                   </HStack>
                 </Form>
+              );
+            }}
+          />
+          <FormList
+            name={'invites'}
+            mode={'inline'}
+            title={'Invites'}
+            listItemContainerProps={{
+              space: 3,
+            }}
+            rules={{
+              validate: (value: { email: string }[]) => {
+                const expression: RegExp =
+                  /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+                if (
+                  value.some((value) => {
+                    return value.email && !expression.test(value.email);
+                  })
+                ) {
+                  return `Not all emails are valid`;
+                }
+                return true;
+              },
+            }}
+            renderItem={(props) => {
+              return (
+                <Input
+                  value={props.item.email}
+                  onChangeText={(value) => {
+                    props.update({ email: value });
+                  }}
+                />
+              );
+            }}
+            renderForm={() => <></>}
+            actions={(props) => {
+              return (
+                <Button
+                  variant={'link'}
+                  onPress={() => {
+                    props.addItem({});
+                  }}
+                >
+                  Add item
+                </Button>
               );
             }}
           />

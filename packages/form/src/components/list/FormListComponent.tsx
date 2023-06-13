@@ -14,6 +14,7 @@ import { IVStackProps } from 'native-base/lib/typescript/components/primitives/S
 
 export type FormListItemRenderProps<TItem extends FormValues = FormValues> = {
   item: TItem;
+  update: (values: Partial<TItem>) => void;
   edit: () => void;
   remove: () => void;
 };
@@ -27,8 +28,12 @@ export type FormListFormRenderProps<
   initialValues?: TItem;
 };
 
-export type FormListActionsProps<TItem> = {
+export type FormListActionsProps<
+  TItem extends FormValues = FormValues,
+  TFormValues extends FormValues = FormValues,
+> = {
   onPress: () => void;
+  addItem: (item: Partial<TItem>) => void;
 };
 
 export type FormListComponentProps<
@@ -81,6 +86,15 @@ export function FormListComponent<
     },
     [currentValue, currentEditingItem, renderProps.field],
   );
+  const handleUpdate = useCallback(
+    (item, values) => {
+      Object.assign(item, values);
+      renderProps.field.onChange(currentValue);
+      setCurrentEditingItem(null);
+      setItemFormVisible(false);
+    },
+    [currentValue, renderProps.field],
+  );
   const handleEdit = useCallback(
     (item: TItem) => {
       setCurrentEditingItem(item);
@@ -126,6 +140,7 @@ export function FormListComponent<
       <Fragment key={index}>
         {React.createElement(props.renderItem, {
           item: item,
+          update: (values) => handleUpdate(item, values),
           edit: () => handleEdit(item),
           remove: () => handleRemove(item),
         })}
@@ -152,6 +167,12 @@ export function FormListComponent<
       {actions ? (
         React.createElement(actions, {
           onPress: handleAdd,
+          addItem: (item) => {
+            renderProps.field.onChange([
+              ...(renderProps.field.value ?? []),
+              item,
+            ]);
+          },
         })
       ) : (
         <Button onPress={handleAdd}>Add element</Button>
