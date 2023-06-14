@@ -1,3 +1,10 @@
+import { FormElementRenderProps, FormValues } from '../../types';
+import { FormError } from '../FormError';
+import { FormHelper } from '../FormHelper';
+import { FormListDialog } from './FormListDialog';
+import _, { cloneDeep } from 'lodash';
+import { Button, VStack } from 'native-base';
+import { IVStackProps } from 'native-base/lib/typescript/components/primitives/Stack/VStack';
 import React, {
   Fragment,
   useCallback,
@@ -6,11 +13,6 @@ import React, {
   useState,
 } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { FormElementRenderProps, FormValues } from '../../types';
-import { FormListDialog } from './FormListDialog';
-import _, { cloneDeep } from 'lodash';
-import { Button, VStack } from 'native-base';
-import { IVStackProps } from 'native-base/lib/typescript/components/primitives/Stack/VStack';
 
 export type FormListItemRenderProps<TItem extends FormValues = FormValues> = {
   item: TItem;
@@ -49,6 +51,10 @@ export type FormListComponentProps<
   ) => React.ReactElement;
   renderProps: FormElementRenderProps<TFormValues>;
   listItemContainerProps?: IVStackProps;
+  helperText?: string;
+  keepErrorSpace?: boolean;
+  showHelper?: boolean;
+  showError?: boolean;
 };
 
 export function FormListComponent<
@@ -61,6 +67,10 @@ export function FormListComponent<
     placeholder,
     renderProps,
     listItemContainerProps,
+    showHelper = true,
+    showError = true,
+    keepErrorSpace = true,
+    helperText,
   } = props;
   const ref = useRef<any>();
   const currentValue: TItem[] = renderProps.field.value ?? [];
@@ -164,6 +174,10 @@ export function FormListComponent<
         {currentValue.map(renderItemRow)}
         {canRenderInlineForm && renderInlineForm()}
       </VStack>
+      {(helperText || keepErrorSpace) && showHelper && (
+        <FormHelper helperText={helperText} />
+      )}
+      {showError && <FormError error={renderProps.fieldState?.error} />}
       {actions ? (
         React.createElement(actions, {
           onPress: handleAdd,

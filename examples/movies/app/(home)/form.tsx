@@ -22,6 +22,7 @@ import {
   Icon,
   IconButton,
   Input,
+  Pressable,
   ScrollView,
   Text,
 } from 'native-base';
@@ -268,6 +269,10 @@ const FormExample = () => {
             listItemContainerProps={{
               space: 3,
             }}
+            rightLabel={'Reset list'}
+            onRightLabelPress={() => {
+              form.resetField('invites');
+            }}
             rules={{
               validate: (value: { email: string }[]) => {
                 const expression: RegExp =
@@ -285,10 +290,24 @@ const FormExample = () => {
             renderItem={(props) => {
               return (
                 <Input
+                  InputRightElement={
+                    <Pressable onPress={props.remove}>
+                      <Icon
+                        as={MaterialCommunityIcons}
+                        name={'delete-outline'}
+                        size={5}
+                        mr={2}
+                        color="danger.500"
+                      />
+                    </Pressable>
+                  }
+                  size={'lg'}
+                  variant={'outline'}
                   value={props.item.email}
                   onChangeText={(value) => {
                     props.update({ email: value });
                   }}
+                  placeholder={'employee@email.com'}
                 />
               );
             }}
@@ -300,8 +319,11 @@ const FormExample = () => {
                   onPress={() => {
                     props.addItem({});
                   }}
+                  p={0}
+                  justifyContent={'flex-start'}
+                  leftIcon={<Icon as={MaterialCommunityIcons} name={'plus'} />}
                 >
-                  Add item
+                  Invite more team members
                 </Button>
               );
             }}

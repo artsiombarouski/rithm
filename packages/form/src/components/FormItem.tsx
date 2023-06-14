@@ -29,6 +29,8 @@ export function FormItem<ElementProps = any>(
     rules,
     itemContainerStyle,
     render,
+    showHelper = true,
+    showError = true,
     ...restProps
   } = props;
 
@@ -50,10 +52,10 @@ export function FormItem<ElementProps = any>(
           />
         )}
         {render(restProps as any, renderProps)}
-        {(helperText || keepErrorSpace) && (
+        {(helperText || keepErrorSpace) && showHelper && (
           <FormHelper helperText={helperText} />
         )}
-        <FormError error={renderProps.fieldState?.error} />
+        {showError && <FormError error={renderProps.fieldState?.error} />}
       </FormControl>
     );
   };

@@ -18,7 +18,7 @@ export type FormTitleProps = {
   tooltipText?: string;
   tooltipIcon?: React.ReactNode;
   rightLabel?: string | React.ReactNode;
-  onRightLabelPress?: () => void
+  onRightLabelPress?: () => void;
 };
 
 export type FormItemProps<T extends FormValues = FormValues> = {
@@ -27,6 +27,8 @@ export type FormItemProps<T extends FormValues = FormValues> = {
   itemContainerStyle?: StyleProp<ViewStyle>;
   helperText?: string;
   keepErrorSpace?: boolean;
+  showHelper?: boolean;
+  showError?: boolean;
 } & FormTitleProps;
 
 export type FormInstance<TFieldValues extends FormValues = FormValues> =
