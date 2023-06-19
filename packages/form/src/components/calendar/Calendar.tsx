@@ -19,6 +19,7 @@ import {
 } from 'react-native';
 import { Calendar as BaseCalendar, DateData } from 'react-native-calendars';
 import { MarkingTypes, Theme } from 'react-native-calendars/src/types';
+import { useTheme } from 'native-base';
 
 const Arrow = ({ direction, onPress, ...props }: ArrowProps) => {
   return (
@@ -44,6 +45,7 @@ export const Calendar = (props: CalendarProps) => {
     ...calendarProps
   } = props;
   const { markingType, ...restCalendarProps } = calendarProps;
+  const theme = useTheme();
 
   const leftArrowMonthShift = mode === 'dual' ? -2 : -1;
   const rightArrowMonthShift = mode === 'dual' ? 2 : 1;
@@ -74,32 +76,34 @@ export const Calendar = (props: CalendarProps) => {
         });
         break;
       case SelectionType.RANGE:
-        const { startDate, endDate } = value as RangeDates;
+        const { startDate, endDate } = (value as RangeDates) ?? {};
         if (startDate && endDate) {
           let start = dayjs(startDate);
           let end = dayjs(endDate);
 
           for (let d = dayjs(start); d.isBefore(end); d = d.add(1, 'day')) {
             dates[d.format('YYYY-MM-DD')] = {
-              selected: true,
-              color: 'blue',
+              selected: false,
+              color: theme.colors.primary['100'],
             };
           }
 
           // Mark start and end dates
           dates[start.format('YYYY-MM-DD')] = {
             ...dates[start.format('YYYY-MM-DD')],
-            color: 'green',
+            color: theme.colors.primary['500'],
+            selected: true,
             startingDay: true,
           };
           dates[end.format('YYYY-MM-DD')] = {
             ...dates[end.format('YYYY-MM-DD')],
-            color: 'red',
+            color: theme.colors.primary['500'],
+            selected: true,
             endingDay: true,
           };
         } else if (startDate) {
           dates[startDate] = {
-            color: 'green',
+            color: theme.colors.primary['500'],
             selected: true,
             startingDay: true,
           };
@@ -137,7 +141,7 @@ export const Calendar = (props: CalendarProps) => {
 
           break;
         case SelectionType.RANGE:
-          let { startDate, endDate } = value as RangeDates;
+          let { startDate, endDate } = (value as RangeDates) ?? {};
           if (startDate && endDate) {
             startDate = day.dateString;
             endDate = null;
@@ -199,7 +203,9 @@ export const Calendar = (props: CalendarProps) => {
     restCalendarProps?.style,
   ]);
 
-  const calendarTheme: Theme = {};
+  const calendarTheme: Theme = {
+    selectedDayTextColor: theme.colors.text['500'],
+  };
 
   const getSharedCalendarProps = useMemo(
     () => (direction: 'right' | 'left') => {

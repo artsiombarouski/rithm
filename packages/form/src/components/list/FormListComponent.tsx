@@ -106,8 +106,8 @@ export function FormListComponent<
   const handleUpdate = useCallback(
     (index, values) => {
       update(index, values);
-      setCurrentEditingItemIndex(null);
-      setItemFormVisible(false);
+      // setCurrentEditingItemIndex(null);
+      // setItemFormVisible(false);
     },
     [fields, renderProps.field],
   );
@@ -163,10 +163,14 @@ export function FormListComponent<
     return (
       <Fragment key={item.id}>
         {React.createElement(props.renderItem, {
+          key: item.id,
           item: item as any,
           index: index,
           itemPath: `${renderProps.field.name}.${index}`,
-          update: (values) => handleUpdate(index, values),
+          update: (values) => {
+            Object.assign(renderProps.field.value[index], values);
+            renderProps.field.onChange([...renderProps.field.value]);
+          },
           edit: () => handleEdit(index),
           remove: () => handleRemove(index),
         })}

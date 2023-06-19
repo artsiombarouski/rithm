@@ -1,5 +1,6 @@
 import {
   Form,
+  FormCalendar,
   FormCheckbox,
   FormDropDown,
   FormDropDownOption,
@@ -16,7 +17,6 @@ import {
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { setTimeout } from '@testing-library/react-native/build/helpers/timers';
 import {
-  Box,
   Button,
   HStack,
   Icon,
@@ -25,9 +25,11 @@ import {
   Pressable,
   ScrollView,
   Text,
+  VStack,
 } from 'native-base';
-import React, { useEffect, useState } from 'react';
+import React, { PropsWithChildren, useEffect, useState } from 'react';
 import { View } from 'react-native';
+import { UseFormProps } from 'react-hook-form';
 
 type FormItemDto = {
   item_input: string;
@@ -85,7 +87,7 @@ const LazyLoadSelectOptions = () => {
   }, []);
   return (
     <FormDropDown
-      name={'dropdown-lazy'}
+      name={'dropdownLazy'}
       options={options}
       useAnchorSize={true}
       isLoading={options.length === 0}
@@ -99,6 +101,35 @@ const DEFAULT_DATE = {
   [SelectionType.RANGE]: { startDate: null, endDate: null },
 };
 
+const FormExampleRow = (
+  props: PropsWithChildren & { title: string; formProps?: UseFormProps },
+) => {
+  const { children, title, formProps } = props;
+  const form = useForm(formProps);
+  const [data, setData] = useState({});
+  const onSubmit = (data) => {
+    setData(data);
+  };
+  return (
+    <Form form={form}>
+      <VStack>
+        <Text fontSize={'lg'} mb={2}>
+          {title}
+        </Text>
+        <HStack space={3}>
+          <VStack flex={1}>
+            {children}
+            <Button mt={3} onPress={form.handleSubmit(onSubmit)}>
+              Submit
+            </Button>
+          </VStack>
+          <Text flex={1}>{JSON.stringify(data, null, ' ')}</Text>
+        </HStack>
+      </VStack>
+    </Form>
+  );
+};
+
 const FormExample = () => {
   const [currentValue, setCurrentValue] = useState<FormValues>({});
 
@@ -108,278 +139,303 @@ const FormExample = () => {
 
   const [mode, setMode] = useState<'single' | 'dual'>('single'); //todo
 
-  //add button for calendar choose
-  const form = useForm({
-    defaultValues: {
-      // calendar: DEFAULT_DATE[selectionType],
-      invites: [{}],
-      'full-inline-impl': [{}],
-    },
-  });
-
-  const [data, setData] = useState({});
-
-  const onSubmit = (data) => {
-    setData(data);
-  };
-
   return (
     <HStack flex={1}>
       <ScrollView p={4} flex={1}>
-        <Form form={form}>
-          {/*todo: controlProps, labelProps, helperProps, inputProps, errorProps*/}
-          <FormInput
-            name={'input'}
-            title={'Input'}
-            helperText={'Helper Text'}
-            rightLabel={'Right label'}
-            onRightLabelPress={() => {
-              console.log('on right label click');
-            }}
-            rules={{ required: true }}
-          />
-          <FormInput
-            name={'input-nokeep-error'}
-            title={'Without error space'}
-            rules={{ required: true }}
-            keepErrorSpace={false}
-          />
-          <FormPasswordInput
-            name={'input-password'}
-            title={'Enter password'}
-            rules={{ required: true }}
-          />
-          <FormCheckbox
-            name={'checkbox'}
-            title={'Checkbox'}
-            label={'Checkbox example'}
-            rules={{ required: true }}
-          />
-          <FormCheckbox
-            name={'checkbox-reversed'}
-            title={'Checkbox'}
-            label={'Checkbox reversed'}
-            checkedLabel={'Also label changed when checked'}
-            reverse={true}
-            rules={{ required: true }}
-          />
-          <FormSwitch
-            name={'switch'}
-            title={'Switch'}
-            label={'Switch'}
-            tooltipText={'Tooltip text'}
-          />
-          <FormSwitch
-            name={'switch-large'}
-            title={'Switch'}
-            label={'Switch'}
-            size={'lg'}
-            fontSize={'lg'}
-          />
-          <FormRadioGroup
-            name={'radio'}
-            title={'Radio Group'}
-            options={[
-              { key: 'key1', label: 'Key 1' },
-              { key: 'key2', label: 'Key 2' },
-              { key: 'key3', label: 'Key 3' },
-            ]}
-            rules={{ required: true }}
-          />
-          <FormDropDown
-            name={'select'}
-            size={'lg'}
-            options={new Array(100).fill(null).map((_, index) => {
-              return { key: `key${index}`, label: `Key ${index}` };
-            })}
-            rules={{ required: true }}
-            useAnchorSize={true}
-          />
-          <LazyLoadSelectOptions />
-          <FormList<FormItemDto>
-            name={'itemModal'}
-            mode={'inline'}
-            title={'List (modal)'}
-            renderItem={FormListItem}
-            listItemContainerProps={{
-              space: 2,
-              py: 2,
-            }}
-            placeholder={
-              <Input
-                editable={false}
-                value={'Placeholder'}
-                focusable={false}
-                size={'md'}
-                pointerEvents={'none'}
-                _hover={{
-                  isReadOnly: true,
-                }}
-                _focus={{
-                  isReadOnly: true,
-                }}
-              />
-            }
-            actions={(props) => {
-              return (
-                <HStack>
-                  <Button onPress={props.onPress} variant={'link'}>
-                    + Add element
-                  </Button>
-                </HStack>
-              );
-            }}
-            renderForm={(props) => {
-              const form = useForm({
-                values: props.initialValues ?? {},
-              });
-              return (
-                <Form form={form}>
-                  <HStack
-                    style={{ width: '100%' }}
-                    alignItems={'center'}
-                    space={4}
-                  >
-                    <FormInput
-                      name={'item_input'}
-                      placeholder={'Input'}
-                      title={'Input'}
-                      itemContainerStyle={{
-                        flex: 1,
-                      }}
-                    />
-                    <FormCheckbox
-                      name={'item_checkbox'}
-                      title={'Checkbox'}
-                      label={<Text>Checkbox</Text>}
-                      itemContainerStyle={{
-                        flex: 1,
-                      }}
-                    />
-                    <Button onPress={props.dismiss}>Cancel</Button>
-                    <Button onPress={form.handleSubmit(props.onSubmit)}>
-                      {props.initialValues ? 'Update' : 'Create'}
+        <VStack flex={1} space={6}>
+          <FormExampleRow title={'Input'}>
+            <FormInput
+              name={'input'}
+              title={'Input'}
+              helperText={'Helper Text'}
+              rightLabel={'Right label'}
+              onRightLabelPress={() => {
+                console.log('on right label click');
+              }}
+              rules={{ required: true }}
+            />
+          </FormExampleRow>
+          <FormExampleRow title={'Input (no error space keep)'}>
+            <FormInput
+              name={'input-nokeep-error'}
+              title={'Without error space'}
+              rules={{ required: true }}
+              keepErrorSpace={false}
+            />
+          </FormExampleRow>
+          <FormExampleRow title={'Input (password)'}>
+            <FormPasswordInput
+              name={'input-password'}
+              title={'Enter password'}
+              rules={{ required: true }}
+            />
+          </FormExampleRow>
+          <FormExampleRow title={'Checkbox'}>
+            <FormCheckbox
+              name={'checkbox'}
+              title={'Checkbox'}
+              label={'Checkbox example'}
+              rules={{ required: true }}
+            />
+          </FormExampleRow>
+          <FormExampleRow title={'Checkbox (reversed)'}>
+            <FormCheckbox
+              name={'checkbox-reversed'}
+              title={'Checkbox'}
+              label={'Checkbox reversed'}
+              checkedLabel={'Also label changed when checked'}
+              reverse={true}
+              rules={{ required: true }}
+            />
+          </FormExampleRow>
+          <FormExampleRow title={'Switch'}>
+            <FormSwitch
+              name={'switch'}
+              title={'Switch'}
+              label={'Switch'}
+              tooltipText={'Tooltip text'}
+            />
+          </FormExampleRow>
+          <FormExampleRow title={'Switch (large)'}>
+            <FormSwitch
+              name={'switch-large'}
+              title={'Switch'}
+              label={'Switch'}
+              size={'lg'}
+              fontSize={'lg'}
+            />
+          </FormExampleRow>
+          <FormExampleRow title={'Radio Group'}>
+            <FormRadioGroup
+              name={'radio'}
+              title={'Radio Group'}
+              options={[
+                { key: 'key1', label: 'Key 1' },
+                { key: 'key2', label: 'Key 2' },
+                { key: 'key3', label: 'Key 3' },
+              ]}
+              rules={{ required: true }}
+            />
+          </FormExampleRow>
+          <FormExampleRow title={'DropDown'}>
+            <FormDropDown
+              name={'dropdown'}
+              size={'lg'}
+              options={new Array(100).fill(null).map((_, index) => {
+                return { key: `key${index}`, label: `Key ${index}` };
+              })}
+              rules={{ required: true }}
+              useAnchorSize={true}
+            />
+          </FormExampleRow>
+          <FormExampleRow title={'DropDown (lazy options)'}>
+            <LazyLoadSelectOptions />
+          </FormExampleRow>
+          <FormExampleRow title={'List (inline)'}>
+            <FormList<FormItemDto>
+              name={'listInline'}
+              mode={'inline'}
+              title={'List (modal)'}
+              renderItem={FormListItem}
+              listItemContainerProps={{
+                space: 2,
+                py: 2,
+              }}
+              placeholder={
+                <Input
+                  editable={false}
+                  value={'Placeholder'}
+                  focusable={false}
+                  size={'md'}
+                  pointerEvents={'none'}
+                  _hover={{
+                    isReadOnly: true,
+                  }}
+                  _focus={{
+                    isReadOnly: true,
+                  }}
+                />
+              }
+              actions={(props) => {
+                return (
+                  <HStack>
+                    <Button onPress={props.onPress} variant={'link'}>
+                      + Add element
                     </Button>
                   </HStack>
-                </Form>
-              );
-            }}
-          />
-          <FormList
-            name={'invites'}
-            mode={'inline'}
-            title={'Invites'}
-            listItemContainerProps={{
-              space: 3,
-            }}
-            rightLabel={'Reset list'}
-            onRightLabelPress={() => {
-              form.resetField('invites');
-            }}
-            rules={{
-              validate: (value: { email: string }[]) => {
-                const expression: RegExp =
-                  /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-                if (
-                  value.some((value) => {
-                    return value.email && !expression.test(value.email);
-                  })
-                ) {
-                  return `Not all emails are valid`;
-                }
-                return true;
+                );
+              }}
+              renderForm={(props) => {
+                const form = useForm({
+                  values: props.initialValues ?? {},
+                });
+                return (
+                  <Form form={form}>
+                    <HStack
+                      style={{ width: '100%' }}
+                      alignItems={'center'}
+                      space={4}
+                    >
+                      <FormInput
+                        name={'item_input'}
+                        placeholder={'Input'}
+                        title={'Input'}
+                        itemContainerStyle={{
+                          flex: 1,
+                        }}
+                      />
+                      <FormCheckbox
+                        name={'item_checkbox'}
+                        title={'Checkbox'}
+                        label={<Text>Checkbox</Text>}
+                        itemContainerStyle={{
+                          flex: 1,
+                        }}
+                      />
+                      <Button onPress={props.dismiss}>Cancel</Button>
+                      <Button onPress={form.handleSubmit(props.onSubmit)}>
+                        {props.initialValues ? 'Update' : 'Create'}
+                      </Button>
+                    </HStack>
+                  </Form>
+                );
+              }}
+            />
+          </FormExampleRow>
+          <FormExampleRow
+            title={'List (invites example)'}
+            formProps={{
+              defaultValues: {
+                invites: [{}],
               },
             }}
-            renderItem={(props) => {
-              return (
-                <Input
-                  InputRightElement={
-                    <Pressable onPress={props.remove}>
-                      <Icon
-                        as={MaterialCommunityIcons}
-                        name={'delete-outline'}
-                        size={5}
-                        mr={2}
-                        color="danger.500"
-                      />
-                    </Pressable>
+          >
+            <FormList
+              name={'invites'}
+              mode={'inline'}
+              title={'Invites'}
+              listItemContainerProps={{
+                space: 3,
+              }}
+              rightLabel={'Reset list'}
+              onRightLabelPress={() => {
+                // form.resetField('invites');
+              }}
+              rules={{
+                validate: (value: { email: string }[]) => {
+                  const expression: RegExp =
+                    /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+                  if (
+                    value.some((value) => {
+                      return value.email && !expression.test(value.email);
+                    })
+                  ) {
+                    return `Not all emails are valid`;
                   }
-                  size={'lg'}
-                  variant={'outline'}
-                  value={props.item.email}
-                  onChangeText={(value) => {
-                    props.update({ email: value });
-                  }}
-                  placeholder={'employee@email.com'}
-                />
-              );
-            }}
-            renderForm={() => <></>}
-            actions={(props) => {
-              return (
-                <Button
-                  variant={'link'}
-                  onPress={() => {
-                    props.addItem({});
-                  }}
-                  p={0}
-                  justifyContent={'flex-start'}
-                  leftIcon={<Icon as={MaterialCommunityIcons} name={'plus'} />}
-                >
-                  Invite more team members
-                </Button>
-              );
-            }}
-          />
-          <FormList
-            name={'full-inline-impl'}
-            mode={'inline'}
-            renderItem={(props) => {
-              console.log('indexedPath', props.itemPath);
-              return (
-                <HStack>
-                  <FormInput
-                    name={`${props.itemPath}.title`}
-                    title={'Title'}
-                    rules={{ required: true }}
-                    itemContainerStyle={{
-                      flex: 1,
+                  return true;
+                },
+              }}
+              renderItem={(props) => {
+                return (
+                  <Input
+                    InputRightElement={
+                      <Pressable onPress={props.remove}>
+                        <Icon
+                          as={MaterialCommunityIcons}
+                          name={'delete-outline'}
+                          size={5}
+                          mr={2}
+                          color="danger.500"
+                        />
+                      </Pressable>
+                    }
+                    size={'lg'}
+                    variant={'outline'}
+                    value={props.item.email}
+                    onChangeText={(value) => {
+                      props.update({ email: value });
                     }}
+                    placeholder={'employee@email.com'}
                   />
+                );
+              }}
+              renderForm={() => <></>}
+              actions={(props) => {
+                return (
                   <Button
                     variant={'link'}
                     onPress={() => {
-                      props.remove();
-                    }}
-                  >
-                    Remove
-                  </Button>
-                </HStack>
-              );
-            }}
-            showError={false}
-            keepErrorSpace={false}
-            actions={(props) => {
-              return (
-                <HStack mb={4}>
-                  <Button
-                    onPress={() => {
                       props.addItem({});
                     }}
+                    p={0}
+                    justifyContent={'flex-start'}
+                    leftIcon={
+                      <Icon as={MaterialCommunityIcons} name={'plus'} />
+                    }
                   >
-                    Add item
+                    Invite more team members
                   </Button>
-                </HStack>
-              );
+                );
+              }}
+            />
+          </FormExampleRow>
+          <FormExampleRow
+            title={'List (inline form)'}
+            formProps={{
+              defaultValues: {
+                'full-inline-impl': [{}],
+              },
             }}
-          />
-          <Button onPress={form.handleSubmit(onSubmit)}>Submit</Button>
-        </Form>
-      </ScrollView>
-      <ScrollView flex={1}>
-        <Box>
-          <Text>{JSON.stringify(data, null, ' ')}</Text>
-        </Box>
+          >
+            <FormList
+              name={'full-inline-impl'}
+              mode={'inline'}
+              renderItem={(props) => {
+                return (
+                  <HStack>
+                    <FormInput
+                      name={`${props.itemPath}.title`}
+                      title={'Title'}
+                      rules={{ required: true }}
+                      itemContainerStyle={{
+                        flex: 1,
+                      }}
+                    />
+                    <Button
+                      variant={'link'}
+                      onPress={() => {
+                        props.remove();
+                      }}
+                    >
+                      Remove
+                    </Button>
+                  </HStack>
+                );
+              }}
+              showError={false}
+              keepErrorSpace={false}
+              actions={(props) => {
+                return (
+                  <HStack mb={4}>
+                    <Button
+                      onPress={() => {
+                        props.addItem({});
+                      }}
+                    >
+                      Add item
+                    </Button>
+                  </HStack>
+                );
+              }}
+            />
+          </FormExampleRow>
+          <FormExampleRow title={'Calendar (range)'}>
+            <FormCalendar
+              name={'calendar-range'}
+              selectionType={SelectionType.RANGE}
+            />
+          </FormExampleRow>
+        </VStack>
       </ScrollView>
     </HStack>
   );
