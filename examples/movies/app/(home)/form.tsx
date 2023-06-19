@@ -148,7 +148,7 @@ const FormExample = () => {
             title={'Time'}
             formProps={{
               defaultValues: {
-                time: new Date('2023-05-08T10:27:34.000Z'),
+                time: '23:27',
               },
             }}
           >

@@ -1,4 +1,9 @@
-import { FormItem, TimePicker, TimePickerProps } from '../components';
+import {
+  FormItem,
+  TimePicker,
+  TimePickerProps,
+  TimeValue,
+} from '../components';
 import { FormElementRenderProps, FormItemProps } from '../types';
 import { FieldValues } from 'react-hook-form';
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
@@ -19,14 +24,19 @@ export const FormTimePicker = (props: FormTimePickerProps) => {
     renderProps: FormElementRenderProps,
   ) => {
     const { containerStyle, ...restProps } = props;
-    const value = renderProps.field.value
-      ? new Date(renderProps.field.value)
-      : new Date();
+    let value: TimeValue;
+    if (renderProps.field.value) {
+      const parsed = renderProps.field.value.split(':');
+      value = { hours: parsed[0], minutes: parsed[1] };
+    } else {
+      const date = new Date();
+      value = { hours: date.getHours(), minutes: date.getMinutes() };
+    }
     return (
       <View style={[styles.container, containerStyle]}>
         <TimePicker
           {...restProps}
-          value={{ hours: value.getHours(), minutes: value.getMinutes() }}
+          value={value}
           onChange={(value) => {
             renderProps.field.onChange(`${value.hours}:${value.minutes}`);
           }}
