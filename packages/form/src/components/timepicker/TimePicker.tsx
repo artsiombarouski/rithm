@@ -1,7 +1,7 @@
 import { getAmPm, getTime } from './utils';
 import IonicIcon from '@expo/vector-icons/Ionicons';
 import React, { useCallback, useState } from 'react';
-import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { TimePickerModal } from 'react-native-paper-dates';
 
 export type TimeValue = {

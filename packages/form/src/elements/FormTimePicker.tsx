@@ -19,13 +19,17 @@ export const FormTimePicker = (props: FormTimePickerProps) => {
     renderProps: FormElementRenderProps,
   ) => {
     const { containerStyle, ...restProps } = props;
-
+    const value = renderProps.field.value
+      ? new Date(renderProps.field.value)
+      : new Date();
     return (
       <View style={[styles.container, containerStyle]}>
         <TimePicker
-          {...restProps} //{...renderProps.field}
-          value={renderProps.field.value}
-          onChange={renderProps.field.onChange}
+          {...restProps}
+          value={{ hours: value.getHours(), minutes: value.getMinutes() }}
+          onChange={(value) => {
+            renderProps.field.onChange(`${value.hours}:${value.minutes}`);
+          }}
         />
       </View>
     );

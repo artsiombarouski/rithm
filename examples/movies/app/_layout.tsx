@@ -1,12 +1,11 @@
 import React, { PropsWithChildren, useEffect, useState } from 'react';
 import { Stack } from 'expo-router';
-import { NativeBaseProvider, extendTheme } from 'native-base';
+import { extendTheme, NativeBaseProvider } from 'native-base';
 import {
   ServiceContainer,
   ServiceContainerBootstrap,
 } from '@artsiombarouski/rn-services';
 import { rootServices, scopedServices } from '../services/Services';
-import { DefaultTheme, PaperProvider } from 'react-native-paper';
 import {
   NavigationServiceWrapper,
   useRouteGuard,
@@ -80,21 +79,19 @@ const RootLayout = () => {
   });
   const [servicesContainer] = useState(rootServices());
   return (
-    <PaperProvider theme={DefaultTheme}>
-      <NativeBaseProvider theme={theme}>
-        <ServiceContainerBootstrap container={servicesContainer}>
-          <ScopedLayout>
-            <NavigationServiceWrapper>
-              <Stack
-                screenOptions={{
-                  headerShown: false,
-                }}
-              />
-            </NavigationServiceWrapper>
-          </ScopedLayout>
-        </ServiceContainerBootstrap>
-      </NativeBaseProvider>
-    </PaperProvider>
+    <NativeBaseProvider theme={theme}>
+      <ServiceContainerBootstrap container={servicesContainer}>
+        <ScopedLayout>
+          <NavigationServiceWrapper>
+            <Stack
+              screenOptions={{
+                headerShown: false,
+              }}
+            />
+          </NavigationServiceWrapper>
+        </ScopedLayout>
+      </ServiceContainerBootstrap>
+    </NativeBaseProvider>
   );
 };
 
