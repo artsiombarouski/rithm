@@ -1,6 +1,7 @@
 import { service } from '@artsiombarouski/rn-services';
 import { action, makeObservable, observable, runInAction } from 'mobx';
 import { persist } from 'mobx-persist';
+import _ from 'lodash'
 
 @service()
 export class UserStoreService<UserPayload extends { key: any }> {
@@ -30,7 +31,7 @@ export class UserStoreService<UserPayload extends { key: any }> {
   }
 
   @action.bound
-  async updateUser(user: UserPayload) {
+  async updateUser(user: Partial<UserPayload>) {
     runInAction(() => {
       const existsUser = this.users.find((e) => e.key === user.key);
       if (existsUser) {
@@ -38,6 +39,19 @@ export class UserStoreService<UserPayload extends { key: any }> {
       }
       if (this.currentUser.key === user.key) {
         Object.assign(this.currentUser, user);
+      }
+    });
+  }
+
+  @action.bound
+  async updateUserProperty(key: string, user: Partial<UserPayload>) {
+    runInAction(() => {
+      const existsUser = this.users.find((e) => e.key === key);
+      if (existsUser) {
+        _.merge(existsUser, user);
+      }
+      if (this.currentUser.key === key) {
+        _.merge(this.currentUser, user);
       }
     });
   }

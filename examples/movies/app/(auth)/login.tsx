@@ -1,8 +1,8 @@
-import { ScrollView, View } from 'react-native';
-import { Form, FormInput, FormValues, useForm } from '@artsiombarouski/rn-form';
-import { useNavigationService } from '@artsiombarouski/rn-expo-router-service';
-import { Button } from 'react-native-paper';
 import { useUsers } from '../../services/utils';
+import { useNavigationService } from '@artsiombarouski/rn-expo-router-service';
+import { Form, FormInput, FormValues, useForm } from '@artsiombarouski/rn-form';
+import { ScrollView, View } from 'react-native';
+import { Button } from 'react-native-paper';
 
 const Login = () => {
   const form = useForm();
@@ -15,6 +15,7 @@ const Login = () => {
           key: values.email,
           info: {
             email: values.email,
+            password: values.password,
           },
         });
         navigation.push('/');

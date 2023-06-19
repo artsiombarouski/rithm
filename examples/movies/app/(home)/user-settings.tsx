@@ -1,5 +1,5 @@
-import { Form, FormInput, useForm } from '@artsiombarouski/rn-form';
 import { useUsers } from '../../services/utils';
+import { Form, FormInput, useForm } from '@artsiombarouski/rn-form';
 import { observer } from 'mobx-react-lite';
 import { Button } from 'native-base';
 
@@ -15,11 +15,9 @@ const UserSettings = observer(() => {
     },
   });
   const handleSubmit = (values: any) => {
-    return users.updateUser({
-      ...currentUser,
-      info: { ...currentUser.info, ...values },
-    });
+    return users.updateUserProperty(currentUser.key, { info: values });
   };
+
   return (
     <Form form={form}>
       <FormInput name={'email'} />
