@@ -38,7 +38,11 @@ export const FormTimePicker = (props: FormTimePickerProps) => {
           {...restProps}
           value={value}
           onChange={(value) => {
-            renderProps.field.onChange(`${value.hours}:${value.minutes}`);
+            renderProps.field.onChange(
+              `${value.hours.toString().padStart(2, '0')}:${value.minutes
+                .toString()
+                .padStart(2, '0')}`,
+            );
           }}
         />
       </View>
