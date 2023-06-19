@@ -34,7 +34,14 @@ export const FormTitle = (props: FormTitleProps) => {
     () =>
       rightLabel ? (
         typeof rightLabel === 'string' ? (
-          <Button size="md" variant="link" p={0} onPress={onPress}>
+          <Button
+            size="md"
+            variant="link"
+            p={0}
+            height={'auto'}
+            alignSelf={'flex-start'}
+            onPress={onPress}
+          >
             {rightLabel}
           </Button>
         ) : (

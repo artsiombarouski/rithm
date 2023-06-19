@@ -5,7 +5,7 @@ import { ResourceApiError } from './ResourceApiError';
 export abstract class ResourceApiTransformer {
   abstract transformQuery(
     query?: ResourceQuery & ResourceListQuery,
-  ): { [key: string]: any } | undefined;
+  ): string | undefined;
 
   abstract transformOne<T = Object>(response: AxiosResponse): Promise<T> | T;
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   ActivityIndicator,
   Button,
@@ -18,20 +18,13 @@ import { TvActions } from '../api/tvs/Tv.actions';
 export const TvList = observer(() => {
   const tvService = useService(TvService);
   const tvActions = useService(TvActions);
-  const tvList = useResourceList(() => {
-    return tvService.createDiscoveryList({
-      sort_by: 'popularity.desc',
-    });
+  const tvList = useResourceList(tvService, {
+    builderOrInstance: (resource) => {
+      return tvService.createDiscoveryList({
+        sort_by: 'popularity.desc',
+      });
+    },
   });
-
-  useEffect(() => {
-    if (tvList.isInitialLoaded) {
-      return;
-    }
-    tvList.fetch().then((result) => {
-      //ignore
-    });
-  }, []);
 
   const renderLoader = () => {
     return (
@@ -56,7 +49,7 @@ export const TvList = observer(() => {
 
   return (
     <FlatList<TvModel>
-      data={tvList.data}
+      data={tvList.data.slice()}
       style={{ flex: 1 }}
       numColumns={4}
       onEndReached={() => {

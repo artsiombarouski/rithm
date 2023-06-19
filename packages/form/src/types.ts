@@ -1,4 +1,4 @@
-import React from 'react';
+import { ReactNode } from 'react';
 import {
   ControllerFieldState,
   ControllerProps,
@@ -14,11 +14,11 @@ import { StyleProp, ViewStyle } from 'react-native';
 export type FormValues = FieldValues;
 
 export type FormTitleProps = {
-  title?: string;
+  title?: string | ReactNode;
   tooltipText?: string;
-  tooltipIcon?: React.ReactNode;
-  rightLabel?: string | React.ReactNode;
-  onRightLabelPress?: () => void
+  tooltipIcon?: ReactNode;
+  rightLabel?: string | ReactNode;
+  onRightLabelPress?: () => void;
 };
 
 export type FormItemProps<T extends FormValues = FormValues> = {
@@ -27,6 +27,8 @@ export type FormItemProps<T extends FormValues = FormValues> = {
   itemContainerStyle?: StyleProp<ViewStyle>;
   helperText?: string;
   keepErrorSpace?: boolean;
+  showHelper?: boolean;
+  showError?: boolean;
 } & FormTitleProps;
 
 export type FormInstance<TFieldValues extends FormValues = FormValues> =

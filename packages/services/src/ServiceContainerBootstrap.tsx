@@ -1,12 +1,17 @@
-import React, { ReactNode, useContext, useEffect, useState } from 'react';
+import React, {
+  PropsWithChildren,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { ServiceContainer } from './ServiceContainer';
 
 export const ServiceContext = React.createContext<{
   serviceContainer: ServiceContainer;
 }>({} as any);
 
-type Props = {
-  children: ReactNode | ((state: boolean) => ReactNode);
+type Props = PropsWithChildren & {
   container: ServiceContainer;
   loading?: ReactNode;
   onLoaded?: () => void;
@@ -21,17 +26,17 @@ export function ServiceContainerBootstrap({
   testId,
 }: Props): any {
   const parentContext = useContext(ServiceContext);
-  const [isBootstrapped, setBootstrapped] = useState(container.isInitialized);
-  const isReady = isBootstrapped && container.isInitialized;
+  const [currentContainer, setCurrentContainer] = useState(null);
 
   useEffect(() => {
-    setBootstrapped(false);
-    container.parent = parentContext?.serviceContainer;
-    container.init().then(() => {
-      onLoaded?.();
-      setBootstrapped(true);
-    });
-  }, [container.isInitialized]);
+    if (currentContainer !== container) {
+      container.parent = parentContext?.serviceContainer;
+      container.init().then(() => {
+        setCurrentContainer(container);
+        onLoaded?.();
+      });
+    }
+  }, [container]);
 
   if (process.env.NODE_ENV !== 'production') {
     if (typeof children === 'function' && loading) {
@@ -40,16 +45,17 @@ export function ServiceContainerBootstrap({
       );
     }
   }
-  if (typeof children === 'function') {
-    return children(isReady) as any;
+  if (!currentContainer) {
+    return loading ?? <></>;
   }
+
   return (
     <ServiceContext.Provider
       value={{
-        serviceContainer: container,
+        serviceContainer: currentContainer,
       }}
     >
-      {isReady ? children : loading ?? <></>}
+      {children as any}
     </ServiceContext.Provider>
   );
 }

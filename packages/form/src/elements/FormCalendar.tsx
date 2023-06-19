@@ -12,7 +12,6 @@ export const FormCalendar = (props: FormDualCalendarProps) => {
     return (
       <Calendar
         {...props}
-        //{...renderProps.field}
         value={renderProps.field.value}
         onChange={renderProps.field.onChange}
       />

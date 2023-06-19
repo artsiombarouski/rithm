@@ -1,3 +1,4 @@
+import React from 'react';
 import { FormItem } from '../components';
 import { FormElementRenderProps, FormItemProps, FormValues } from '../types';
 import { Checkbox, ICheckboxProps } from 'native-base';
@@ -5,8 +6,8 @@ import { StyleSheet } from 'react-native';
 
 export type CheckboxItemExtendedProps = Omit<ICheckboxProps, 'value'> & {
   reverse?: boolean;
-  label?: string;
-  checkedLabel?: string;
+  label?: string | React.ReactElement;
+  checkedLabel?: string | React.ReactElement;
 };
 
 export type FormCheckboxProps<T extends FormValues = FormValues> =
@@ -39,6 +40,7 @@ export const FormCheckbox = (props: FormCheckboxProps) => {
         ]),
       };
     }
+    const currentLabel = field.value && checkedLabel ? checkedLabel : label;
     return (
       <Checkbox
         {...restProps}
@@ -47,7 +49,7 @@ export const FormCheckbox = (props: FormCheckboxProps) => {
         isChecked={!!field.value}
         onChange={field.onChange}
       >
-        {field.value && checkedLabel ? checkedLabel : label}
+        {currentLabel}
       </Checkbox>
     );
   };

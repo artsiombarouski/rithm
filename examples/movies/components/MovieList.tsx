@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   ActivityIndicator,
   Button,
@@ -18,20 +18,11 @@ import { MovieActions } from '../api/movies/Movie.actions';
 export const MovieList = observer(() => {
   const movieResource = useService(MovieDiscoverService);
   const movieActions = useService(MovieActions);
-  const movieList = useResourceList(() => {
-    return movieResource.createList({
+  const movieList = useResourceList<MovieModel>(movieResource, {
+    query: {
       sort_by: 'popularity.desc',
-    });
+    },
   });
-
-  useEffect(() => {
-    if (movieList.isInitialLoaded) {
-      return;
-    }
-    movieList.fetch().then((result) => {
-      //ignore
-    });
-  }, []);
 
   const renderLoader = () => {
     return (

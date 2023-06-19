@@ -35,4 +35,8 @@ export class NavigationService {
   replace(path: Href) {
     this._router.replace(path);
   }
+
+  back() {
+    this._router.back()
+  }
 }

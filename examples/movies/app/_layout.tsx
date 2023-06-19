@@ -58,7 +58,7 @@ const ScopedLayout = (props: PropsWithChildren) => {
   }, [users, currentContainer]);
   return (
     <ServiceContainerBootstrap
-      key={currentContainer.userKey}
+      // key={currentContainer.userKey}
       container={currentContainer.container}
     >
       <RouteGuardLayout>{props.children}</RouteGuardLayout>
