@@ -27,7 +27,7 @@ export const FormTimePicker = (props: FormTimePickerProps) => {
     let value: TimeValue;
     if (renderProps.field.value) {
       const parsed = renderProps.field.value.split(':');
-      value = { hours: parsed[0], minutes: parsed[1] };
+      value = { hours: parseInt(parsed[0]), minutes: parseInt(parsed[1]) };
     } else {
       const date = new Date();
       value = { hours: date.getHours(), minutes: date.getMinutes() };
