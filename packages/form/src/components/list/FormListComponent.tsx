@@ -13,9 +13,12 @@ import React, {
   useState,
 } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { FieldArrayWithId, useFieldArray } from 'react-hook-form';
 
 export type FormListItemRenderProps<TItem extends FormValues = FormValues> = {
   item: TItem;
+  index: number;
+  itemPath: string;
   update: (values: Partial<TItem>) => void;
   edit: () => void;
   remove: () => void;
@@ -46,7 +49,7 @@ export type FormListComponentProps<
   actions?: (props: FormListActionsProps<TItem>) => React.ReactElement;
   placeholder?: string | React.ReactElement;
   renderItem: (props: FormListItemRenderProps<TItem>) => React.ReactElement;
-  renderForm: (
+  renderForm?: (
     props: FormListFormRenderProps<TItem, TFormValues>,
   ) => React.ReactElement;
   renderProps: FormElementRenderProps<TFormValues>;
@@ -73,53 +76,59 @@ export function FormListComponent<
     helperText,
   } = props;
   const ref = useRef<any>();
-  const currentValue: TItem[] = renderProps.field.value ?? [];
+  const { fields, append, update, remove } = useFieldArray<TItem>({
+    name: renderProps.field.name as any,
+  });
+
   const [isItemFormVisible, setItemFormVisible] = useState(false);
-  const [currentEditingItem, setCurrentEditingItem] = useState<
-    TItem | null | undefined
+  const [currentEditingItemIndex, setCurrentEditingItemIndex] = useState<
+    number | undefined | null
   >();
 
   const handleAdd = useCallback(() => {
-    setCurrentEditingItem(null);
+    setCurrentEditingItemIndex(null);
     setItemFormVisible(true);
   }, []);
+
   const handleSubmit = useCallback(
     (values: FormValues) => {
-      if (currentEditingItem) {
-        Object.assign(currentEditingItem, values);
-        renderProps.field.onChange(currentValue);
+      if (currentEditingItemIndex != null) {
+        update(currentEditingItemIndex, values as any);
       } else {
-        renderProps.field.onChange([...currentValue, values]);
+        append(values as any);
       }
-      setCurrentEditingItem(null);
+      setCurrentEditingItemIndex(null);
       setItemFormVisible(false);
     },
-    [currentValue, currentEditingItem, renderProps.field],
+    [fields, currentEditingItemIndex, renderProps.field],
   );
+
   const handleUpdate = useCallback(
-    (item, values) => {
-      Object.assign(item, values);
-      renderProps.field.onChange(currentValue);
-      setCurrentEditingItem(null);
+    (index, values) => {
+      update(index, values);
+      setCurrentEditingItemIndex(null);
       setItemFormVisible(false);
     },
-    [currentValue, renderProps.field],
+    [fields, renderProps.field],
   );
+
   const handleEdit = useCallback(
-    (item: TItem) => {
-      setCurrentEditingItem(item);
+    (index: number) => {
+      setCurrentEditingItemIndex(index);
       setItemFormVisible(true);
     },
-    [setCurrentEditingItem],
+    [setCurrentEditingItemIndex],
   );
+
   const handleRemove = useCallback(
-    (item: TItem) => {
-      renderProps.field.onChange(currentValue.filter((e) => e !== item));
+    (index: number) => {
+      remove(index);
     },
     [renderProps.field],
   );
+
   const handleDismiss = useCallback(() => {
-    setCurrentEditingItem(null);
+    setCurrentEditingItemIndex(null);
     setItemFormVisible(false);
   }, []);
 
@@ -134,25 +143,32 @@ export function FormListComponent<
         {React.createElement(props.renderForm, {
           onSubmit: handleSubmit,
           dismiss: handleDismiss,
-          initialValues: currentEditingItem
-            ? cloneDeep(currentEditingItem)
-            : undefined,
+          initialValues:
+            currentEditingItemIndex != null
+              ? cloneDeep(renderProps.field.value[currentEditingItemIndex])
+              : undefined,
         })}
       </View>
     );
   };
 
-  const renderItemRow = (item: TItem, index: number) => {
-    if (isItemFormVisible && mode === 'inline' && currentEditingItem === item) {
+  const renderItemRow = (item: FieldArrayWithId<TItem>, index: number) => {
+    if (
+      isItemFormVisible &&
+      mode === 'inline' &&
+      currentEditingItemIndex === index
+    ) {
       return renderInlineForm();
     }
     return (
-      <Fragment key={index}>
+      <Fragment key={item.id}>
         {React.createElement(props.renderItem, {
-          item: item,
-          update: (values) => handleUpdate(item, values),
-          edit: () => handleEdit(item),
-          remove: () => handleRemove(item),
+          item: item as any,
+          index: index,
+          itemPath: `${renderProps.field.name}.${index}`,
+          update: (values) => handleUpdate(index, values),
+          edit: () => handleEdit(index),
+          remove: () => handleRemove(index),
         })}
       </Fragment>
     );
@@ -165,13 +181,13 @@ export function FormListComponent<
   }, [isItemFormVisible]);
 
   const canRenderInlineForm =
-    isItemFormVisible && mode === 'inline' && !currentEditingItem;
+    isItemFormVisible && mode === 'inline' && currentEditingItemIndex === null;
 
   return (
     <View style={[styles.container]}>
       <VStack {...listItemContainerProps}>
-        {_.isEmpty(currentValue) && !canRenderInlineForm && placeholder}
-        {currentValue.map(renderItemRow)}
+        {_.isEmpty(fields) && !canRenderInlineForm && placeholder}
+        {fields.map(renderItemRow)}
         {canRenderInlineForm && renderInlineForm()}
       </VStack>
       {(helperText || keepErrorSpace) && showHelper && (
@@ -182,10 +198,7 @@ export function FormListComponent<
         React.createElement(actions, {
           onPress: handleAdd,
           addItem: (item) => {
-            renderProps.field.onChange([
-              ...(renderProps.field.value ?? []),
-              item,
-            ]);
+            append(item as any);
           },
         })
       ) : (
@@ -195,7 +208,11 @@ export function FormListComponent<
         listProps={props}
         onSubmit={handleSubmit}
         visible={mode === 'modal' && isItemFormVisible}
-        initialValues={currentEditingItem}
+        initialValues={
+          currentEditingItemIndex != null
+            ? renderProps.field.value[currentEditingItemIndex]
+            : undefined
+        }
         onDismiss={handleDismiss}
       />
     </View>

@@ -113,16 +113,19 @@ const FormExample = () => {
     defaultValues: {
       // calendar: DEFAULT_DATE[selectionType],
       invites: [{}],
+      'full-inline-impl': [{}],
     },
   });
 
+  const [data, setData] = useState({});
+
   const onSubmit = (data) => {
-    console.log('data', data);
+    setData(data);
   };
 
   return (
-    <Box flex={1}>
-      <ScrollView p={4}>
+    <HStack flex={1}>
+      <ScrollView p={4} flex={1}>
         <Form form={form}>
           {/*todo: controlProps, labelProps, helperProps, inputProps, errorProps*/}
           <FormInput
@@ -328,10 +331,57 @@ const FormExample = () => {
               );
             }}
           />
+          <FormList
+            name={'full-inline-impl'}
+            mode={'inline'}
+            renderItem={(props) => {
+              console.log('indexedPath', props.itemPath);
+              return (
+                <HStack>
+                  <FormInput
+                    name={`${props.itemPath}.title`}
+                    title={'Title'}
+                    rules={{ required: true }}
+                    itemContainerStyle={{
+                      flex: 1,
+                    }}
+                  />
+                  <Button
+                    variant={'link'}
+                    onPress={() => {
+                      props.remove();
+                    }}
+                  >
+                    Remove
+                  </Button>
+                </HStack>
+              );
+            }}
+            showError={false}
+            keepErrorSpace={false}
+            actions={(props) => {
+              return (
+                <HStack mb={4}>
+                  <Button
+                    onPress={() => {
+                      props.addItem({});
+                    }}
+                  >
+                    Add item
+                  </Button>
+                </HStack>
+              );
+            }}
+          />
           <Button onPress={form.handleSubmit(onSubmit)}>Submit</Button>
         </Form>
       </ScrollView>
-    </Box>
+      <ScrollView flex={1}>
+        <Box>
+          <Text>{JSON.stringify(data, null, ' ')}</Text>
+        </Box>
+      </ScrollView>
+    </HStack>
   );
 };
 

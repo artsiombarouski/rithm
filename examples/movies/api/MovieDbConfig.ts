@@ -28,7 +28,6 @@ class ApiTransformer extends ResourceApiDefaultTransformer {
     if (after) {
       result['page'] = after;
     }
-    console.log('result', result);
     return ResourceApiDefaultTransformer.mapToQueryString(result);
   }
 
