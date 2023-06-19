@@ -10,6 +10,7 @@ import {
   FormPasswordInput,
   FormRadioGroup,
   FormSwitch,
+  FormTimePicker,
   FormValues,
   SelectionType,
   useForm,
@@ -143,6 +144,9 @@ const FormExample = () => {
     <HStack flex={1}>
       <ScrollView p={4} flex={1}>
         <VStack flex={1} space={6}>
+          <FormExampleRow title={'Time'}>
+            <FormTimePicker name={'time'} title={'Time'} rules={{ required: true }} />
+          </FormExampleRow>
           <FormExampleRow title={'Input'}>
             <FormInput
               name={'input'}
