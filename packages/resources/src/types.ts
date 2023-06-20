@@ -39,7 +39,10 @@ export interface FindOptions {
 }
 
 export interface ResourceListMeta {
+  page?: number;
   total?: number;
   nextPageToken?: string;
   previousPageToken?: string;
+
+  [key: string]: any;
 }

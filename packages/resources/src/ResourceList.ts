@@ -264,9 +264,8 @@ export class ResourceList<T extends ResourceModel> {
             const total = result.data!.meta.count;
             this.meta = {
               ...this.meta,
+              ...result.data!.meta,
               total: total,
-              nextPageToken: result.data?.meta.nextPageToken,
-              previousPageToken: result.data?.meta.previousPageToken,
             };
             const models = this.modelStore.upsert(result.data!.data);
             if (next) {
