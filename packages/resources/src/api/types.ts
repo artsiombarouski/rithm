@@ -29,9 +29,12 @@ export interface ResourcePage<T> {
 
   meta: {
     count: number;
+    page?: number;
     hasNextPage?: boolean;
     hasPreviousPage?: boolean;
     nextPageToken?: string;
     previousPageToken?: string;
+
+    [key: string]: any;
   };
 }
