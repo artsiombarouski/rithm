@@ -158,7 +158,7 @@ const FormExample = () => {
               rawTextProps={{
                 color: 'purple.600',
               }}
-              labelProps={{
+              titleProps={{
                 _text: {
                   color: isEditing ? 'black' : 'gray.400',
                 },
@@ -177,7 +177,7 @@ const FormExample = () => {
               rawTextProps={{
                 color: 'purple.600',
               }}
-              labelProps={{
+              titleProps={{
                 _text: {
                   color: isEditing ? 'black' : 'gray.400',
                 },

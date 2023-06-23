@@ -10,7 +10,7 @@ export const FormTitle = (props: FormTitleProps) => {
     tooltipIcon,
     rightLabel,
     onRightLabelPress,
-    labelProps,
+    titleProps,
   } = props || {};
 
   const onPress = useCallback(() => {
@@ -21,7 +21,7 @@ export const FormTitle = (props: FormTitleProps) => {
       tooltipText ? (
         <Tooltip placement={'top'} label={tooltipText}>
           <Flex flexDirection={'row'} alignItems={'center'}>
-            <FormControl.Label {...labelProps}>{title}</FormControl.Label>
+            <FormControl.Label {...titleProps}>{title}</FormControl.Label>
             {tooltipIcon ? (
               tooltipIcon
             ) : (
@@ -30,9 +30,9 @@ export const FormTitle = (props: FormTitleProps) => {
           </Flex>
         </Tooltip>
       ) : (
-        <FormControl.Label {...labelProps}>{title}</FormControl.Label>
+        <FormControl.Label {...titleProps}>{title}</FormControl.Label>
       ),
-    [tooltipText, title, labelProps],
+    [tooltipText, title, titleProps],
   );
 
   const RightContent = useMemo(
@@ -55,7 +55,7 @@ export const FormTitle = (props: FormTitleProps) => {
       ) : (
         <></>
       ),
-    [rightLabel, onPress, labelProps],
+    [rightLabel, onPress],
   );
 
   return (

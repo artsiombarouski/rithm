@@ -20,7 +20,7 @@ export type FormTitleProps = {
   tooltipIcon?: ReactNode;
   rightLabel?: string | ReactNode;
   onRightLabelPress?: () => void;
-  labelProps?: IFormControlLabelProps;
+  titleProps?: IFormControlLabelProps;
 };
 
 export type FormItemProps<T extends FormValues = FormValues> = {
