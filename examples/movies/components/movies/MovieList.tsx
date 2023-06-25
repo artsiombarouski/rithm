@@ -1,23 +1,14 @@
 import React from 'react';
-import {
-  ActivityIndicator,
-  Button,
-  FlatList,
-  Image,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { ActivityIndicator, Button, FlatList, View } from 'react-native';
 import { useService } from '@artsiombarouski/rn-services';
 import { useResourceList } from '@artsiombarouski/rn-resources';
 import { observer } from 'mobx-react-lite';
-import { MovieDiscoverService } from '../api/movies/MovieDiscover.service';
-import { MovieModel } from '../api/movies/Movie.model';
-import { MovieActions } from '../api/movies/Movie.actions';
+import { MovieItem } from './MovieItem';
+import { MovieDiscoverService } from '../../api/movies/MovieDiscover.service';
+import { MovieModel } from '../../api/movies/Movie.model';
 
 export const MovieList = observer(() => {
   const movieResource = useService(MovieDiscoverService);
-  const movieActions = useService(MovieActions);
   const movieList = useResourceList<MovieModel>(movieResource, {
     query: {
       sort_by: 'popularity.desc',
@@ -51,7 +42,7 @@ export const MovieList = observer(() => {
       style={{ flex: 1 }}
       numColumns={4}
       onEndReached={() => {
-        console.log('onEndReached');
+        movieList.next();
       }}
       ListFooterComponent={
         movieList.isLoading
@@ -61,25 +52,7 @@ export const MovieList = observer(() => {
           : undefined
       }
       renderItem={({ item }) => {
-        return (
-          <TouchableOpacity
-            style={{ flex: 1 }}
-            onPress={() => {
-              movieActions.onMovieClicked(item.id);
-            }}
-          >
-            <Image
-              style={{ flex: 1, aspectRatio: 2 / 3 }}
-              source={{ uri: item.posterUrl }}
-            />
-            <Text
-              style={{ fontSize: 16, fontWeight: '600', minHeight: 40 }}
-              numberOfLines={2}
-            >
-              {item.title ?? ''}
-            </Text>
-          </TouchableOpacity>
-        );
+        return <MovieItem data={item} />;
       }}
     />
   );

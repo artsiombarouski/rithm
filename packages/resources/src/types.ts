@@ -41,6 +41,7 @@ export interface FindOptions {
 export interface ResourceListMeta {
   page?: number;
   total?: number;
+  totalPages?: number;
   nextPageToken?: string;
   previousPageToken?: string;
 

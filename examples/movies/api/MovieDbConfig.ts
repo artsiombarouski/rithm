@@ -21,12 +21,14 @@ class ApiTransformer extends ResourceApiDefaultTransformer {
   transformQuery(
     query?: ResourceQuery & ResourceListQuery,
   ): string | undefined {
-    const { after, ...restQuery } = query ?? {};
+    const { after, before, ...restQuery } = query ?? {};
     const result = {
       ...restQuery,
     };
     if (after) {
       result['page'] = after;
+    } else if (before) {
+      result['page'] = before;
     }
     return ResourceApiDefaultTransformer.mapToQueryString(result);
   }
@@ -35,13 +37,16 @@ class ApiTransformer extends ResourceApiDefaultTransformer {
     response: AxiosResponse,
   ): Promise<ResourcePage<T>> | ResourcePage<T> {
     const { page, results, total_pages, total_results } = response.data;
+    const totalPages = Math.min(500, total_pages); // movies db
     return {
       data: results,
       meta: {
+        page: page,
         count: total_results,
-        hasNextPage: page < total_pages,
+        totalPages: totalPages,
+        hasNextPage: page < totalPages,
         hasPreviousPage: page > 1,
-        nextPageToken: page < total_pages ? `${page + 1}` : undefined,
+        nextPageToken: page < totalPages ? `${page + 1}` : undefined,
         previousPageToken: page > 1 ? `${page - 1}` : undefined,
       },
     };

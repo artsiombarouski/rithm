@@ -1,11 +1,11 @@
 import React from 'react';
 import { View } from 'react-native';
-import { MovieList } from '../../components/movies/MovieList';
+import { MoviePagingList } from '../../components/movies/MoviePagingList';
 
 const Movie = () => {
   return (
     <View style={{ flex: 1 }}>
-      <MovieList />
+      <MoviePagingList />
     </View>
   );
 };
