@@ -12,6 +12,7 @@ import {
   Text,
   useTheme,
 } from 'native-base';
+import { IHStackProps } from 'native-base/lib/typescript/components/primitives/Stack/HStack';
 
 export type PaginationProps = Pick<IButtonProps, 'size'> & {
   onNext?: () => void;
@@ -24,6 +25,7 @@ export type PaginationProps = Pick<IButtonProps, 'size'> & {
   arrowProps?: IIconButtonProps;
   pageProps?: IButtonProps;
   selectedPageProps?: IButtonProps;
+  wrapperProps?: IHStackProps;
 };
 
 export const Pagination = (props: PaginationProps) => {
@@ -39,6 +41,7 @@ export const Pagination = (props: PaginationProps) => {
     pageProps,
     selectedPageProps,
     size = 8,
+    wrapperProps,
   } = props;
   const theme = useTheme();
   const targetArrowProps: IIconButtonProps = {
@@ -53,7 +56,7 @@ export const Pagination = (props: PaginationProps) => {
   const targetPageProps: IButtonProps = {
     size: 'sm',
     variant: 'outline',
-    p: 2,
+    p: 1,
     h: size,
     minW: size,
     ...pageProps,
@@ -95,8 +98,8 @@ export const Pagination = (props: PaginationProps) => {
     );
   };
 
-  const pagesToRender = [];
   const maxPages = 10;
+  const pagesToRender = [];
 
   if (onPage && currentPage && totalPages) {
     if (totalPages <= maxPages) {
@@ -136,7 +139,7 @@ export const Pagination = (props: PaginationProps) => {
   }
 
   return (
-    <HStack alignItems={'center'} space={3} p={1}>
+    <HStack alignItems={'center'} space={3} p={1} {...wrapperProps}>
       <IconButton
         icon={<ChevronLeftIcon />}
         onPress={onPrevious}

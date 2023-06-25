@@ -31,6 +31,24 @@ const Components = () => {
         hasNext={currentPage < totalPages}
         hasPrevious={currentPage > 1}
       />
+      <Pagination
+        totalPages={totalPages}
+        currentPage={currentPage}
+        onPage={(page) => {
+          setCurrentPage(page);
+        }}
+        onNext={() => {
+          setCurrentPage(currentPage + 1);
+        }}
+        onPrevious={() => {
+          setCurrentPage(currentPage - 1);
+        }}
+        hasNext={currentPage < totalPages}
+        hasPrevious={currentPage > 1}
+        wrapperProps={{
+          alignSelf: 'flex-end',
+        }}
+      />
     </VStack>
   );
 };
