@@ -4,19 +4,24 @@ import { Flex, FormControl, Spacer, Tooltip, Button, Icon } from 'native-base';
 import React, { useCallback, useMemo } from 'react';
 
 export const FormTitle = (props: FormTitleProps) => {
-  const { title, tooltipText, tooltipIcon, rightLabel, onRightLabelPress } =
-    props || {};
+  const {
+    title,
+    tooltipText,
+    tooltipIcon,
+    rightLabel,
+    onRightLabelPress,
+    titleProps,
+  } = props || {};
 
   const onPress = useCallback(() => {
     onRightLabelPress?.();
   }, [onRightLabelPress]);
-
   const LeftContent = useMemo(
     () =>
       tooltipText ? (
         <Tooltip placement={'top'} label={tooltipText}>
           <Flex flexDirection={'row'} alignItems={'center'}>
-            <FormControl.Label>{title}</FormControl.Label>
+            <FormControl.Label {...titleProps}>{title}</FormControl.Label>
             {tooltipIcon ? (
               tooltipIcon
             ) : (
@@ -25,9 +30,9 @@ export const FormTitle = (props: FormTitleProps) => {
           </Flex>
         </Tooltip>
       ) : (
-        <FormControl.Label>{title}</FormControl.Label>
+        <FormControl.Label {...titleProps}>{title}</FormControl.Label>
       ),
-    [tooltipText, title],
+    [tooltipText, title, titleProps],
   );
 
   const RightContent = useMemo(

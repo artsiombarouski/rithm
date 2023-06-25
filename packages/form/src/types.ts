@@ -1,3 +1,4 @@
+import { IFormControlLabelProps } from 'native-base/lib/typescript/components/composites/FormControl/types';
 import { ReactNode } from 'react';
 import {
   ControllerFieldState,
@@ -19,6 +20,7 @@ export type FormTitleProps = {
   tooltipIcon?: ReactNode;
   rightLabel?: string | ReactNode;
   onRightLabelPress?: () => void;
+  titleProps?: IFormControlLabelProps;
 };
 
 export type FormItemProps<T extends FormValues = FormValues> = {

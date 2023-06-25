@@ -29,8 +29,8 @@ import {
   VStack,
 } from 'native-base';
 import React, { PropsWithChildren, useEffect, useState } from 'react';
-import { View } from 'react-native';
 import { UseFormProps } from 'react-hook-form';
+import { View } from 'react-native';
 
 type FormItemDto = {
   item_input: string;
@@ -140,10 +140,53 @@ const FormExample = () => {
 
   const [mode, setMode] = useState<'single' | 'dual'>('single'); //todo
 
+  const [isEditing, setIsEditing] = useState(false);
   return (
     <HStack flex={1}>
       <ScrollView p={4} flex={1}>
         <VStack flex={1} space={6}>
+          <FormExampleRow title={'Input with two states'}>
+            <FormInput
+              name={'input-raw'}
+              title={'Input'}
+              rightLabel={'Right label'}
+              onRightLabelPress={() => {
+                console.log('on right label click');
+              }}
+              rules={{ required: true }}
+              isRawText={!isEditing}
+              rawTextProps={{
+                color: 'purple.600',
+              }}
+              titleProps={{
+                _text: {
+                  color: isEditing ? 'black' : 'gray.400',
+                },
+              }}
+            />
+            <FormDropDown
+              name={'dropdown-raw'}
+              title={'DropDown'}
+              size={'lg'}
+              options={new Array(100).fill(null).map((_, index) => {
+                return { key: `key${index}`, label: `Key ${index}` };
+              })}
+              rules={{ required: true }}
+              useAnchorSize={true}
+              isRawText={!isEditing}
+              rawTextProps={{
+                color: 'purple.600',
+              }}
+              titleProps={{
+                _text: {
+                  color: isEditing ? 'black' : 'gray.400',
+                },
+              }}
+            />
+            <Button onPress={() => setIsEditing(!isEditing)}>
+              {isEditing ? 'Cancel' : 'Edit'}
+            </Button>
+          </FormExampleRow>
           <FormExampleRow
             title={'Time'}
             formProps={{

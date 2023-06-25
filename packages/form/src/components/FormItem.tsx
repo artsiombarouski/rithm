@@ -31,6 +31,7 @@ export function FormItem<ElementProps = any>(
     render,
     showHelper = true,
     showError = true,
+    titleProps,
     ...restProps
   } = props;
 
@@ -49,6 +50,7 @@ export function FormItem<ElementProps = any>(
             tooltipIcon={tooltipIcon}
             rightLabel={rightLabel}
             onRightLabelPress={onRightLabelPress}
+            titleProps={titleProps}
           />
         )}
         {render(restProps as any, renderProps)}

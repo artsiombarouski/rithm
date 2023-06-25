@@ -1,6 +1,5 @@
 import { Heading, VStack } from 'native-base';
-import { Avatar } from '@artsiombarouski/rn-components';
-import { Pagination } from '@artsiombarouski/rn-components/src/pagination';
+import { Avatar, Pagination } from '@artsiombarouski/rn-components';
 import { useState } from 'react';
 
 const Components = () => {
