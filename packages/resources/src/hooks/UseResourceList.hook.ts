@@ -30,7 +30,7 @@ export function useResourceList<
       setList(listInstance);
     }
     if (autoInit && !listInstance.isInitialLoaded) {
-      listInstance.fetch().then((result) => {
+      listInstance.fetch().then(() => {
         //ignore
       });
     }

@@ -1,7 +1,10 @@
 import { Heading, VStack } from 'native-base';
-import { Avatar } from '@artsiombarouski/rn-components';
+import { Avatar, Pagination } from '@artsiombarouski/rn-components';
+import { useState } from 'react';
 
 const Components = () => {
+  const totalPages = 50;
+  const [currentPage, setCurrentPage] = useState(1);
   return (
     <VStack flex={1} p={6} space={'xs'}>
       <Heading size={'sm'}>Common avatar</Heading>
@@ -13,6 +16,21 @@ const Components = () => {
       />
       <Heading size={'sm'}>No Image</Heading>
       <Avatar text={'Artsiom Barouski'} size={96} />
+      <Pagination
+        totalPages={totalPages}
+        currentPage={currentPage}
+        onPage={(page) => {
+          setCurrentPage(page);
+        }}
+        onNext={() => {
+          setCurrentPage(currentPage + 1);
+        }}
+        onPrevious={() => {
+          setCurrentPage(currentPage - 1);
+        }}
+        hasNext={currentPage < totalPages}
+        hasPrevious={currentPage > 1}
+      />
     </VStack>
   );
 };

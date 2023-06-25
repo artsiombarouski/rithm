@@ -46,14 +46,10 @@ export class ResourceList<T extends ResourceModel> {
     return list;
   }
 
-  api: ResourceApi<T>;
-  modelStore: ResourceModelStore<T>;
-  permanentQuery: ResourceListQuery;
-
-  @observable
-  models: IObservableArray<T> = [] as any;
   @observable
   meta: ResourceListMeta = {};
+  @observable
+  models: IObservableArray<T> = [] as any;
   @observable
   isFetching: boolean = false;
   @observable
@@ -64,18 +60,16 @@ export class ResourceList<T extends ResourceModel> {
   query: ResourceListQuery | undefined;
   @observable
   error: ResourceApiError | null | undefined;
+  @observable
+  currentFetchQuery: ResourceListQuery | undefined;
 
   private currentRequest: CancellablePromise | undefined;
 
   constructor(
-    api: ResourceApi<T>,
-    modelStore: ResourceModelStore<T>,
-    permanentQuery: ResourceListQuery = {},
+    readonly api: ResourceApi<T>,
+    readonly modelStore: ResourceModelStore<T>,
+    readonly permanentQuery: ResourceListQuery = {},
   ) {
-    this.api = api;
-    this.modelStore = modelStore;
-    this.permanentQuery = permanentQuery;
-
     makeObservable(this);
 
     // In case when resource was deleted, we should also delete it from list
@@ -136,6 +130,11 @@ export class ResourceList<T extends ResourceModel> {
   }
 
   @computed
+  get hasPrevious() {
+    return !isUndefined(this.meta?.previousPageToken);
+  }
+
+  @computed
   get data(): T[] {
     return this.models.slice();
   }
@@ -148,77 +147,6 @@ export class ResourceList<T extends ResourceModel> {
   @action
   clear() {
     this.models.clear();
-  }
-
-  @action
-  setQuery(query?: ResourceListQuery) {
-    if (!deepEqual(query, this.query)) {
-      this.query = query;
-      this.reset();
-    }
-  }
-
-  @action.bound
-  async changeQuery(query?: ResourceListQuery) {
-    this.setQuery(query);
-    return this.fetch();
-  }
-
-  @action.bound
-  async refresh() {
-    if (this.isManualRefresh) {
-      return false;
-    }
-    return this.fetch(false, true);
-  }
-
-  @action.bound
-  async next() {
-    if (this.hasNext) {
-      return this.fetch(true);
-    }
-    return false;
-  }
-
-  @action
-  reset() {
-    this.cancelCurrentRequest();
-    this.clear();
-  }
-
-  @action
-  cancelCurrentRequest() {
-    this.isFetching = false;
-    this.isManualRefresh = false;
-    this.currentRequest?.cancel();
-    this.currentRequest = undefined;
-  }
-
-  @action.bound
-  // @ts-ignore
-  async fetch(
-    next = false,
-    isManualRefresh = false,
-  ): // @ts-ignore
-  CancellablePromise<
-    (ResourceApiResponse<T> & { data: { models: T[] } }) | boolean
-  > {
-    if (this.isFetching) {
-      return false;
-    }
-    if (next && !this.hasNext) {
-      return false;
-    }
-    this.cancelCurrentRequest();
-    runInAction(() => {
-      this.error = null;
-      this.isFetching = true;
-      this.isInitialLoaded = true;
-      this.isManualRefresh = isManualRefresh;
-    });
-    return (this.currentRequest = createCancellablePromise<any>(
-      this._performFetch(next),
-    ));
   }
 
   @action
@@ -243,15 +171,176 @@ export class ResourceList<T extends ResourceModel> {
     return this.data.find(predicate);
   }
 
-  _performFetch(next: boolean = false) {
+  @action
+  setQuery(query?: ResourceListQuery) {
+    if (!deepEqual(query, this.query)) {
+      this.query = query;
+      this.reset();
+    }
+  }
+
+  @action.bound
+  async changeQuery(query?: ResourceListQuery) {
+    this.setQuery(query);
+    return this.fetch({ replaceData: true });
+  }
+
+  @action.bound
+  async refresh() {
+    if (this.isManualRefresh) {
+      return false;
+    }
+    return this.fetch({
+      replaceData: true,
+      isManualRefresh: true,
+    });
+  }
+
+  @action.bound
+  async next(replaceData: boolean = false) {
+    if (this.hasNext) {
+      return this.fetch({ next: true, replaceData: replaceData });
+    }
+    return false;
+  }
+
+  @action.bound
+  async previous(replaceData: boolean = false) {
+    if (this.hasPrevious) {
+      return this.fetch({ previous: true, replaceData: replaceData });
+    }
+    return false;
+  }
+
+  @action.bound
+  async nextPage() {
+    if (this.hasNext) {
+      return this.next(true);
+    }
+    return false;
+  }
+
+  @action.bound
+  async goToPage(page: string | number) {
+    return this.fetch({ after: page.toString(), replaceData: true });
+  }
+
+  @action.bound
+  async previousPage() {
+    if (this.hasPrevious) {
+      return this.previous(true);
+    }
+    return false;
+  }
+
+  @computed
+  get totalPages(): number | undefined {
+    return this.meta.totalPages;
+  }
+
+  @computed
+  get currentPage(): number | undefined {
+    try {
+      if (this.currentFetchQuery?.after) {
+        return parseInt(this.currentFetchQuery.after);
+      }
+      if (this.currentFetchQuery?.before) {
+        return parseInt(this.currentFetchQuery.before);
+      }
+      return this.meta.page;
+    } catch (e) {
+      return undefined;
+    }
+  }
+
+  @action
+  reset() {
+    this.cancelCurrentRequest();
+    this.clear();
+  }
+
+  @action
+  cancelCurrentRequest() {
+    this.isFetching = false;
+    this.isManualRefresh = false;
+    this.currentRequest?.cancel();
+    this.currentRequest = undefined;
+  }
+
+  @action.bound
+  async fetch(
+    options: {
+      next?: boolean;
+      previous?: boolean;
+      replaceData?: boolean;
+      isManualRefresh?: boolean;
+    } & ResourceListQuery = {},
+  ): // @ts-ignore
+  CancellablePromise<
+    (ResourceApiResponse<T> & { data: { models: T[] } }) | boolean
+  > {
+    const {
+      next = false,
+      previous = false,
+      replaceData = true,
+      isManualRefresh = false,
+      ...restQuery
+    } = options ?? {};
+    if (this.isFetching) {
+      return false;
+    }
+    if (next && !this.hasNext) {
+      return false;
+    }
+    if (previous && !this.hasPrevious) {
+      return false;
+    }
+    this.cancelCurrentRequest();
+    runInAction(() => {
+      this.error = null;
+      this.isFetching = true;
+      this.isInitialLoaded = true;
+      this.isManualRefresh = isManualRefresh;
+    });
+    return (this.currentRequest = createCancellablePromise<any>(
+      this._performFetch({
+        next,
+        previous,
+        replaceData,
+        ...restQuery,
+      }),
+    ));
+  }
+
+  _performFetch(
+    options: {
+      next?: boolean;
+      previous?: boolean;
+      replaceData?: boolean;
+    } & ResourceListQuery,
+  ) {
+    const {
+      next = false,
+      previous = false,
+      replaceData = false,
+      ...restQuery
+    } = options;
     return async (cancelState: CancelState) => {
-      const limit = this.permanentQuery.limit ?? 20;
-      const result: ResourceApiResponse<ResourcePage<T>> = await this.api.list({
+      const limit = this.query?.limit ?? this.permanentQuery.limit ?? 20;
+      const fetchQuery: ResourceListQuery = {
         ...this.permanentQuery,
-        ...this.query,
         limit: limit,
         after: next ? this.meta.nextPageToken : undefined,
+        before: previous ? this.meta.previousPageToken : undefined,
+        ...this.query,
+        ...restQuery,
+      };
+      runInAction(() => {
+        this.currentFetchQuery = fetchQuery;
       });
+      const result: ResourceApiResponse<ResourcePage<T>> = await this.api.list(
+        fetchQuery,
+      );
       return runInAction(() => {
         if (cancelState.isCanceled) {
           return;
@@ -261,26 +350,28 @@ export class ResourceList<T extends ResourceModel> {
             this.error = result.error;
             return result;
           } else {
-            const total = result.data!.meta.count;
+            const resultData = result.data!;
+            const total = resultData.meta.count;
             this.meta = {
               ...this.meta,
-              ...result.data!.meta,
+              ...resultData.meta,
               total: total,
             };
-            const models = this.modelStore.upsert(result.data!.data);
-            if (next) {
-              this.models.push(...models);
-            } else {
+            const models = this.modelStore.upsert(resultData.data);
+            if (replaceData) {
               this.models.replace(models);
+            } else {
+              this.models.push(...models);
             }
             return new ResourceApiResponse({
-              ...result.data,
+              ...resultData,
               models: this.models,
             });
           }
         } finally {
           this.isFetching = false;
           this.isManualRefresh = false;
+          this.currentFetchQuery = undefined;
         }
       });
     };

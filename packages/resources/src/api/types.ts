@@ -19,8 +19,8 @@ export enum ResourcePgMode {
 export interface ResourceListQuery extends ResourceQuery {
   limit?: number;
   offset?: number;
-  before?: string;
   after?: string;
+  before?: string;
   pg_mode?: ResourcePgMode;
 }
 
@@ -30,6 +30,7 @@ export interface ResourcePage<T> {
   meta: {
     count: number;
     page?: number;
+    totalPages?: number;
     hasNextPage?: boolean;
     hasPreviousPage?: boolean;
     nextPageToken?: string;

@@ -38,11 +38,11 @@ const UserView = observer(() => {
     >
       <Avatar.Text
         size={32}
-        label={currentUser.info.email.substring(0, 2)}
+        label={currentUser.info?.email.substring(0, 2)}
         style={{ marginRight: 16 }}
       />
       <Text variant={'titleMedium'} style={{ flex: 1 }}>
-        {currentUser.info.email}
+        {currentUser.info?.email}
       </Text>
       <Menu
         visible={isMenuVisible}
@@ -73,11 +73,11 @@ const UserView = observer(() => {
                 >
                   <Avatar.Text
                     size={32}
-                    label={user.info.email.substring(0, 2)}
+                    label={user.info?.email.substring(0, 2)}
                     style={{ marginRight: 8 }}
                   />
                   <Text variant={'titleMedium'} style={{ flex: 1 }}>
-                    {user.info.email}
+                    {user.info?.email}
                   </Text>
                 </View>
               }
