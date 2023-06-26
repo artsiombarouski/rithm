@@ -13,6 +13,7 @@ import { IHStackProps } from 'native-base/lib/typescript/components/primitives/S
 import { IVStackProps } from 'native-base/lib/typescript/components/primitives/Stack/VStack';
 import { useEffect, useRef, useState } from 'react';
 import { LayoutChangeEvent } from 'react-native';
+import _ from 'lodash';
 
 export type TableHeaderProps<TItem> = IHStackProps & {
   columns: TableColumn<TItem>[];
@@ -86,7 +87,11 @@ export function Table<TItem>(props: TableProps<TItem>) {
     const { key, render, flex, width } = column;
     return (
       <Box flex={flex} alignItems={'stretch'} width={width}>
-        {render ? render(item) : <Text>{item[key]?.toString() ?? '-'}</Text>}
+        {render ? (
+          render(item)
+        ) : (
+          <Text>{_.get(item, key.split('.'))?.toString() ?? '-'}</Text>
+        )}
       </Box>
     );
   };

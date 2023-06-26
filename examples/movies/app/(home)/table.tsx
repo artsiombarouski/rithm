@@ -20,6 +20,11 @@ const TablePage = () => {
             flex: 1,
           },
           {
+            key: 'inner.title',
+            title: 'Inner Title',
+            flex: 1,
+          },
+          {
             key: 'actions',
             title: () => <Box width={4} />,
             render: () => <ChevronRightIcon />,
@@ -28,6 +33,9 @@ const TablePage = () => {
         data={[...Array(20).keys()].map((key) => ({
           id: `i${key + currentPage * 10}`,
           title: `Title of I${key + currentPage * 10}`,
+          inner: {
+            title: `Inner ${key + currentPage * 10}`,
+          },
         }))}
         flex={1}
         overflow={'hidden'}
