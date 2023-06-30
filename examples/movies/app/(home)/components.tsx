@@ -1,19 +1,102 @@
-import { Heading, VStack } from 'native-base';
-import { Avatar } from '@artsiombarouski/rn-components';
+import { Avatar, ModalDialog } from '@artsiombarouski/rn-components';
+import { Button, Column, Heading, ScrollView } from 'native-base';
+import { Divider } from 'react-native-paper';
 
 const Components = () => {
   return (
-    <VStack flex={1} p={6} space={'xs'}>
-      <Heading size={'sm'}>Common avatar</Heading>
-      <Avatar
-        image={
-          'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww&w=1000&q=80'
-        }
-        size={96}
-      />
-      <Heading size={'sm'}>No Image</Heading>
-      <Avatar text={'Artsiom Barouski'} size={96} />
-    </VStack>
+    <ScrollView flex={1}>
+      <Column space={'xs'} p={6} maxW={500}>
+        <Heading size={'sm'}>Common avatar</Heading>
+        <Avatar
+          image={
+            'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww&w=1000&q=80'
+          }
+          size={96}
+        />
+        <Heading size={'sm'}>No Image</Heading>
+        <Avatar text={'Artsiom Barouski'} size={96} />
+        <Divider />
+        <Heading>Modal</Heading>
+        <Heading size={'sm'}>Modal</Heading>
+        <Button
+          onPress={() => {
+            ModalDialog.show({
+              title: 'Show something in logs?',
+              onOk: () => {
+                console.log('something...');
+                return true;
+              },
+            });
+          }}
+        >
+          Show
+        </Button>
+        <Heading size={'sm'}>Modal with Promise</Heading>
+        <Button
+          onPress={() => {
+            ModalDialog.showAsPromise({
+              title: 'Delete Record?',
+              okTitle: 'Yes, Delete',
+              cancelTitle: 'Cancel',
+              action: () => {
+                return new Promise((resolve) =>
+                  setTimeout(() => resolve(true), 1000),
+                );
+              },
+            }).then((deleted) => {
+              if (deleted) {
+                console.log('Record deleted!');
+              } else {
+                console.log('Delete cancelled!');
+              }
+            });
+          }}
+        >
+          Show As Promise
+        </Button>
+        <Divider />
+        <Heading>Alert</Heading>
+        <Heading size={'sm'}>Alert</Heading>
+        <Button
+          onPress={() => {
+            ModalDialog.show({
+              alert: true,
+              title: 'Show something in logs?',
+              onOk: () => {
+                console.log('something...');
+                return true;
+              },
+            });
+          }}
+        >
+          Show
+        </Button>
+        <Heading size={'sm'}>Alert with Promise</Heading>
+        <Button
+          onPress={() => {
+            ModalDialog.showAsPromise({
+              alert: true,
+              title: 'Delete Record?',
+              okTitle: 'Yes, Delete',
+              cancelTitle: 'Cancel',
+              action: () => {
+                return new Promise((resolve) =>
+                  setTimeout(() => resolve(true), 1000),
+                );
+              },
+            }).then((deleted) => {
+              if (deleted) {
+                console.log('Record deleted!');
+              } else {
+                console.log('Delete cancelled!');
+              }
+            });
+          }}
+        >
+          Show As Promise
+        </Button>
+      </Column>
+    </ScrollView>
   );
 };
 

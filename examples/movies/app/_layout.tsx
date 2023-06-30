@@ -1,5 +1,6 @@
 import { rootServices, scopedServices } from '../services/Services';
 import { useUsers } from '../services/utils';
+import { ModalDialogProvider } from '@artsiombarouski/rn-components';
 import {
   NavigationServiceWrapper,
   useRouteGuard,
@@ -81,19 +82,21 @@ const RootLayout = () => {
   const [servicesContainer] = useState(rootServices());
   return (
     <PaperProvider theme={DefaultTheme}>
-      <NativeBaseProvider theme={theme}>
-        <ServiceContainerBootstrap container={servicesContainer}>
-          <ScopedLayout>
-            <NavigationServiceWrapper>
-              <Stack
-                screenOptions={{
-                  headerShown: false,
-                }}
-              />
-            </NavigationServiceWrapper>
-          </ScopedLayout>
-        </ServiceContainerBootstrap>
-      </NativeBaseProvider>
+      <ServiceContainerBootstrap container={servicesContainer}>
+        <ScopedLayout>
+          <NavigationServiceWrapper>
+            <NativeBaseProvider theme={theme}>
+              <ModalDialogProvider>
+                <Stack
+                  screenOptions={{
+                    headerShown: false,
+                  }}
+                />
+              </ModalDialogProvider>
+            </NativeBaseProvider>
+          </NavigationServiceWrapper>
+        </ScopedLayout>
+      </ServiceContainerBootstrap>
     </PaperProvider>
   );
 };
