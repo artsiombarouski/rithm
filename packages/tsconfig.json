@@ -18,9 +18,6 @@
     },
     {
       "path": "./user-store-service/tsconfig.json"
-    },
-    {
-      "path": "./utils/tsconfig.json"
     }
   ]
 }

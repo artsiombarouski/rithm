@@ -52,8 +52,7 @@
     "packages/analytics",
     "packages/resources",
     "packages/user-store-service",
-    "packages/expo-router-service",
-    "packages/utils"
+    "packages/expo-router-service"
   ],
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
