@@ -7,4 +7,4 @@ export * from './FormList';
 export * from './FormCalendar';
 export * from './FormPasswordInput';
 export * from './FormTimePicker';
-
+export * from './FormNumericInput';

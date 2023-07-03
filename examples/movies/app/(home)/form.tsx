@@ -7,6 +7,7 @@ import {
   FormInput,
   FormList,
   FormListItemRenderProps,
+  FormNumericInput,
   FormPasswordInput,
   FormRadioGroup,
   FormSwitch,
@@ -145,6 +146,9 @@ const FormExample = () => {
     <HStack flex={1}>
       <ScrollView p={4} flex={1}>
         <VStack flex={1} space={6}>
+          <FormExampleRow title={'Numeric input'}>
+            <FormNumericInput name={'input-numeric'} title={'Numeric input'} />
+          </FormExampleRow>
           <FormExampleRow title={'Input with two states'}>
             <FormInput
               name={'input-raw'}
