@@ -16,7 +16,14 @@ export function FormList<
   TItem extends FormValues = FormValues,
   TFormValues extends FormValues = FormValues,
 >(props: FormListProps<TItem, TFormValues>) {
-  const { showHelper, showError, keepErrorSpace, helperText } = props;
+  const {
+    showHelper,
+    showError,
+    keepErrorSpace,
+    helperText,
+    helperProps,
+    errorProps,
+  } = props;
   const renderList = (
     props: FormListComponentProps<TItem, TFormValues>,
     renderProps: FormElementRenderProps<TFormValues>,
@@ -25,7 +32,14 @@ export function FormList<
       <FormListComponent
         {...props}
         renderProps={renderProps}
-        {...{ showHelper, showError, keepErrorSpace, helperText }}
+        {...{
+          showHelper,
+          showError,
+          keepErrorSpace,
+          helperText,
+          helperProps,
+          errorProps,
+        }}
       />
     );
   };
