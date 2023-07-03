@@ -1,18 +1,21 @@
-import { FormControl } from 'native-base';
+import { FormControl, IFormControlHelperTextProps } from 'native-base';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 
 export type FormHelperProps = {
   helperText?: string;
+  helperProps?: IFormControlHelperTextProps;
 };
 
 export const FormHelper = (props: FormHelperProps) => {
+  const { helperText, ...restProps } = props || {};
   return (
     <FormControl.HelperText
       opacity={props?.helperText ? 1 : 0}
       _invalid={styles.invalid}
+      {...restProps}
     >
-      {props?.helperText ?? 'Invisible text'}
+      {helperText ?? 'Invisible text'}
     </FormControl.HelperText>
   );
 };

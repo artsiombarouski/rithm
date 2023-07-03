@@ -21,6 +21,8 @@ export function FormItem<ElementProps = any>(
     name,
     title,
     helperText,
+    helperProps,
+    errorProps,
     tooltipText,
     tooltipIcon,
     rightLabel,
@@ -55,9 +57,11 @@ export function FormItem<ElementProps = any>(
         )}
         {render(restProps as any, renderProps)}
         {(helperText || keepErrorSpace) && showHelper && (
-          <FormHelper helperText={helperText} />
+          <FormHelper helperText={helperText} {...helperProps} />
         )}
-        {showError && <FormError error={renderProps.fieldState?.error} />}
+        {showError && (
+          <FormError error={renderProps.fieldState?.error} {...errorProps} />
+        )}
       </FormControl>
     );
   };

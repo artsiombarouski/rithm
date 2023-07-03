@@ -1,3 +1,5 @@
+import { FormErrorProps } from './components';
+import { FormHelperProps } from './components/FormHelper';
 import { IFormControlLabelProps } from 'native-base/lib/typescript/components/composites/FormControl/types';
 import { ReactNode } from 'react';
 import {
@@ -27,11 +29,12 @@ export type FormItemProps<T extends FormValues = FormValues> = {
   name: Path<T>;
   rules?: ControllerProps['rules'];
   itemContainerStyle?: StyleProp<ViewStyle>;
-  helperText?: string;
   keepErrorSpace?: boolean;
   showHelper?: boolean;
   showError?: boolean;
-} & FormTitleProps;
+} & FormTitleProps &
+  FormHelperProps &
+  Omit<FormErrorProps, 'error'>;
 
 export type FormInstance<TFieldValues extends FormValues = FormValues> =
   UseFormReturn<TFieldValues>;

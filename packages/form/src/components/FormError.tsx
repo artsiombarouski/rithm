@@ -1,15 +1,16 @@
-import { FormControl } from 'native-base';
+import { FormControl, IFormControlErrorMessageProps } from 'native-base';
 import { FieldError } from 'react-hook-form';
 
 export type FormErrorProps = {
   error?: FieldError;
+  errorProps?: IFormControlErrorMessageProps;
 };
 
 export function FormError(props: FormErrorProps) {
-  const { error } = props || {};
+  const { error, ...restProps } = props || {};
   //todo: add theme
   return (
-    <FormControl.ErrorMessage>
+    <FormControl.ErrorMessage {...restProps}>
       {error
         ? error.message
           ? error.message

@@ -1,6 +1,6 @@
 import { FormElementRenderProps, FormValues } from '../../types';
-import { FormError } from '../FormError';
-import { FormHelper } from '../FormHelper';
+import { FormError, FormErrorProps } from '../FormError';
+import { FormHelper, FormHelperProps } from '../FormHelper';
 import { FormListDialog } from './FormListDialog';
 import _, { cloneDeep } from 'lodash';
 import { Button, VStack } from 'native-base';
@@ -12,8 +12,8 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { StyleSheet, View } from 'react-native';
 import { FieldArrayWithId, useFieldArray } from 'react-hook-form';
+import { StyleSheet, View } from 'react-native';
 
 export type FormListItemRenderProps<TItem extends FormValues = FormValues> = {
   item: TItem;
@@ -54,11 +54,11 @@ export type FormListComponentProps<
   ) => React.ReactElement;
   renderProps: FormElementRenderProps<TFormValues>;
   listItemContainerProps?: IVStackProps;
-  helperText?: string;
   keepErrorSpace?: boolean;
   showHelper?: boolean;
   showError?: boolean;
-};
+} & FormHelperProps &
+  Omit<FormErrorProps, 'error'>;
 
 export function FormListComponent<
   TItem extends FormValues = FormValues,
@@ -74,6 +74,8 @@ export function FormListComponent<
     showError = true,
     keepErrorSpace = true,
     helperText,
+    helperProps,
+    errorProps,
   } = props;
   const ref = useRef<any>();
   const { fields, append, update, remove } = useFieldArray<TItem>({
@@ -195,9 +197,11 @@ export function FormListComponent<
         {canRenderInlineForm && renderInlineForm()}
       </VStack>
       {(helperText || keepErrorSpace) && showHelper && (
-        <FormHelper helperText={helperText} />
+        <FormHelper helperText={helperText} {...helperProps} />
       )}
-      {showError && <FormError error={renderProps.fieldState?.error} />}
+      {showError && (
+        <FormError error={renderProps.fieldState?.error} {...errorProps} />
+      )}
       {actions ? (
         React.createElement(actions, {
           onPress: handleAdd,
