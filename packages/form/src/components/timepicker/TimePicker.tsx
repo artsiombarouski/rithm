@@ -1,6 +1,5 @@
 import { getAmPm, getTime } from './utils';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useTheme, Text, Icon } from 'native-base';
+import { useTheme, Text, ChevronDownIcon } from 'native-base';
 import React, { useCallback, useState } from 'react';
 import {
   Pressable,
@@ -81,13 +80,7 @@ export function TimePicker({
         <Text color={'blueGray.700'}>{getTime(time.hours, time.minutes)}</Text>
         <View style={styles.iconContainer}>
           <Text color={'blueGray.700'}>{getAmPm(time.hours)}</Text>
-          <Icon
-            ml={'2px'}
-            size={5}
-            color={'blueGray.700'}
-            as={MaterialCommunityIcons}
-            name={'chevron-down'}
-          />
+          <ChevronDownIcon size={4} p={1} ml={'2px'} />
         </View>
       </Pressable>
       <TimePickerModal
