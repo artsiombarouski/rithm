@@ -1,7 +1,15 @@
 import { getAmPm, getTime } from './utils';
 import IonicIcon from '@expo/vector-icons/Ionicons';
+import { useTheme } from 'native-base';
 import React, { useCallback, useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import {
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
+} from 'react-native';
 import { TimePickerModal } from 'react-native-paper-dates';
 
 export type TimeValue = {
@@ -30,12 +38,20 @@ type TimePickerModalProps = {
 export type TimePickerProps = {
   value: TimeValue;
   onChange: (value: TimeValue) => void;
+  buttonStyle?: StyleProp<ViewStyle>;
 } & Omit<
   TimePickerModalProps,
   'hours' | 'minutes' | 'use24HourClock' | 'onConfirm' | 'onDismiss' | 'visible'
 >;
 
-export function TimePicker({ value, onChange, ...props }: TimePickerProps) {
+export function TimePicker({
+  value,
+  onChange,
+  buttonStyle,
+  ...props
+}: TimePickerProps) {
+  const theme = useTheme();
+  const [borderColor, setBorderColor] = useState(theme.colors.muted[300]);
   const [time, setTime] = useState(
     value ?? { hours: new Date().getHours(), minutes: new Date().getMinutes() },
   );
@@ -57,7 +73,12 @@ export function TimePicker({ value, onChange, ...props }: TimePickerProps) {
 
   return (
     <>
-      <Pressable onPress={() => setVisible(true)} style={[styles.button]}>
+      <Pressable
+        onPress={() => setVisible(true)}
+        onHoverIn={() => setBorderColor(theme.colors.primary[600])}
+        onHoverOut={() => setBorderColor(theme.colors.muted[300])}
+        style={[styles.button, buttonStyle, { borderColor }]}
+      >
         <Text>{getTime(time.hours, time.minutes)}</Text>
         <View style={styles.iconContainer}>
           <Text>{getAmPm(time.hours)}</Text>
@@ -82,11 +103,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 16,
+    paddingHorizontal: 12,
     paddingVertical: 8,
-    borderRadius: 6,
+    borderRadius: 4,
     borderWidth: 1,
-    borderColor: '#CFD6DD',
+    height: 40,
   },
   iconContainer: {
     flexDirection: 'row',
