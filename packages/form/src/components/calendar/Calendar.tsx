@@ -237,6 +237,7 @@ export const Calendar = (props: CalendarProps) => {
         fontWeight: '600',
         color: theme.colors.blue[500],
       },
+      base: styles.day,
     },
   };
 
@@ -306,5 +307,12 @@ const styles = StyleSheet.create({
     marginVertical: 2,
     flexDirection: 'row',
     justifyContent: 'space-around',
+  },
+  day: {
+    height: 34,
+    alignItems: 'center',
+    justifyContent: 'center',
+    maxWidth: 34,
+    width: '100%',
   },
 });
