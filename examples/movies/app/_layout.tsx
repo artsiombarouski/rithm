@@ -1,5 +1,7 @@
+import { FontsLoaderLayout } from '../components/root/FontsLoaderLayout';
 import { rootServices, scopedServices } from '../services/Services';
 import { useUsers } from '../services/utils';
+import { AppThemeProvider } from '../theme';
 import { ModalDialogProvider } from '@artsiombarouski/rn-components';
 import {
   NavigationServiceWrapper,
@@ -12,9 +14,7 @@ import {
 import { Stack } from 'expo-router';
 import { observe } from 'mobx';
 import { observer } from 'mobx-react-lite';
-import { extendTheme, NativeBaseProvider } from 'native-base';
 import React, { PropsWithChildren, useEffect, useState } from 'react';
-import { DefaultTheme, PaperProvider } from 'react-native-paper';
 
 const RouteGuardLayout = observer((props: PropsWithChildren) => {
   const users = useUsers();
@@ -68,24 +68,13 @@ const ScopedLayout = (props: PropsWithChildren) => {
 };
 
 const RootLayout = () => {
-  const theme = extendTheme({
-    components: {
-      MenuItem: {
-        baseStyle: {
-          _stack: {
-            width: '100%',
-          },
-        },
-      },
-    },
-  });
   const [servicesContainer] = useState(rootServices());
   return (
-    <PaperProvider theme={DefaultTheme}>
+    <FontsLoaderLayout>
       <ServiceContainerBootstrap container={servicesContainer}>
         <ScopedLayout>
           <NavigationServiceWrapper>
-            <NativeBaseProvider theme={theme}>
+            <AppThemeProvider>
               <ModalDialogProvider>
                 <Stack
                   screenOptions={{
@@ -93,11 +82,11 @@ const RootLayout = () => {
                   }}
                 />
               </ModalDialogProvider>
-            </NativeBaseProvider>
+            </AppThemeProvider>
           </NavigationServiceWrapper>
         </ScopedLayout>
       </ServiceContainerBootstrap>
-    </PaperProvider>
+    </FontsLoaderLayout>
   );
 };
 

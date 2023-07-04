@@ -1,6 +1,8 @@
+import { IIconButtonProps } from 'native-base';
 import { Dispatch, SetStateAction } from 'react';
-import { ViewStyle } from 'react-native';
+import { GestureResponderEvent, ViewStyle } from 'react-native';
 import { CalendarProps as BaseCalendarProps } from 'react-native-calendars';
+import { Theme } from 'react-native-calendars/src/types';
 
 export type MarkedDates = {
   [date: string]: {
@@ -8,18 +10,14 @@ export type MarkedDates = {
     startingDay?: boolean;
     endingDay?: boolean;
     color: string;
+    textColor?: string;
   };
-};
-
-type ArrowAppearanceProps = {
-  size?: number;
-  color?: string;
 };
 
 export type ArrowProps = {
   direction: 'left' | 'right';
-  onPress: () => void;
-} & ArrowAppearanceProps;
+  onPress: (event: GestureResponderEvent) => void;
+} & IIconButtonProps;
 
 export type SingleDate = { date: string | null };
 export type MultiDates = { dates: Array<string> };
@@ -37,8 +35,14 @@ export type CalendarProps<T extends SelectedDates = SelectedDates> =
   BaseCalendarProps & {
     selectionType: SelectionType;
     containerStyle?: ViewStyle;
-    arrowProps?: ArrowAppearanceProps;
+    arrowProps?: IIconButtonProps;
     value: T;
     onChange: Dispatch<SetStateAction<T>>;
     mode?: 'single' | 'dual';
   };
+
+export type CalendarTheme = Theme & {
+  'stylesheet.calendar.header'?: object;
+  'stylesheet.calendar.main'?: object;
+  'stylesheet.day.period'?: object;
+};

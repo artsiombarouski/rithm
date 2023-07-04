@@ -1,36 +1,36 @@
 import type {
   ArrowProps,
   CalendarProps,
+  CalendarTheme,
   MarkedDates,
   MultiDates,
   RangeDates,
   SingleDate,
 } from './types';
 import { SelectionType } from './types';
-import { AntDesign } from '@expo/vector-icons';
+import { getFontString } from './utils';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import dayjs from 'dayjs';
+import { Icon, IconButton, useTheme } from 'native-base';
 import React, { useCallback, useMemo, useState } from 'react';
-import {
-  StyleProp,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  ViewStyle,
-} from 'react-native';
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { Calendar as BaseCalendar, DateData } from 'react-native-calendars';
-import { MarkingTypes, Theme } from 'react-native-calendars/src/types';
-import { useTheme } from 'native-base';
+import { MarkingTypes } from 'react-native-calendars/src/types';
 
 const Arrow = ({ direction, onPress, ...props }: ArrowProps) => {
   return (
-    <TouchableOpacity onPress={onPress}>
-      <AntDesign
-        name={direction === 'left' ? 'left' : 'right'}
-        size={24}
-        color="black"
-        {...props}
-      />
-    </TouchableOpacity>
+    <IconButton
+      onPress={onPress}
+      p={'6px'}
+      icon={
+        <Icon
+          as={MaterialCommunityIcons}
+          name={direction === 'left' ? 'chevron-left' : 'chevron-right'}
+          color={'blueGray.700'}
+        />
+      }
+      {...props}
+    />
   );
 };
 
@@ -84,26 +84,29 @@ export const Calendar = (props: CalendarProps) => {
           for (let d = dayjs(start); d.isBefore(end); d = d.add(1, 'day')) {
             dates[d.format('YYYY-MM-DD')] = {
               selected: false,
-              color: theme.colors.primary['100'],
+              color: theme.colors.blue['300'],
             };
           }
 
           // Mark start and end dates
           dates[start.format('YYYY-MM-DD')] = {
             ...dates[start.format('YYYY-MM-DD')],
-            color: theme.colors.primary['500'],
+            color: theme.colors.blue['500'],
+            textColor: 'white',
             selected: true,
             startingDay: true,
           };
           dates[end.format('YYYY-MM-DD')] = {
             ...dates[end.format('YYYY-MM-DD')],
-            color: theme.colors.primary['500'],
+            color: theme.colors.blue['500'],
+            textColor: 'white',
             selected: true,
             endingDay: true,
           };
         } else if (startDate) {
           dates[startDate] = {
-            color: theme.colors.primary['500'],
+            textColor: 'white',
+            color: theme.colors.blue['500'],
             selected: true,
             startingDay: true,
           };
@@ -160,7 +163,17 @@ export const Calendar = (props: CalendarProps) => {
 
   const generateArrow = useCallback(
     (calendar: 'left' | 'right') => (direction: 'left' | 'right') => {
-      if (direction !== calendar && mode === 'dual') return null;
+      if (direction !== calendar && mode === 'dual')
+        //for centering month
+        return (
+          <Arrow
+            disabled={true}
+            opacity={0}
+            direction={direction}
+            onPress={null}
+            {...arrowProps}
+          />
+        );
       const moveMonths =
         calendar === 'left' ? leftArrowMonthShift : rightArrowMonthShift;
 
@@ -203,8 +216,28 @@ export const Calendar = (props: CalendarProps) => {
     restCalendarProps?.style,
   ]);
 
-  const calendarTheme: Theme = {
-    selectedDayTextColor: theme.colors.text['500'],
+  const calendarTheme: CalendarTheme = {
+    textDayFontFamily: getFontString(theme.fonts.body, 'Medium'),
+    textDayFontSize: 14,
+    textDayHeaderFontFamily: getFontString(theme.fonts.body, 'Medium'),
+    textDayHeaderFontSize: 12,
+    textMonthFontFamily: getFontString(theme.fonts.body, 'Medium'),
+    textMonthFontSize: 16,
+    monthTextColor: theme.colors.blueGray[700],
+    dayTextColor: theme.colors.blueGray[800],
+    'stylesheet.calendar.header': {
+      header: styles.header,
+      arrow: styles.arrow,
+    },
+    'stylesheet.calendar.main': {
+      week: styles.week,
+    },
+    'stylesheet.day.period': {
+      todayText: {
+        fontWeight: '600',
+        color: theme.colors.blue[500],
+      },
+    },
   };
 
   const getSharedCalendarProps = useMemo(
@@ -243,6 +276,7 @@ export const Calendar = (props: CalendarProps) => {
           {...getSharedCalendarProps(direction)}
           style={calendarStyle}
           theme={calendarTheme}
+          hideExtraDays={true}
         />
       </View>
     );
@@ -260,5 +294,17 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     flexDirection: 'row',
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 6,
+    alignItems: 'center',
+  },
+  arrow: {},
+  week: {
+    marginVertical: 2,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
 });

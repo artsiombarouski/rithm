@@ -119,13 +119,13 @@ const FormExampleRow = (
           {title}
         </Text>
         <HStack space={3}>
-          <VStack flex={1}>
+          <VStack flex={3}>
             {children}
             <Button mt={3} onPress={form.handleSubmit(onSubmit)}>
               Submit
             </Button>
           </VStack>
-          <Text flex={1}>{JSON.stringify(data, null, ' ')}</Text>
+          <Text flex={2}>{JSON.stringify(data, null, ' ')}</Text>
         </HStack>
       </VStack>
     </Form>
