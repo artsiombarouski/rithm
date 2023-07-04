@@ -1,12 +1,11 @@
 import { getAmPm, getTime } from './utils';
-import IonicIcon from '@expo/vector-icons/Ionicons';
-import { useTheme } from 'native-base';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useTheme, Text, Icon } from 'native-base';
 import React, { useCallback, useState } from 'react';
 import {
   Pressable,
   StyleProp,
   StyleSheet,
-  Text,
   View,
   ViewStyle,
 } from 'react-native';
@@ -79,10 +78,16 @@ export function TimePicker({
         onHoverOut={() => setBorderColor(theme.colors.muted[300])}
         style={[styles.button, buttonStyle, { borderColor }]}
       >
-        <Text>{getTime(time.hours, time.minutes)}</Text>
+        <Text color={'blueGray.700'}>{getTime(time.hours, time.minutes)}</Text>
         <View style={styles.iconContainer}>
-          <Text>{getAmPm(time.hours)}</Text>
-          <IonicIcon name={'chevron-down'} />
+          <Text color={'blueGray.700'}>{getAmPm(time.hours)}</Text>
+          <Icon
+            ml={'2px'}
+            size={5}
+            color={'blueGray.700'}
+            as={MaterialCommunityIcons}
+            name={'chevron-down'}
+          />
         </View>
       </Pressable>
       <TimePickerModal
