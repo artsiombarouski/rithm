@@ -57,7 +57,7 @@ export function FormItem<ElementProps = any>(
         )}
         {render(restProps as any, renderProps)}
         {(helperText || keepErrorSpace) && showHelper && (
-          <FormHelper helperText={helperText} {...helperProps} />
+          <FormHelper field={renderProps.field} helperText={helperText} {...helperProps} />
         )}
         {showError && (
           <FormError error={renderProps.fieldState?.error} {...errorProps} />

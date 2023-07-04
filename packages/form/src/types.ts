@@ -33,7 +33,7 @@ export type FormItemProps<T extends FormValues = FormValues> = {
   showHelper?: boolean;
   showError?: boolean;
 } & FormTitleProps &
-  FormHelperProps &
+  Pick<FormHelperProps, 'helperText' | 'helperProps'> &
   Omit<FormErrorProps, 'error'>;
 
 export type FormInstance<TFieldValues extends FormValues = FormValues> =

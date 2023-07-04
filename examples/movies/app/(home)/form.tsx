@@ -147,18 +147,16 @@ const FormExample = () => {
       <ScrollView p={4} flex={1}>
         <VStack flex={1} space={6}>
           <FormExampleRow title={'Numeric input'}>
-            <FormNumericInput
-              name={'input-numeric'}
-              title={'Numeric input'}
-              helperText={'0/5 chars'}
+            <FormNumericInput name={'input-numeric'} title={'Numeric input'} />
+          </FormExampleRow>
+          <FormExampleRow title={'Chars limit'}>
+            <FormInput
+              name={'input-max-chars'}
+              title={'Max Chars input'}
+              helperText={(value) => `${value?.toString().length ?? 0}/5 chars`}
+              maxChars={5}
               helperProps={{ mt: 2 }}
               errorProps={{ mt: 3 }}
-              rules={{
-                maxLength: {
-                  value: 5,
-                  message: 'The length is too long',
-                },
-              }}
             />
           </FormExampleRow>
           <FormExampleRow title={'Input with two states'}>

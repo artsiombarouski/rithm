@@ -57,7 +57,7 @@ export type FormListComponentProps<
   keepErrorSpace?: boolean;
   showHelper?: boolean;
   showError?: boolean;
-} & FormHelperProps &
+} & Pick<FormHelperProps, 'helperText' | 'helperProps'> &
   Omit<FormErrorProps, 'error'>;
 
 export function FormListComponent<
@@ -197,7 +197,11 @@ export function FormListComponent<
         {canRenderInlineForm && renderInlineForm()}
       </VStack>
       {(helperText || keepErrorSpace) && showHelper && (
-        <FormHelper helperText={helperText} {...helperProps} />
+        <FormHelper
+          field={renderProps.field as any}
+          helperText={helperText}
+          {...helperProps}
+        />
       )}
       {showError && (
         <FormError error={renderProps.fieldState?.error} {...errorProps} />
