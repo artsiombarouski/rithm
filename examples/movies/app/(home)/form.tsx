@@ -501,10 +501,20 @@ const FormExample = () => {
               }}
             />
           </FormExampleRow>
-          <FormExampleRow title={'Calendar (range)'}>
+          <FormExampleRow
+            title={'Calendar (range)'}
+            formProps={{
+              defaultValues: {
+                'calendar-range': {
+                  time: 'NOW',
+                },
+              },
+            }}
+          >
             <FormCalendar
               name={'calendar-range'}
               selectionType={SelectionType.RANGE}
+              assignValues={true}
             />
           </FormExampleRow>
         </VStack>
