@@ -24,7 +24,6 @@ export class UserIdentifier {
   }
 
   static identifyUser(
-    type: string,
     id: string | undefined,
     email: string | undefined = undefined,
   ) {

@@ -15,6 +15,8 @@ import { Stack } from 'expo-router';
 import { observe } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React, { PropsWithChildren, useEffect, useState } from 'react';
+import { AnalyticsWrapper } from '@artsiombarouski/rn-analytics';
+import { AmplitudeAnalyticsService } from '@artsiombarouski/rn-analytics-amplitude';
 
 const RouteGuardLayout = observer((props: PropsWithChildren) => {
   const users = useUsers();
@@ -27,7 +29,6 @@ const RouteGuardLayout = observer((props: PropsWithChildren) => {
         return null;
       },
     },
-
     [users.currentUser],
   );
   return <>{props.children}</>;
@@ -69,24 +70,31 @@ const ScopedLayout = (props: PropsWithChildren) => {
 
 const RootLayout = () => {
   const [servicesContainer] = useState(rootServices());
+  const analyticsServices = [
+    // new AmplitudeAnalyticsService({
+    //   apiKey: 'YOUR_API_KEY',
+    // }),
+  ];
   return (
-    <FontsLoaderLayout>
-      <ServiceContainerBootstrap container={servicesContainer}>
-        <ScopedLayout>
-          <NavigationServiceWrapper>
-            <AppThemeProvider>
-              <ModalDialogProvider>
-                <Stack
-                  screenOptions={{
-                    headerShown: false,
-                  }}
-                />
-              </ModalDialogProvider>
-            </AppThemeProvider>
-          </NavigationServiceWrapper>
-        </ScopedLayout>
-      </ServiceContainerBootstrap>
-    </FontsLoaderLayout>
+    <AnalyticsWrapper services={analyticsServices}>
+      <FontsLoaderLayout>
+        <ServiceContainerBootstrap container={servicesContainer}>
+          <ScopedLayout>
+            <NavigationServiceWrapper>
+              <AppThemeProvider>
+                <ModalDialogProvider>
+                  <Stack
+                    screenOptions={{
+                      headerShown: false,
+                    }}
+                  />
+                </ModalDialogProvider>
+              </AppThemeProvider>
+            </NavigationServiceWrapper>
+          </ScopedLayout>
+        </ServiceContainerBootstrap>
+      </FontsLoaderLayout>
+    </AnalyticsWrapper>
   );
 };
 

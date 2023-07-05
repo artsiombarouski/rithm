@@ -50,6 +50,7 @@
     "packages/components",
     "packages/services",
     "packages/analytics",
+    "packages/analytics-amplitude",
     "packages/resources",
     "packages/user-store-service",
     "packages/expo-router-service"

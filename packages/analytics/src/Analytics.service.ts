@@ -5,7 +5,7 @@ import {
   AnalyticsSubscriptionInfo,
 } from './types';
 
-export interface AnalyticsExtensionsOptions {
+export interface AnalyticsServiceOptions {
   isEventsEnabled?: boolean;
   isScreenEnabled?: boolean;
   isErrorEnabled?: boolean;
@@ -14,10 +14,12 @@ export interface AnalyticsExtensionsOptions {
 export class AnalyticsService extends UserIdentifyService {
   constructor(
     readonly name: string,
-    readonly options: AnalyticsExtensionsOptions = {},
+    readonly options: AnalyticsServiceOptions = {},
   ) {
     super(name);
   }
+
+  async init() {}
 
   async setAppTrackingAllowed(allowed: boolean) {}
 

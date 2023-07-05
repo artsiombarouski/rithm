@@ -7,6 +7,7 @@ import { UserStoreService } from '@artsiombarouski/rn-user-store-service';
 import { UserPayload } from '../api/User.payload';
 import { defaultResourceApiConfig } from '@artsiombarouski/rn-resources';
 import { MovieDbConfig } from '../api/MovieDbConfig';
+import { UserIdentifier } from '@artsiombarouski/rn-analytics';
 
 @service()
 export class UserScopeService extends BaseService implements OnServicesLoaded {
@@ -16,12 +17,19 @@ export class UserScopeService extends BaseService implements OnServicesLoaded {
     return this._currentUserKey;
   }
 
-  onServicesLoaded(): void | Promise<void> {
+  async onServicesLoaded() {
     const userService = this.getService(UserStoreService<UserPayload>);
-    this._currentUserKey = userService.currentUser?.key;
+    const currentUser = userService.currentUser;
+    this._currentUserKey = currentUser?.key;
     defaultResourceApiConfig.transport.interceptors.request.use((request) => {
       request.headers['Authorization'] = `Bearer ${MovieDbConfig.apiKey}`;
       return request;
     });
+    if (currentUser) {
+      await UserIdentifier.identifyUser(
+        currentUser.key,
+        currentUser.info.email,
+      );
+    }
   }
 }

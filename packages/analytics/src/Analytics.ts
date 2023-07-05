@@ -13,7 +13,7 @@ export class Analytics {
   private static servicesSupportedEvents: AnalyticsService[] = [];
   private static servicesSupportedScreen: AnalyticsService[] = [];
 
-  static registerService(...services: AnalyticsService[]) {
+  static registerServices(...services: AnalyticsService[]) {
     for (const service of services) {
       this.services.push(service);
       if (!(service.options && service.options.isEventsEnabled === false)) {
