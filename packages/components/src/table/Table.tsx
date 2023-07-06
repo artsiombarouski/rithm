@@ -1,4 +1,5 @@
 import { TableColumn } from './types';
+import _ from 'lodash';
 import {
   Box,
   Divider,
@@ -12,8 +13,7 @@ import {
 import { IHStackProps } from 'native-base/lib/typescript/components/primitives/Stack/HStack';
 import { IVStackProps } from 'native-base/lib/typescript/components/primitives/Stack/VStack';
 import { useEffect, useRef, useState } from 'react';
-import { LayoutChangeEvent } from 'react-native';
-import _ from 'lodash';
+import { FlatListProps, LayoutChangeEvent } from 'react-native';
 
 export type TableHeaderProps<TItem> = IHStackProps & {
   columns: TableColumn<TItem>[];
@@ -48,6 +48,7 @@ export type TableProps<TItem> = IVStackProps & {
   onRowClick?: (item: TItem) => void;
   rowProps?: Omit<IHStackProps, 'size'>;
   headerProps?: Omit<IHStackProps, 'size'>;
+  listProps?: Omit<FlatListProps<TItem>, 'data' | 'renderItem'>;
 };
 
 export function Table<TItem>(props: TableProps<TItem>) {
@@ -80,6 +81,7 @@ export function Table<TItem>(props: TableProps<TItem>) {
       minHeight: '48px',
       alignItems: 'center',
     },
+    listProps,
     ...restProps
   } = props;
 
@@ -137,8 +139,9 @@ export function Table<TItem>(props: TableProps<TItem>) {
       <FlatList
         ref={listRef}
         data={data}
-        renderItem={({ item }) => renderRow(item)}
         style={[{ flex: 1 }]}
+        {...listProps}
+        renderItem={({ item }) => renderRow(item)}
         onContentSizeChange={handleListContentSize}
       />
     </VStack>

@@ -1,6 +1,7 @@
+import { TableEmpty } from '../../components/TableEmpty';
+import { Pagination, Table } from '@artsiombarouski/rn-components';
 import { Box, ChevronRightIcon } from 'native-base';
 import { useState } from 'react';
-import { Pagination, Table } from '@artsiombarouski/rn-components';
 
 const TablePage = () => {
   const totalPages = 50;
@@ -37,6 +38,10 @@ const TablePage = () => {
             title: `Inner ${key + currentPage * 10}`,
           },
         }))}
+        // data={[]}
+        listProps={{
+          ListEmptyComponent: <TableEmpty />,
+        }}
         flex={1}
         overflow={'hidden'}
       />
