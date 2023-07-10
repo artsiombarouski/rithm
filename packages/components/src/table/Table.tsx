@@ -86,13 +86,15 @@ export function Table<TItem>(props: TableProps<TItem>) {
   } = props;
 
   const renderRowColumn = (column: TableColumn<TItem>, item: TItem) => {
-    const { key, render, flex, width } = column;
+    const { key, render, flex, width, valueProps } = column;
     return (
       <Box flex={flex} alignItems={'stretch'} width={width}>
         {render ? (
           render(item)
         ) : (
-          <Text>{_.get(item, key.split('.'))?.toString() ?? '-'}</Text>
+          <Text {...valueProps}>
+            {_.get(item, key.split('.'))?.toString() ?? '-'}
+          </Text>
         )}
       </Box>
     );
