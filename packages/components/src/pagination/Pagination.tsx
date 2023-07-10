@@ -82,6 +82,7 @@ export const Pagination = (props: PaginationProps) => {
     const isSelected = page === currentPage;
     return (
       <Button
+        key={`page-${page}`}
         onPress={() => onPage?.(page)}
         {...(isSelected ? targetSelectedPageProps : targetPageProps)}
       >
@@ -90,9 +91,9 @@ export const Pagination = (props: PaginationProps) => {
     );
   };
 
-  const renderEllipsis = () => {
+  const renderEllipsis = (key: string) => {
     return (
-      <Box {...dotContainerProps}>
+      <Box key={key} {...dotContainerProps}>
         <Text {...dotsProps}>•••</Text>
       </Box>
     );
@@ -120,13 +121,13 @@ export const Pagination = (props: PaginationProps) => {
         pagesToRender.push(renderPage(i));
       }
       if (currentPage - 1 >= pageBufferSize + 2 && currentPage !== 1 + 2) {
-        pagesToRender.unshift(renderEllipsis());
+        pagesToRender.unshift(renderEllipsis('ellipsis-previous'));
       }
       if (
         totalPages - currentPage >= pageBufferSize * 2 &&
         currentPage !== totalPages - 2
       ) {
-        pagesToRender.push(renderEllipsis());
+        pagesToRender.push(renderEllipsis('ellipsis-next'));
       }
 
       if (left !== 1) {
@@ -141,6 +142,7 @@ export const Pagination = (props: PaginationProps) => {
   return (
     <HStack alignItems={'center'} space={3} p={1} {...wrapperProps}>
       <IconButton
+        key={'pg-arrow-left'}
         icon={<ChevronLeftIcon />}
         onPress={onPrevious}
         {...targetArrowProps}
@@ -148,6 +150,7 @@ export const Pagination = (props: PaginationProps) => {
       />
       {pagesToRender.length > 0 && <HStack space={2}>{pagesToRender}</HStack>}
       <IconButton
+        key={'pg-arrow-right'}
         icon={<ChevronRightIcon />}
         {...targetArrowProps}
         onPress={onNext}

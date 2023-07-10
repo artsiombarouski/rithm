@@ -1,24 +1,6 @@
 import { service } from '@artsiombarouski/rn-services';
-
-export type Href = string | HrefObject;
-
-export interface HrefObject {
-  /** Path representing the selected route `/[id]`. */
-  pathname?: string;
-  /** Query parameters for the path. */
-  params?: Record<string, any>;
-}
-
-type Router = {
-  /** Navigate to the provided href. */
-  push: (href: Href) => void;
-  /** Navigate to route without appending to the history. */
-  replace: (href: Href) => void;
-  /** Go back in the history. */
-  back: () => void;
-  /** Update the current route query params. */
-  setParams: (params?: Record<string, string>) => void;
-};
+import { Router } from 'expo-router/build/types';
+import { Href } from 'expo-router/build/link/href';
 
 @service()
 export class NavigationService {
@@ -37,6 +19,6 @@ export class NavigationService {
   }
 
   back() {
-    this._router.back()
+    this._router.back();
   }
 }
