@@ -19,7 +19,7 @@ export type TableHeaderProps<TItem> = IHStackProps & {
   columns: TableColumn<TItem>[];
 };
 
-export function TableHeaderProps<TItem>(props: TableHeaderProps<TItem>) {
+export function TableHeader<TItem>(props: TableHeaderProps<TItem>) {
   const { columns, ...restProps } = props;
   const titleProps: ITextProps = {
     color: 'primary.500',
@@ -29,7 +29,12 @@ export function TableHeaderProps<TItem>(props: TableHeaderProps<TItem>) {
     const { key, title = key, flex, width } = column;
 
     return (
-      <Box flex={flex} alignItems={'stretch'} width={width}>
+      <Box
+        key={`header-${key}`}
+        flex={flex}
+        alignItems={'stretch'}
+        width={width}
+      >
         {typeof title === 'string' ? (
           <Text {...titleProps}>{title}</Text>
         ) : (
@@ -88,7 +93,7 @@ export function Table<TItem>(props: TableProps<TItem>) {
   const renderRowColumn = (column: TableColumn<TItem>, item: TItem) => {
     const { key, render, flex, width, valueProps } = column;
     return (
-      <Box flex={flex} alignItems={'stretch'} width={width}>
+      <Box key={`row-${key}`} flex={flex} alignItems={'stretch'} width={width}>
         {render ? (
           render(item)
         ) : (
@@ -131,7 +136,7 @@ export function Table<TItem>(props: TableProps<TItem>) {
 
   return (
     <VStack {...restProps} onLayout={handleParentLayout}>
-      <TableHeaderProps
+      <TableHeader
         columns={columns}
         space={space}
         {...headerProps}
