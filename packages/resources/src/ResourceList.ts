@@ -172,17 +172,22 @@ export class ResourceList<T extends ResourceModel> {
   }
 
   @action
-  setQuery(query?: ResourceListQuery) {
+  setQuery(query?: ResourceListQuery): boolean {
     if (!deepEqual(query, this.query)) {
       this.query = query;
       this.reset();
+      return true;
     }
+    return false;
   }
 
   @action.bound
   async changeQuery(query?: ResourceListQuery) {
-    this.setQuery(query);
-    return this.fetch({ replaceData: true });
+    if (this.setQuery(query)) {
+      this.setQuery(query);
+      return this.fetch({ replaceData: true });
+    }
+    return false;
   }
 
   @action.bound

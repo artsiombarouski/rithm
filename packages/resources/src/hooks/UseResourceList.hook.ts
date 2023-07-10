@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { ResourceModel } from '../ResourceModel';
 import { ResourceList } from '../ResourceList';
 import { Resource } from '../Resource';
@@ -13,27 +13,35 @@ export function useResourceList<
   options?: {
     autoInit?: boolean;
     query?: ResourceListQuery;
-    builderOrInstance?: ListT | ((resource: Resource<T>) => ListT);
+    permanentQuery?: ResourceListQuery;
+    builderOrInstance?:
+      | ((resource: Resource<T>, permanentQuery?: ResourceListQuery) => ListT)
+      | ListT;
   },
 ) {
-  const { autoInit = true, query, builderOrInstance } = options ?? {};
+  const {
+    autoInit = true,
+    permanentQuery,
+    builderOrInstance,
+    query,
+  } = options ?? {};
   const listInstance = useMemo(() => {
     return typeof builderOrInstance === 'function'
-      ? builderOrInstance(resource)
+      ? builderOrInstance(resource, permanentQuery)
       : builderOrInstance
       ? builderOrInstance
-      : (resource.createList(query) as ListT);
+      : (resource.createList(permanentQuery) as ListT);
   }, [resource]);
-  const [list, setList] = useState<ListT>(listInstance);
   useEffect(() => {
-    if (listInstance != list) {
-      setList(listInstance);
-    }
-    if (autoInit && !listInstance.isInitialLoaded) {
+    if (listInstance.setQuery(query)) {
+      listInstance.fetch().then(() => {
+        //ignore
+      });
+    } else if (autoInit && !listInstance.isInitialLoaded) {
       listInstance.fetch().then(() => {
         //ignore
       });
     }
-  }, [listInstance]);
-  return list;
+  }, [listInstance, query]);
+  return listInstance;
 }
