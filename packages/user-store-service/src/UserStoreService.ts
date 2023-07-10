@@ -1,7 +1,8 @@
 import { service } from '@artsiombarouski/rn-services';
 import { action, makeObservable, observable, runInAction } from 'mobx';
 import { persist } from 'mobx-persist';
-import _ from 'lodash'
+import _ from 'lodash';
+import { DeepPartial } from './DeepPartial';
 
 @service()
 export class UserStoreService<UserPayload extends { key: any }> {
@@ -44,7 +45,7 @@ export class UserStoreService<UserPayload extends { key: any }> {
   }
 
   @action.bound
-  async updateUserProperty(key: string, user: Partial<UserPayload>) {
+  async updateUserProperty(key: string, user: DeepPartial<UserPayload>) {
     runInAction(() => {
       const existsUser = this.users.find((e) => e.key === key);
       if (existsUser) {
