@@ -300,6 +300,19 @@ const FormExample = () => {
               useAnchorSize={true}
             />
           </FormExampleRow>
+          <FormExampleRow title={'DropDown with default option'}>
+            <FormDropDown
+              name={'dropdown-with-default'}
+              size={'lg'}
+              options={new Array(100).fill(null).map((_, index) => {
+                return { key: `key${index}`, label: `Key ${index}` };
+              })}
+              rules={{ required: true }}
+              useAnchorSize={true}
+              includeDefaultOption={true}
+              defaultOptionLabel={'All Keys'}
+            />
+          </FormExampleRow>
           <FormExampleRow title={'DropDown (lazy options)'}>
             <LazyLoadSelectOptions />
           </FormExampleRow>

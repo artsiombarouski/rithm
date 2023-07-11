@@ -1,9 +1,13 @@
+import FormDropDownMenu from './FormDropDownMenu';
+import { useFocusRing } from '@react-native-aria/focus';
+import { useHover } from '@react-native-aria/interactions';
 import {
   CheckIcon,
   ChevronDownIcon,
   extractInObject,
   FlatList,
   HStack,
+  IInputProps,
   IMenuProps,
   Input,
   Pressable,
@@ -13,15 +17,12 @@ import {
   Text,
   usePropsResolution,
 } from 'native-base';
-import React, { useCallback, useState } from 'react';
-import { Dimensions, Keyboard, LayoutChangeEvent } from 'react-native';
-import { InterfaceSelectProps } from 'native-base/lib/typescript/components/primitives/Select/types';
-import { CustomProps } from 'native-base/lib/typescript/components/types';
-import { useFocusRing } from '@react-native-aria/focus';
-import { useHover } from '@react-native-aria/interactions';
-import FormDropDownMenu from './FormDropDownMenu';
 import { useFormControl } from 'native-base/lib/commonjs/components/composites/FormControl';
 import { useMenuItem } from 'native-base/lib/commonjs/components/composites/Menu/useMenu';
+import { InterfaceSelectProps } from 'native-base/lib/typescript/components/primitives/Select/types';
+import { CustomProps } from 'native-base/lib/typescript/components/types';
+import React, { useCallback, useState } from 'react';
+import { Dimensions, Keyboard, LayoutChangeEvent } from 'react-native';
 
 type LayoutSize = {
   width: number;
@@ -41,6 +42,7 @@ export type FormDropDownComponentProps = InterfaceSelectProps &
     onChange: (item: FormDropDownOption) => void;
     useAnchorSize?: boolean;
     isLoading?: boolean;
+    inputProps?: Partial<IInputProps>;
   };
 
 export function FormDropDownComponent(props: FormDropDownComponentProps) {
@@ -55,6 +57,7 @@ export function FormDropDownComponent(props: FormDropDownComponentProps) {
     isFocused: isFocusedProp,
     isFocusVisible: isFocusVisibleProp,
     variant,
+    inputProps,
     ...restProps
   } = props;
   const _anchorRef = React.useRef(null);
@@ -172,6 +175,7 @@ export function FormDropDownComponent(props: FormDropDownComponentProps) {
           isDisabled={isDisabled}
           pointerEvents="none"
           variant={variant}
+          {...inputProps}
         />
       </Pressable>
     );
