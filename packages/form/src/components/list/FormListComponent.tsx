@@ -22,6 +22,7 @@ export type FormListItemRenderProps<TItem extends FormValues = FormValues> = {
   update: (values: Partial<TItem>) => void;
   edit: () => void;
   remove: () => void;
+  fields: FieldArrayWithId<TItem>[];
 };
 
 export type FormListFormRenderProps<
@@ -105,15 +106,6 @@ export function FormListComponent<
     [fields, currentEditingItemIndex, renderProps.field],
   );
 
-  const handleUpdate = useCallback(
-    (index, values) => {
-      update(index, values);
-      // setCurrentEditingItemIndex(null);
-      // setItemFormVisible(false);
-    },
-    [fields, renderProps.field],
-  );
-
   const handleEdit = useCallback(
     (index: number) => {
       setCurrentEditingItemIndex(index);
@@ -169,6 +161,7 @@ export function FormListComponent<
           item: item as any,
           index: index,
           itemPath: `${renderProps.field.name}.${index}`,
+          fields: fields,
           update: (values) => {
             Object.assign(renderProps.field.value[index], values);
             renderProps.field.onChange([...renderProps.field.value]);
