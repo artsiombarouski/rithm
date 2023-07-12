@@ -129,7 +129,7 @@ const Components = () => {
         </Row>
         <Divider />
         <Heading>Custom Alert</Heading>
-        <CustomAlert status={'info'} title={'Title'} message={'Message'} />
+        <CustomAlert type={'info'} title={'Title'} message={'Message'} />
       </Column>
     </ScrollView>
   );

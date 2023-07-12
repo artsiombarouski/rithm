@@ -13,7 +13,7 @@ type AlertProps = Omit<IAlertProps, 'status'> & {
   iconProps?: any;
   titleProps?: ITextProps;
   messageProps?: ITextProps;
-  status?: 'info' | 'error' | 'success' | string;
+  type?: 'info' | 'error' | 'success' | string;
   showDefaultIcon?: boolean;
   alertTheme?: AlertThemeType;
 };
@@ -22,7 +22,7 @@ export const CustomAlert = (props: AlertProps) => {
   const {
     title,
     message,
-    status = 'info',
+    type = 'info',
     showDefaultIcon = false,
     titleProps,
     messageProps,
@@ -31,14 +31,17 @@ export const CustomAlert = (props: AlertProps) => {
     ...restProps
   } = props || {};
   const theme = useTheme();
-  const { backgroundColor, borderColor, iconSource } =
-    (alertTheme ?? useAlert().theme)?.[status] || {};
+
+  const { colorScheme, status, iconSource } =
+    (alertTheme ?? useAlert().theme)?.[type] || {};
+
+  const color = colorScheme ?? status ?? type;
 
   return (
     <Alert
       variant={'outline'}
-      bgColor={backgroundColor}
-      borderColor={borderColor}
+      bgColor={`${color}.50`}
+      borderColor={`${color}.100`}
       status={status}
       {...restProps}
     >
@@ -49,7 +52,7 @@ export const CustomAlert = (props: AlertProps) => {
           <AppIcon
             style={styles.icon}
             source={iconSource}
-            color={theme.colors[status][900]}
+            color={theme.colors[color]?.[900]}
             {...iconProps}
           />
         )}

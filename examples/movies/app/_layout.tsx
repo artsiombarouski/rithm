@@ -24,23 +24,16 @@ const ExampleIcon = require('../assets/icon.png');
 
 const ALERT_THEME = {
   info: {
-    backgroundColor: 'info.50',
-    borderColor: 'info.100',
-    iconSource: ExampleIcon,
+    status: 'info',
   },
   error: {
-    backgroundColor: 'error.50',
-    borderColor: 'error.100',
-    iconSource: ExampleIcon,
+    status: 'error',
   },
   success: {
-    backgroundColor: 'success.50',
-    borderColor: 'success.100',
-    iconSource: ExampleIcon,
+    status: 'success',
   },
   sent: {
-    backgroundColor: 'success.50',
-    borderColor: 'success.100',
+    status: 'success',
     iconSource: ExampleIcon,
   },
 };

@@ -18,7 +18,7 @@ export const AlertToast = () => {
             alertTheme={theme}
             title={current.title}
             message={current.message}
-            status={current.alertType}
+            type={current.alertType}
           />
         ),
         onCloseComplete: () => dispatch({ action: 'close' }),

@@ -26,13 +26,13 @@ export type AlertContextType = {
   showInfo: (props: AlertContextFields) => void;
   showError: (props: AlertContextFields) => void;
   showSuccess: (props: AlertContextFields) => void;
-  theme?: any; //todo
+  theme?: AlertThemeType;
 };
 
 export type AlertThemeType = {
   [key: string]: {
-    backgroundColor: string;
-    borderColor: string;
-    iconSource: any;
+    iconSource?: any;
+    status?: string;
+    colorScheme?: string;
   };
 };
