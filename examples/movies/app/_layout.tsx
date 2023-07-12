@@ -2,7 +2,11 @@ import { FontsLoaderLayout } from '../components/root/FontsLoaderLayout';
 import { rootServices, scopedServices } from '../services/Services';
 import { useUsers } from '../services/utils';
 import { AppThemeProvider } from '../theme';
-import { ModalDialogProvider } from '@artsiombarouski/rn-components';
+import { AnalyticsWrapper } from '@artsiombarouski/rn-analytics';
+import {
+  AlertProvider,
+  ModalDialogProvider,
+} from '@artsiombarouski/rn-components';
 import {
   NavigationServiceWrapper,
   useRouteGuard,
@@ -15,8 +19,31 @@ import { Stack } from 'expo-router';
 import { observe } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React, { PropsWithChildren, useEffect, useState } from 'react';
-import { AnalyticsWrapper } from '@artsiombarouski/rn-analytics';
-import { AmplitudeAnalyticsService } from '@artsiombarouski/rn-analytics-amplitude';
+
+const ExampleIcon = require('../assets/icon.png');
+
+const ALERT_THEME = {
+  info: {
+    backgroundColor: 'info.50',
+    borderColor: 'info.100',
+    iconSource: ExampleIcon,
+  },
+  error: {
+    backgroundColor: 'error.50',
+    borderColor: 'error.100',
+    iconSource: ExampleIcon,
+  },
+  success: {
+    backgroundColor: 'success.50',
+    borderColor: 'success.100',
+    iconSource: ExampleIcon,
+  },
+  sent: {
+    backgroundColor: 'success.50',
+    borderColor: 'success.100',
+    iconSource: ExampleIcon,
+  },
+};
 
 const RouteGuardLayout = observer((props: PropsWithChildren) => {
   const users = useUsers();
@@ -82,13 +109,15 @@ const RootLayout = () => {
           <ScopedLayout>
             <NavigationServiceWrapper>
               <AppThemeProvider>
-                <ModalDialogProvider>
-                  <Stack
-                    screenOptions={{
-                      headerShown: false,
-                    }}
-                  />
-                </ModalDialogProvider>
+                <AlertProvider theme={ALERT_THEME}>
+                  <ModalDialogProvider>
+                    <Stack
+                      screenOptions={{
+                        headerShown: false,
+                      }}
+                    />
+                  </ModalDialogProvider>
+                </AlertProvider>
               </AppThemeProvider>
             </NavigationServiceWrapper>
           </ScopedLayout>

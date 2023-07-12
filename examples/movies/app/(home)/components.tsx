@@ -1,8 +1,15 @@
-import { Avatar, ModalDialog } from '@artsiombarouski/rn-components';
-import { Button, Column, Heading, ScrollView } from 'native-base';
+import {
+  Avatar,
+  CustomAlert,
+  ModalDialog,
+  useAlert,
+} from '@artsiombarouski/rn-components';
+import { Button, Column, Heading, Row, ScrollView } from 'native-base';
+import React from 'react';
 import { Divider } from 'react-native-paper';
 
 const Components = () => {
+  const alert = useAlert();
   return (
     <ScrollView flex={1}>
       <Column space={'xs'} p={6} maxW={500}>
@@ -95,6 +102,34 @@ const Components = () => {
         >
           Show As Promise
         </Button>
+        <Divider />
+        <Heading>Toasts</Heading>
+        <Row space={4}>
+          <Button
+            onPress={() => {
+              alert.showError({ title: 'Error' });
+            }}
+          >
+            Show error
+          </Button>
+          <Button
+            onPress={() => {
+              alert.showInfo({ title: 'Info' });
+            }}
+          >
+            Show info
+          </Button>
+          <Button
+            onPress={() => {
+              alert.showSuccess({ title: 'Success' });
+            }}
+          >
+            Show success
+          </Button>
+        </Row>
+        <Divider />
+        <Heading>Custom Alert</Heading>
+        <CustomAlert status={'info'} title={'Title'} message={'Message'} />
       </Column>
     </ScrollView>
   );

@@ -3,3 +3,4 @@ export * from './AppIcon';
 export * from './table';
 export * from './pagination';
 export * from './ModalDialog';
+export * from './alert';
