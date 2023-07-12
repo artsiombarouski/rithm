@@ -2,6 +2,7 @@ import {
   Form,
   FormCalendar,
   FormCheckbox,
+  FormDatePicker,
   FormDropDown,
   FormDropDownOption,
   FormInput,
@@ -213,6 +214,38 @@ const FormExample = () => {
               name={'time'}
               title={'Time'}
               rules={{ required: true }}
+            />
+          </FormExampleRow>
+          <FormExampleRow
+            title={'Date'}
+            formProps={{
+              defaultValues: {
+                'date-picker': {
+                  date: '2023-07-14',
+                  // dates: ['2023-07-14'], //multi
+                  // startDate: '2023-07-14', //range
+                  // endDate: '2023-07-14', //range
+                  time: 'NOW',
+                },
+              },
+            }}
+          >
+            <FormDatePicker
+              name={'date-picker'}
+              // selectionType={SelectionType.MULTI}
+              // selectionType={SelectionType.RANGE}
+              title={'Date'}
+              rules={{ required: true }}
+              assignValues={true}
+              inputProps={{
+                InputLeftElement: (
+                  <Icon
+                    as={MaterialCommunityIcons}
+                    name={'calendar-month'}
+                    ml={3}
+                  />
+                ),
+              }}
             />
           </FormExampleRow>
           <FormExampleRow title={'Input'}>
