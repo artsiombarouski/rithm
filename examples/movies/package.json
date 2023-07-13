@@ -12,7 +12,8 @@
     "check-eslint": "eslint './src/**/*{js,ts,jsx,tsx}'",
     "lint": "yarn check-typescript && yarn check-eslint",
     "release": "standard-version",
-    "test": "jest"
+    "test": "jest",
+    "start:production": "expo export -p web && serve dist"
   },
   "jest": {
     "preset": "jest-expo",

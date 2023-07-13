@@ -50,6 +50,7 @@ export class ServiceContainer {
 
   getService<T extends new (...args: any[]) => any>(clazz: T): InstanceType<T> {
     const serviceName = Reflect.getMetadata(SERVICE_META_KEY, clazz);
+    console.log('serviceName', serviceName)
     const result = this.services[serviceName] ?? this.parent?.getService(clazz);
     if (!result) {
       throw new Error(`Service not found: ${clazz}`);
