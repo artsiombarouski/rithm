@@ -7,7 +7,7 @@ export class ResourceApiError {
     readonly code: number,
     readonly key: string,
     readonly title: string,
-    readonly message: string | undefined = undefined,
+    readonly message: object | string | undefined = undefined,
     readonly payload: any | undefined = undefined,
   ) {}
 
@@ -15,7 +15,7 @@ export class ResourceApiError {
     statusCode?: number;
     key?: string;
     title?: string;
-    message?: string | undefined;
+    message?: object | string | undefined;
     payload?: string | undefined;
     // Legacy Api format
     error?: string;
@@ -25,6 +25,11 @@ export class ResourceApiError {
       description?: string;
     };
   }) {
+    const message =
+      typeof data.message === 'string'
+        ? data.message
+        : data?.description?.description ?? 'error.unknown.message';
+
     return new ResourceApiError(
       data.statusCode ?? data.description?.code ?? AppErrorCodes.Unknown,
       data.key ?? 'unknown',
@@ -32,7 +37,7 @@ export class ResourceApiError {
         data?.error ??
         data.description?.error ??
         'error.unknown.title',
-      data.message ?? data?.description?.description ?? 'error.unknown.message',
+      message,
       data.payload,
     );
   }
