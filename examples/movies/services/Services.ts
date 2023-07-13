@@ -10,6 +10,8 @@ import { TvActions } from '../api/tvs/Tv.actions';
 import { NavigationService } from '@artsiombarouski/rn-expo-router-service';
 import { UserScopeService } from './UserScopeService';
 import { UserStoreService } from '@artsiombarouski/rn-user-store-service';
+import { GenreResource } from '../api/genres/GenreResource';
+import { CollectionResource } from '../api/collections/CollectionResource';
 
 export const rootServices = () =>
   new ServiceContainer({
@@ -26,6 +28,8 @@ export const scopedServices = () =>
       MovieService,
       MovieDiscoverService,
       MovieActions,
+      GenreResource,
+      CollectionResource,
       TvService,
       TvActions,
     ],

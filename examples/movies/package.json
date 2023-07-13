@@ -8,6 +8,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
+    "web:minified": "expo start --web --clear --no-dev --minify",
     "check-typescript": "tsc --noEmit",
     "check-eslint": "eslint './src/**/*{js,ts,jsx,tsx}'",
     "lint": "yarn check-typescript && yarn check-eslint",

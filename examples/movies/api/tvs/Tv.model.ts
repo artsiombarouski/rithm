@@ -1,6 +1,7 @@
-import { ResourceModel } from '@artsiombarouski/rn-resources';
+import { model, ResourceModel } from '@artsiombarouski/rn-resources';
 import { computed } from 'mobx';
 
+@model()
 export class TvModel extends ResourceModel {
   get name(): string | undefined {
     return this.get('name');
