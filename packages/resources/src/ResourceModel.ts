@@ -144,7 +144,10 @@ export class ResourceModel<IdType extends Id = any> {
       throw new Error('ModelStore is not defined');
     }
     const ModelClass = this.modelStore.model();
-    const copy = new ModelClass(this.modelStore, Object.fromEntries(this.attributes.entries()));
+    const copy = new ModelClass(
+      this.modelStore,
+      Object.fromEntries(this.attributes.entries()),
+    );
     copy.parentModel = this;
     return copy;
   }

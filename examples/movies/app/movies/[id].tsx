@@ -1,29 +1,43 @@
 import React from 'react';
-import { Image, Text, View } from 'react-native';
+import { Image, Text } from 'react-native';
 import { useService } from '@artsiombarouski/rn-services';
 import { MovieService } from '../../api/movies/Movie.service';
-import { useSearchParams } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 import { observer } from 'mobx-react-lite';
 import { useResourceModel } from '@artsiombarouski/rn-resources';
+import { Box, Heading, VStack } from 'native-base';
 
 const MovieInfo = observer(() => {
-  const { id } = useSearchParams();
+  const { id } = useLocalSearchParams();
   const movieResource = useService(MovieService);
-  const movie = useResourceModel(parseInt(id as any), movieResource.store);
+  const { model } = useResourceModel(parseInt(id as any), movieResource.store);
 
   return (
-    <View>
-      <Text>Title:</Text>
+    <VStack space={'md'} p={4}>
       <Image
-        source={{ uri: movie.model.posterUrl }}
+        source={{ uri: model.posterUrl }}
         style={{
           aspectRatio: 2 / 3,
           width: 400,
         }}
       />
-      <Text>{movie.model.title}</Text>
-      <Text>{movie.model.overview}</Text>
-    </View>
+      <Heading size={'md'}>{model.title}</Heading>
+      <Text>{model.overview}</Text>
+      <VStack>
+        <Heading size={'sm'}>Genres</Heading>
+        {model?.genres?.map((genre) => {
+          return <Text key={genre.id}>{genre.name}</Text>;
+        })}
+      </VStack>
+      <VStack>
+        <Heading size={'sm'}>Collection</Heading>
+        {model?.collection && (
+          <Box>
+            <Text>{model.collection!.name}</Text>
+          </Box>
+        )}
+      </VStack>
+    </VStack>
   );
 });
 

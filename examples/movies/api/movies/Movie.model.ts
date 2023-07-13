@@ -1,7 +1,29 @@
-import { ResourceModel } from '@artsiombarouski/rn-resources';
+import {
+  model,
+  ResourceAttributes,
+  ResourceModel,
+  ResourceModelStore,
+} from '@artsiombarouski/rn-resources';
 import { computed } from 'mobx';
+import { CollectionModel } from '../collections/CollectionModel';
+import { GenreModel } from '../genres/GenreModel';
 
+@model()
 export class MovieModel extends ResourceModel {
+  constructor(
+    store: ResourceModelStore<MovieModel>,
+    attributes: ResourceAttributes = {},
+  ) {
+    super(store, attributes, {
+      belongs_to_collection: {
+        store: (register) => register.get(CollectionModel),
+      },
+      genres: {
+        store: (register) => register.get(GenreModel),
+      },
+    });
+  }
+
   get title(): string | undefined {
     return this.get('title');
   }
@@ -30,5 +52,13 @@ export class MovieModel extends ResourceModel {
 
   get isAdult(): boolean {
     return this.get('adult') === true;
+  }
+
+  get collection() {
+    return this.get<CollectionModel>('belongs_to_collection');
+  }
+
+  get genres() {
+    return this.get<GenreModel[]>('genres');
   }
 }

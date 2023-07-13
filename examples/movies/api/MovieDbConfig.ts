@@ -15,6 +15,8 @@ export class MovieDbConfig {
   static readonly tvDiscoverUrl = 'discover/tv';
   static readonly movieUrl = 'movie';
   static readonly movieDiscoverUrl = 'discover/movie';
+  static readonly collectionUrl = 'collection';
+  static readonly genreUrl = 'genre';
 }
 
 class ApiTransformer extends ResourceApiDefaultTransformer {

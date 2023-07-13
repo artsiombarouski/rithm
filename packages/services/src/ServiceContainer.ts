@@ -38,6 +38,11 @@ export class ServiceContainer {
           SERVICE_META_KEY,
           service.constructor,
         );
+        if (!serviceName) {
+          throw new Error(
+            'Service class not decorated: ' + service.constructor.name,
+          );
+        }
         this.services[serviceName] = service;
         return service;
       }),
