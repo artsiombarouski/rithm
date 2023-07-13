@@ -8,6 +8,11 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
+import {
+  configureFonts,
+  MD3LightTheme,
+  PaperProvider,
+} from 'react-native-paper';
 import { TimePickerModal } from 'react-native-paper-dates';
 
 export type TimeValue = {
@@ -70,7 +75,25 @@ export function TimePicker({
   );
 
   return (
-    <>
+    <PaperProvider
+      theme={{
+        ...MD3LightTheme,
+        colors: {
+          ...MD3LightTheme.colors,
+          primary: theme.colors.primary[600],
+          primaryContainer: theme.colors.primary[200],
+          onPrimary: theme.colors.blueGray[800],
+          onPrimaryContainer: theme.colors.blueGray[800],
+          surface: theme.colors.blueGray[300],
+          onSurface: theme.colors.blueGray[800],
+          surfaceVariant: theme.colors.primary[100],
+          secondaryContainer: theme.colors.primary[400],
+        },
+        fonts: configureFonts({
+          config: { fontFamily: `${theme.fonts.body}-Medium` },
+        }),
+      }}
+    >
       <Pressable
         onPress={() => setVisible(true)}
         onHoverIn={() => setBorderColor(theme.colors.primary[600])}
@@ -92,7 +115,7 @@ export function TimePicker({
         minutes={time.minutes}
         use24HourClock={false} //todo: change component when passing as prop
       />
-    </>
+    </PaperProvider>
   );
 }
 

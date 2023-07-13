@@ -4,9 +4,8 @@ import {
   ModalDialog,
   useAlert,
 } from '@artsiombarouski/rn-components';
-import { Button, Column, Heading, Row, ScrollView } from 'native-base';
+import { Button, Column, Heading, Row, ScrollView, Divider } from 'native-base';
 import React from 'react';
-import { Divider } from 'react-native-paper';
 
 const Components = () => {
   const alert = useAlert();
