@@ -6,5 +6,6 @@ export type TableColumn<TItem> = Pick<IBoxProps, 'width'> & {
   title?: string | (() => ReactElement);
   flex?: number;
   render?: (item: TItem) => ReactElement;
+  titleProps?: ITextProps;
   valueProps?: ITextProps;
 };

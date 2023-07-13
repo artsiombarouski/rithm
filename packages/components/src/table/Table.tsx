@@ -21,13 +21,13 @@ export type TableHeaderProps<TItem> = IHStackProps & {
 
 export function TableHeader<TItem>(props: TableHeaderProps<TItem>) {
   const { columns, ...restProps } = props;
-  const titleProps: ITextProps = {
+  const defaultTitleProps: ITextProps = {
     color: 'primary.500',
     fontWeight: 'bold',
   };
   const renderTitle = (column: TableColumn<TItem>) => {
-    const { key, title = key, flex, width } = column;
-
+    const { key, title = key, flex, width, titleProps } = column;
+    const props = { ...defaultTitleProps, ...titleProps };
     return (
       <Box
         key={`header-${key}`}
@@ -35,11 +35,7 @@ export function TableHeader<TItem>(props: TableHeaderProps<TItem>) {
         alignItems={'stretch'}
         width={width}
       >
-        {typeof title === 'string' ? (
-          <Text {...titleProps}>{title}</Text>
-        ) : (
-          title()
-        )}
+        {typeof title === 'string' ? <Text {...props}>{title}</Text> : title()}
       </Box>
     );
   };
