@@ -70,7 +70,7 @@ export function Table<TItem>(props: TableProps<TItem>) {
   };
 
   useEffect(() => {
-    setWidthDiff(parentWidth - listWidth);
+    setWidthDiff(Math.max(15, parentWidth - listWidth));
   }, [parentWidth, listWidth]);
 
   const {
