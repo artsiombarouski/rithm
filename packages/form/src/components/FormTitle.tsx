@@ -1,6 +1,6 @@
 import { FormTitleProps } from '../types';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Flex, FormControl, Spacer, Tooltip, Button, Icon } from 'native-base';
+import { Flex, FormControl, Tooltip, Button, Icon } from 'native-base';
 import React, { useCallback, useMemo } from 'react';
 
 export const FormTitle = (props: FormTitleProps) => {
@@ -20,8 +20,14 @@ export const FormTitle = (props: FormTitleProps) => {
     () =>
       tooltipText ? (
         <Tooltip placement={'top'} label={tooltipText}>
-          <Flex flexDirection={'row'} alignItems={'center'}>
-            <FormControl.Label {...titleProps}>{title}</FormControl.Label>
+          <Flex flexDirection={'row'} alignItems={'center'} w={'100%'}>
+            <FormControl.Label
+              flex={1}
+              _text={{ numberOfLines: 1 }}
+              {...titleProps}
+            >
+              {title}
+            </FormControl.Label>
             {tooltipIcon ? (
               tooltipIcon
             ) : (
@@ -30,7 +36,13 @@ export const FormTitle = (props: FormTitleProps) => {
           </Flex>
         </Tooltip>
       ) : (
-        <FormControl.Label {...titleProps}>{title}</FormControl.Label>
+        <FormControl.Label
+          flex={1}
+          _text={{ numberOfLines: 1 }}
+          {...titleProps}
+        >
+          {title}
+        </FormControl.Label>
       ),
     [tooltipText, title, titleProps],
   );
@@ -59,9 +71,13 @@ export const FormTitle = (props: FormTitleProps) => {
   );
 
   return (
-    <Flex flexDirection={'row'} alignItems={'center'}>
+    <Flex
+      flexDirection={'row'}
+      alignItems={'center'}
+      w={'100%'}
+      justifyContent={'space-between'}
+    >
       {LeftContent}
-      <Spacer />
       {RightContent}
     </Flex>
   );
