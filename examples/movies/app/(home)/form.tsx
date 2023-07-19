@@ -158,7 +158,6 @@ const FormExample = () => {
               maxChars={5}
               helperProps={{ mt: 2 }}
               errorProps={{ mt: 3 }}
-              tooltipText={'Tooltip Text'}
             />
           </FormExampleRow>
           <FormExampleRow title={'Input with two states'}>

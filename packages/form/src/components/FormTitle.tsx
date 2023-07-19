@@ -1,9 +1,7 @@
-import { icInfo } from '../assets';
 import { FormTitleProps } from '../types';
-import { AppIcon } from '@artsiombarouski/rn-components';
-import { Flex, FormControl, Spacer, Tooltip, Button } from 'native-base';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Flex, FormControl, Spacer, Tooltip, Button, Icon } from 'native-base';
 import React, { useCallback, useMemo } from 'react';
-import { StyleSheet } from 'react-native';
 
 export const FormTitle = (props: FormTitleProps) => {
   const {
@@ -27,11 +25,7 @@ export const FormTitle = (props: FormTitleProps) => {
             {tooltipIcon ? (
               tooltipIcon
             ) : (
-              <AppIcon
-                source={icInfo}
-                color={'blueGray.600'}
-                style={styles.tooltipIcon}
-              />
+              <Icon as={MaterialCommunityIcons} name="information" ml={1} />
             )}
           </Flex>
         </Tooltip>
@@ -72,9 +66,3 @@ export const FormTitle = (props: FormTitleProps) => {
     </Flex>
   );
 };
-
-const styles = StyleSheet.create({
-  tooltipIcon: {
-    marginLeft: 4,
-  },
-});
