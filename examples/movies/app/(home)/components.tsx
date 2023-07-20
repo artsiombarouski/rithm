@@ -4,8 +4,18 @@ import {
   ModalDialog,
   useAlert,
 } from '@artsiombarouski/rn-components';
-import { Button, Column, Heading, Row, ScrollView, Divider } from 'native-base';
+import { Button, Column, Divider, Heading, Row, ScrollView } from 'native-base';
 import React from 'react';
+import {
+  AutocompleteInput,
+  AutocompleteOption,
+} from '@artsiombarouski/rn-components/src/input';
+import { testNames } from '../../api/names';
+
+const autocompleteOptions: AutocompleteOption[] = testNames.map((e) => ({
+  key: e,
+  value: e,
+}));
 
 const Components = () => {
   const alert = useAlert();
@@ -21,6 +31,18 @@ const Components = () => {
         />
         <Heading size={'sm'}>No Image</Heading>
         <Avatar text={'Artsiom Barouski'} size={96} />
+        <Divider />
+        <Heading>Autocomplete</Heading>
+        <AutocompleteInput
+          getOptions={async (query) => {
+            await new Promise((resolve) => {
+              setTimeout(resolve, 1000);
+            });
+            return autocompleteOptions.filter((e) =>
+              e.value.toLowerCase().includes(query.toLowerCase()),
+            );
+          }}
+        />
         <Divider />
         <Heading>Modal</Heading>
         <Heading size={'sm'}>Modal</Heading>

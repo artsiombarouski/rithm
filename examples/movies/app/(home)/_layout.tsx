@@ -126,7 +126,6 @@ const RootLayout = () => {
           <View style={{ flex: 1 }}>
             <UserView />
             <DrawerContent {...props} />
-            <View style={{ flex: 1 }} />
           </View>
         );
       }}

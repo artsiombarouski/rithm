@@ -53,7 +53,8 @@
     "packages/analytics-amplitude",
     "packages/resources",
     "packages/user-store-service",
-    "packages/expo-router-service"
+    "packages/expo-router-service",
+    "packages/survey-chat"
   ],
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
