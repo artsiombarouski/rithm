@@ -34,6 +34,9 @@ export function FormItem<ElementProps = any>(
     showHelper = true,
     showError = true,
     titleProps,
+    optional,
+    optionalText,
+    optionalProps,
     ...restProps
   } = props;
 
@@ -53,11 +56,18 @@ export function FormItem<ElementProps = any>(
             rightLabel={rightLabel}
             onRightLabelPress={onRightLabelPress}
             titleProps={titleProps}
+            optional={optional}
+            optionalText={optionalText}
+            optionalProps={optionalProps}
           />
         )}
         {render(restProps as any, renderProps)}
         {(helperText || keepErrorSpace) && showHelper && (
-          <FormHelper field={renderProps.field} helperText={helperText} {...helperProps} />
+          <FormHelper
+            field={renderProps.field}
+            helperText={helperText}
+            {...helperProps}
+          />
         )}
         {showError && (
           <FormError error={renderProps.fieldState?.error} {...errorProps} />

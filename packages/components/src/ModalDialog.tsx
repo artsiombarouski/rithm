@@ -1,10 +1,17 @@
-import {isPromise} from '../utils';
-import {isEmpty, omit} from 'lodash';
-import {AlertDialog, Button, Modal, Text} from 'native-base';
-import {IAlertDialogProps} from 'native-base/lib/typescript/components/composites';
-import {IModalProps} from 'native-base/src/components/composites/Modal/types';
-import React, {createContext, forwardRef, useCallback, useEffect, useImperativeHandle, useState,} from 'react';
-import {Platform, StyleProp, ViewStyle} from 'react-native';
+import { isPromise } from '../utils';
+import { isEmpty, omit } from 'lodash';
+import { AlertDialog, Button, Modal, Text } from 'native-base';
+import { IAlertDialogProps } from 'native-base/lib/typescript/components/composites';
+import { IModalProps } from 'native-base/src/components/composites/Modal/types';
+import React, {
+  createContext,
+  forwardRef,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from 'react';
+import { Platform, StyleProp, ViewStyle } from 'react-native';
 
 export type ModalDialogContentProps = {
   onOkClick: (data?: any) => void;
@@ -30,6 +37,7 @@ type ModalDialogPropsBase = {
   showClose?: boolean;
   style?: StyleProp<ViewStyle>;
   contentStyle?: StyleProp<ViewStyle>;
+  bodyStyle?: StyleProp<ViewStyle>;
   alert?: boolean;
 };
 
@@ -53,6 +61,7 @@ const ModalDialogView = (props: ModalDialogProps) => {
     showClose = false,
     style,
     contentStyle,
+    bodyStyle,
     alert = false,
     ...restProps
   } = props;
@@ -113,6 +122,7 @@ const ModalDialogView = (props: ModalDialogProps) => {
             width: '100%',
             maxWidth: 560,
             alignSelf: 'center',
+            padding: 32,
           },
         }),
         style,
@@ -120,13 +130,21 @@ const ModalDialogView = (props: ModalDialogProps) => {
       leastDestructiveRef={cancelRef} //TODO: add only for AlertDialog
       {...restProps}
     >
-      <DialogComponent.Content style={contentStyle}>
+      <DialogComponent.Content
+        style={[
+          {
+            maxHeight: '100%',
+            width: '100%',
+          },
+          contentStyle,
+        ]}
+      >
         {showClose && <DialogComponent.CloseButton />}
         {!isEmpty(title) && (
           <DialogComponent.Header>{title}</DialogComponent.Header>
         )}
         {content && (
-          <DialogComponent.Body>
+          <DialogComponent.Body style={bodyStyle}>
             {typeof content === 'string' ? (
               <Text>{content ?? ''}</Text>
             ) : (
@@ -226,9 +244,9 @@ function createModalDialogRef() {
       current?.show(props);
     },
     showAsPromise: (
-        props: Omit<ModalDialogProps, 'onOk' | 'onCancel'> & {
-          action: () => Promise<boolean>;
-        },
+      props: Omit<ModalDialogProps, 'onOk' | 'onCancel'> & {
+        action: () => Promise<boolean>;
+      },
     ) => {
       return new Promise<boolean>((resolve) => {
         current?.show({

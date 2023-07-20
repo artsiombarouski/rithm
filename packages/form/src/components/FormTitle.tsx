@@ -1,6 +1,6 @@
 import { FormTitleProps } from '../types';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Flex, FormControl, Spacer, Tooltip, Button, Icon } from 'native-base';
+import { FormControl, Tooltip, Button, Icon, Row, Text } from 'native-base';
 import React, { useCallback, useMemo } from 'react';
 
 export const FormTitle = (props: FormTitleProps) => {
@@ -11,42 +11,69 @@ export const FormTitle = (props: FormTitleProps) => {
     rightLabel,
     onRightLabelPress,
     titleProps,
+    optional,
+    optionalText,
+    optionalProps,
   } = props || {};
 
   const onPress = useCallback(() => {
     onRightLabelPress?.();
   }, [onRightLabelPress]);
+
+  const OptionalContent = useMemo(
+    () =>
+      optional ? (
+        <Text
+          ml={'2px'}
+          numberOfLines={1}
+          color={'blueGray.400'}
+          {...optionalProps}
+        >
+          {optionalText ?? '(optional)'}
+        </Text>
+      ) : (
+        <></>
+      ),
+    [optional, optionalText, optionalProps],
+  );
+
   const LeftContent = useMemo(
     () =>
       tooltipText ? (
         <Tooltip placement={'top'} label={tooltipText}>
-          <Flex flexDirection={'row'} alignItems={'center'}>
-            <FormControl.Label {...titleProps}>{title}</FormControl.Label>
+          <FormControl.Label
+            maxWidth={'100%'}
+            _text={{ numberOfLines: 1 }}
+            {...titleProps}
+          >
+            {title}
+            {OptionalContent}
             {tooltipIcon ? (
               tooltipIcon
             ) : (
               <Icon as={MaterialCommunityIcons} name="information" ml={1} />
             )}
-          </Flex>
+          </FormControl.Label>
         </Tooltip>
       ) : (
-        <FormControl.Label {...titleProps}>{title}</FormControl.Label>
+        <FormControl.Label
+          maxWidth={'100%'}
+          _text={{ numberOfLines: 1 }}
+          {...titleProps}
+        >
+          {title}
+          {OptionalContent}
+        </FormControl.Label>
       ),
-    [tooltipText, title, titleProps],
+    [tooltipText, title, titleProps, OptionalContent],
   );
 
+  //todo: make RightContent not to overflow Row
   const RightContent = useMemo(
     () =>
       rightLabel ? (
         typeof rightLabel === 'string' ? (
-          <Button
-            size="md"
-            variant="link"
-            p={0}
-            height={'auto'}
-            alignSelf={'flex-start'}
-            onPress={onPress}
-          >
+          <Button variant="link" p={0} height={'auto'} onPress={onPress}>
             {rightLabel}
           </Button>
         ) : (
@@ -59,10 +86,14 @@ export const FormTitle = (props: FormTitleProps) => {
   );
 
   return (
-    <Flex flexDirection={'row'} alignItems={'center'}>
+    <Row
+      alignItems={'center'}
+      flex={1}
+      maxW={'100%'}
+      justifyContent={'space-between'}
+    >
       {LeftContent}
-      <Spacer />
       {RightContent}
-    </Flex>
+    </Row>
   );
 };

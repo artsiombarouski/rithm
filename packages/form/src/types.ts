@@ -13,6 +13,7 @@ import {
   UseFormStateReturn,
 } from 'react-hook-form';
 import { StyleProp, ViewStyle } from 'react-native';
+import {ITextProps} from "native-base";
 
 export type FormValues = FieldValues;
 
@@ -23,6 +24,9 @@ export type FormTitleProps = {
   rightLabel?: string | ReactNode;
   onRightLabelPress?: () => void;
   titleProps?: IFormControlLabelProps;
+  optional?: boolean;
+  optionalText?: string;
+  optionalProps?: ITextProps
 };
 
 export type FormItemProps<T extends FormValues = FormValues> = {
