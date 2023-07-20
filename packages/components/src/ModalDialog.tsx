@@ -122,6 +122,7 @@ const ModalDialogView = (props: ModalDialogProps) => {
             width: '100%',
             maxWidth: 560,
             alignSelf: 'center',
+            padding: 32,
           },
         }),
         style,
@@ -129,7 +130,15 @@ const ModalDialogView = (props: ModalDialogProps) => {
       leastDestructiveRef={cancelRef} //TODO: add only for AlertDialog
       {...restProps}
     >
-      <DialogComponent.Content style={contentStyle}>
+      <DialogComponent.Content
+        style={[
+          {
+            maxHeight: '100%',
+            width: '100%',
+          },
+          contentStyle,
+        ]}
+      >
         {showClose && <DialogComponent.CloseButton />}
         {!isEmpty(title) && (
           <DialogComponent.Header>{title}</DialogComponent.Header>
