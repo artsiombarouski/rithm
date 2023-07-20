@@ -152,6 +152,7 @@ const FormExample = () => {
               name={'input-numeric'}
               title={'Numeric input'}
               optional={true}
+              rightLabel={'Right'}
             />
           </FormExampleRow>
           <FormExampleRow title={'Chars limit'}>
@@ -163,6 +164,7 @@ const FormExample = () => {
               helperProps={{ mt: 2 }}
               errorProps={{ mt: 3 }}
               tooltipText={'Tooltip Text'}
+              optional={true}
             />
           </FormExampleRow>
           <FormExampleRow title={'Input with two states'}>
