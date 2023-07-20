@@ -45,6 +45,7 @@
     "@artsiombarouski/rn-user-store-service": "*",
     "@artsiombarouski/rn-analytics": "*",
     "@artsiombarouski/rn-analytics-amplitude": "*",
+    "@artsiombarouski/rn-survey-chat": "*",
     "@expo-google-fonts/inter": "^0.2.3",
     "@expo/webpack-config": "^18.0.1",
     "@react-navigation/drawer": "^6.6.2",

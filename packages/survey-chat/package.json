@@ -1,23 +1,24 @@
 {
-  "name": "@artsiombarouski/rn-components",
-  "version": "0.0.17",
+  "name": "@artsiombarouski/rn-survey-chat",
+  "version": "0.0.1",
   "description": "",
   "main": "src/index.ts",
   "author": "Artsiom Barouski",
   "license": "ISC",
   "dependencies": {
-    "lodash": "^4.17.21",
-    "react-native-svg": "^13.9.0",
-    "string-to-color": "^2.2.2",
-    "tinycolor2": "^1.6.0"
   },
   "peerDependencies": {
+    "react": "*",
+    "react-native": "*",
     "native-base": "*",
-    "react-native": "*"
+    "mobx": "*",
+    "mobx-react": "*",
+    "mobx-react-lite": "*",
+    "@artsiombarouski/rn-components": "*"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/artsiombarouski/rithm.git",
-    "directory": "packages/rn-components"
+    "directory": "packages/rn-survey-chat"
   }
 }
