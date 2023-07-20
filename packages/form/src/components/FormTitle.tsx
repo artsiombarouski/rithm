@@ -1,6 +1,14 @@
 import { FormTitleProps } from '../types';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Flex, FormControl, Tooltip, Button, Icon } from 'native-base';
+import {
+  Flex,
+  FormControl,
+  Tooltip,
+  Button,
+  Icon,
+  Row,
+  Text,
+} from 'native-base';
 import React, { useCallback, useMemo } from 'react';
 
 export const FormTitle = (props: FormTitleProps) => {
@@ -11,6 +19,9 @@ export const FormTitle = (props: FormTitleProps) => {
     rightLabel,
     onRightLabelPress,
     titleProps,
+    optional,
+    optionalText,
+    optionalProps,
   } = props || {};
 
   const onPress = useCallback(() => {
@@ -70,6 +81,18 @@ export const FormTitle = (props: FormTitleProps) => {
     [rightLabel, onPress],
   );
 
+  const OptionalContent = useMemo(
+    () =>
+      optional ? (
+        <Text color={'blueGray.400'} {...optionalProps}>
+          {optionalText ?? ' (optional)'}
+        </Text>
+      ) : (
+        <></>
+      ),
+    [optional, optionalText],
+  );
+
   return (
     <Flex
       flexDirection={'row'}
@@ -77,7 +100,10 @@ export const FormTitle = (props: FormTitleProps) => {
       w={'100%'}
       justifyContent={'space-between'}
     >
-      {LeftContent}
+      <Row alignItems={'center'}>
+        {LeftContent}
+        {OptionalContent}
+      </Row>
       {RightContent}
     </Flex>
   );
