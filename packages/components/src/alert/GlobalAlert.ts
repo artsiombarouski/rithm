@@ -1,4 +1,8 @@
-import { AlertContextFields, AlertContextType } from './types';
+import {
+  AlertContextFields,
+  AlertContextType,
+  ShowErrorFromParams,
+} from './types';
 
 export class GlobalAlert {
   static instance: AlertContextType;
@@ -13,5 +17,9 @@ export class GlobalAlert {
 
   static showError(params: AlertContextFields) {
     this.instance?.showError(params);
+  }
+
+  static showErrorFrom(params: ShowErrorFromParams) {
+    this.instance?.showErrorFrom(params);
   }
 }

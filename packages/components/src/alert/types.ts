@@ -1,3 +1,5 @@
+import { ResourceApiError } from '@artsiombarouski/rn-resources';
+
 export enum AlertType {
   Error = 'error',
   Info = 'info',
@@ -20,11 +22,16 @@ export type AlertContextFields = {
   duration?: number | null;
 };
 
+export type ShowErrorFromParams = AlertContextFields & {
+  error: ResourceApiError;
+};
+
 export type AlertContextType = {
   current?: AlertContextFields;
   dispatch: (props: AlertContextFields) => void;
   showInfo: (props: AlertContextFields) => void;
   showError: (props: AlertContextFields) => void;
+  showErrorFrom: (props: ShowErrorFromParams) => void;
   showSuccess: (props: AlertContextFields) => void;
   theme?: AlertThemeType;
 };

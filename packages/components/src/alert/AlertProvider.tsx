@@ -1,7 +1,13 @@
 import { AlertContext } from './Alert';
 import { AlertToast } from './AlertToast';
 import { GlobalAlert } from './GlobalAlert';
-import { AlertContextFields, AlertThemeType, AlertType } from './types';
+import {
+  AlertContextFields,
+  AlertThemeType,
+  AlertType,
+  ShowErrorFromParams,
+} from './types';
+import { ResourceApiError } from '@artsiombarouski/rn-resources';
 import React, { useReducer } from 'react';
 import { Keyboard } from 'react-native';
 
@@ -52,6 +58,16 @@ export function AlertProvider({ children, theme }: AlertProviderProps) {
         action: 'open',
         alertType: AlertType.Error,
       }),
+    showErrorFrom: (props: ShowErrorFromParams) => {
+      const error = ResourceApiError.fromApiResponse(props.error);
+      dispatch({
+        ...props,
+        title: error.title,
+        message: error.message as string,
+        action: 'open',
+        alertType: AlertType.Error,
+      });
+    },
     showInfo: (props: AlertContextFields) =>
       dispatch({
         ...props,
