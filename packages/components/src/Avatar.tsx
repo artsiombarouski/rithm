@@ -1,6 +1,6 @@
 import {
   Avatar as NativeBaseAvatar,
-  Container,
+  Box,
   IAvatarProps,
   IContainerProps,
   ITextProps,
@@ -56,7 +56,7 @@ export const Avatar = (props: Props) => {
     ? stc(letters)
     : theme.colors.secondary['500'];
   return (
-    <Container
+    <Box
       w={`${size}px`}
       h={`${size}px`}
       borderRadius={borderRadius}
@@ -73,6 +73,6 @@ export const Avatar = (props: Props) => {
       >
         {letters}
       </Text>
-    </Container>
+    </Box>
   );
 };
