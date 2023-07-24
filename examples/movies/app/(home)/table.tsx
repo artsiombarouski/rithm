@@ -19,6 +19,7 @@ const TablePage = () => {
             key: 'title',
             title: 'Title',
             flex: 1,
+            tooltipText: 'Tooltip'
           },
           {
             key: 'inner.title',

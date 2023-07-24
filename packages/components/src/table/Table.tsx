@@ -1,18 +1,22 @@
 import { TableColumn } from './types';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import _ from 'lodash';
 import {
   Box,
   Divider,
   FlatList,
   HStack,
+  Icon,
   ITextProps,
   Pressable,
+  Row,
   Text,
+  Tooltip,
   VStack,
 } from 'native-base';
 import { IHStackProps } from 'native-base/lib/typescript/components/primitives/Stack/HStack';
 import { IVStackProps } from 'native-base/lib/typescript/components/primitives/Stack/VStack';
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { FlatListProps, LayoutChangeEvent } from 'react-native';
 
 export type TableHeaderProps<TItem> = IHStackProps & {
@@ -26,8 +30,29 @@ export function TableHeader<TItem>(props: TableHeaderProps<TItem>) {
     fontWeight: 'bold',
   };
   const renderTitle = (column: TableColumn<TItem>) => {
-    const { key, title = key, flex, width, titleProps } = column;
+    const {
+      key,
+      title = key,
+      flex,
+      width,
+      titleProps,
+      tooltipText,
+      tooltipIcon,
+    } = column;
     const props = { ...defaultTitleProps, ...titleProps };
+
+    const textContent = useMemo(
+      () =>
+        typeof title === 'string' ? (
+          <Text alignSelf={'flex-start'} {...props}>
+            {title}
+          </Text>
+        ) : (
+          title()
+        ),
+      [title, props],
+    );
+
     return (
       <Box
         key={`header-${key}`}
@@ -35,7 +60,20 @@ export function TableHeader<TItem>(props: TableHeaderProps<TItem>) {
         alignItems={'stretch'}
         width={width}
       >
-        {typeof title === 'string' ? <Text {...props}>{title}</Text> : title()}
+        {tooltipText ? (
+          <Tooltip placement={'top'} label={tooltipText}>
+            <Row alignSelf={'flex-start'}>
+              {textContent}
+              {tooltipIcon ? (
+                tooltipIcon
+              ) : (
+                <Icon as={MaterialCommunityIcons} name="information" ml={1} />
+              )}
+            </Row>
+          </Tooltip>
+        ) : (
+          textContent
+        )}
       </Box>
     );
   };
