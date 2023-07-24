@@ -26,6 +26,7 @@ import {
   IconButton,
   Input,
   Pressable,
+  Row,
   ScrollView,
   Text,
   VStack,
@@ -146,6 +147,36 @@ const FormExample = () => {
   return (
     <HStack flex={1}>
       <ScrollView p={4} flex={1}>
+        <FormExampleRow title={'Dropdown and Timepicker'}>
+          <Row flex={1} space={4}>
+            <FormTimePicker
+              name={'time'}
+              title={'Time Time Time Time'}
+              rules={{ required: true }}
+              itemContainerStyle={{
+                flex: 1,
+              }}
+              optional={true}
+              tooltipText={'text'}
+              rightLabel={'right'}
+            />
+            <FormDropDown
+              name={'dropdown'}
+              title={'DropDown DropDown DropDown DropDown'}
+              size={'lg'}
+              options={new Array(100).fill(null).map((_, index) => {
+                return { key: `key${index}`, label: `Key ${index}` };
+              })}
+              rules={{ required: true }}
+              useAnchorSize={true}
+              itemContainerStyle={{
+                flex: 1,
+              }}
+              optional={true}
+              tooltipText={'text'}
+            />
+          </Row>
+        </FormExampleRow>
         <VStack flex={1} space={6}>
           <FormExampleRow title={'Numeric input'}>
             <FormNumericInput

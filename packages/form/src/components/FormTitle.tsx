@@ -86,12 +86,7 @@ export const FormTitle = (props: FormTitleProps) => {
   );
 
   return (
-    <Row
-      alignItems={'center'}
-      flex={1}
-      maxW={'100%'}
-      justifyContent={'space-between'}
-    >
+    <Row alignItems={'center'} maxW={'100%'} justifyContent={'space-between'}>
       {LeftContent}
       {RightContent}
     </Row>
