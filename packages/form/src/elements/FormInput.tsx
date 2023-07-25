@@ -1,6 +1,8 @@
 import { FormItem } from '../components';
 import { FormElementRenderProps, FormItemProps, FormValues } from '../types';
 import { IInputProps, Input, ITextProps, Text } from 'native-base';
+import numeral from 'numeral';
+import { useEffect, useState } from 'react';
 
 export type FormInputFormatter = (input?: string) => string;
 
@@ -29,10 +31,22 @@ export const FormInput = (props: FormInputProps) => {
     maxChars,
     ...restProps
   } = props;
+
+  const isNumericFormattingApplied = formatters?.includes(
+    NumericFormInputFormatter,
+  );
+  const [displayValue, setDisplayValue] = useState('');
+
   const renderInput = (
     props: IInputProps,
     renderProps: FormElementRenderProps,
   ) => {
+    useEffect(() => {
+      if (isNumericFormattingApplied && renderProps.field.value) {
+        setDisplayValue(renderProps.field.value);
+      }
+    }, []);
+
     if (isRawText) {
       return (
         <Text fontSize={16} {...rawTextProps}>
@@ -45,7 +59,11 @@ export const FormInput = (props: FormInputProps) => {
         size={'lg'}
         variant={'outline'}
         {...props}
-        value={renderProps.field.value?.toString()}
+        value={
+          isNumericFormattingApplied
+            ? displayValue.toString()
+            : renderProps.field.value?.toString()
+        }
         onBlur={renderProps.field.onBlur}
         onChangeText={(value) => {
           let result = trim ? value.trim() : value;
@@ -57,7 +75,13 @@ export const FormInput = (props: FormInputProps) => {
           if (maxChars) {
             result = result.substring(0, maxChars);
           }
-          return renderProps.field.onChange(result);
+          if (isNumericFormattingApplied) {
+            setDisplayValue(result);
+            const formattedResult = numeral(result).value().toString();
+            return renderProps.field.onChange(formattedResult);
+          } else {
+            return renderProps.field.onChange(result);
+          }
         }}
       />
     );
