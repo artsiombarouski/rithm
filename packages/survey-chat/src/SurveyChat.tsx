@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { observer, useLocalObservable } from 'mobx-react-lite';
-import { Box, FlatList, IBoxProps } from 'native-base';
+import { Box, FlatList, IBoxProps, IIconButtonProps } from 'native-base';
 import { SurveyMessage, SurveyQuestion } from './types';
 import { SurveyChatRunner } from './SurveyChatRunner';
 import { ListRenderItemInfo } from 'react-native';
@@ -11,6 +11,8 @@ import {
 import { IndicatorProps, SurveyChatFooter } from './SurveyChatFooter';
 import { IFlatListProps } from 'native-base/lib/typescript/components/basic/FlatList';
 import { toJS } from 'mobx';
+import { SurveyChatActionContainer } from './SurveyChatActionContainer';
+import { ControlledTooltipProps } from '@artsiombarouski/rn-components';
 
 export type SurveyChatProps = {
   questions?: SurveyQuestion[];
@@ -22,6 +24,8 @@ export type SurveyChatProps = {
     answerMessageProps?: SurveyChatMessageStylingProps;
   };
   indicatorProps?: IndicatorProps;
+  tooltipProps?: Partial<ControlledTooltipProps>;
+  tooltipButtonProps?: IIconButtonProps;
 };
 
 export const SurveyChat = observer<SurveyChatProps>((props) => {
@@ -32,11 +36,12 @@ export const SurveyChat = observer<SurveyChatProps>((props) => {
     listProps,
     messageProps,
     indicatorProps,
+    tooltipProps,
+    tooltipButtonProps,
   } = props;
   const runner = useLocalObservable(
     () => new SurveyChatRunner(questions ?? []),
   );
-  const currentQuestion = runner.currentQuestion;
 
   const renderMessage = ({ item }: ListRenderItemInfo<SurveyMessage>) => {
     return <SurveyChatMessage value={item} runner={runner} {...messageProps} />;
@@ -56,7 +61,7 @@ export const SurveyChat = observer<SurveyChatProps>((props) => {
     }
   }, [runner.isCompleted]);
 
-  const isInverted = listProps.inverted;
+  const isInverted = listProps?.inverted;
   const data = runner.messages.slice();
 
   return (
@@ -70,20 +75,11 @@ export const SurveyChat = observer<SurveyChatProps>((props) => {
         ListHeaderComponent={isInverted && renderFooter()}
         {...listProps}
       />
-      <Box>
-        {currentQuestion?.surveyAction &&
-          React.createElement(currentQuestion?.surveyAction as any, {
-            runner: runner,
-            onSubmit: (value: any, message: any) => {
-              runner.setAnswer(
-                currentQuestion?.dataKey ?? currentQuestion?.key,
-                value,
-                message,
-              );
-              return runner.next();
-            },
-          })}
-      </Box>
+      <SurveyChatActionContainer
+        runner={runner}
+        tooltipProps={tooltipProps}
+        tooltipButtonProps={tooltipButtonProps}
+      />
     </Box>
   );
 });
