@@ -31,12 +31,10 @@ export const SurveyChatActionContainer = observer<SurveyActionContainerProps>(
 
     useEffect(() => {
       const unsubscribe = observe(runner, 'currentQuestion', (change) => {
-        if (!change.newValue) {
-          setTooltipState({
-            visible: currentQuestion?.tooltipInitialVisible === true,
-            clicked: false,
-          });
-        }
+        setTooltipState({
+          visible: change.newValue?.tooltipInitialVisible === true,
+          clicked: false,
+        });
       });
       return () => {
         unsubscribe();

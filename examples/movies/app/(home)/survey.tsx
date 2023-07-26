@@ -59,6 +59,7 @@ const questions: SurveyQuestion[] = [
   {
     key: 'textInput',
     message: 'Here is text input',
+    tooltipInitialVisible: true,
     tooltip: (props) => <Tooltip {...props} />,
     surveyAction: (props) => <SurveyInputAction {...props} />,
   },

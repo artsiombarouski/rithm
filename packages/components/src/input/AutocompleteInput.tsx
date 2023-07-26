@@ -46,7 +46,9 @@ export const AutocompleteInput = (props: AutocompleteInputProps) => {
   const [inputWidth, setInputWidth] = useState(0);
   const [currentValue, setCurrentValue] = useState('');
   const [isInputFocused, setInputFocused] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOption, setSelectedOption] = useState<
+    AutocompleteOption | undefined
+  >(null);
   const [popperState, setPopperState] = useState<{
     options: AutocompleteOption[];
     isVisible: boolean;
@@ -63,6 +65,7 @@ export const AutocompleteInput = (props: AutocompleteInputProps) => {
 
   const handleItemClick = (item: AutocompleteOption) => () => {
     setSelectedOption(item);
+    onChange?.(item);
   };
 
   const renderItem = ({ item }: ListRenderItemInfo<AutocompleteOption>) => {
@@ -85,7 +88,6 @@ export const AutocompleteInput = (props: AutocompleteInputProps) => {
     if (selectedOption) {
       setCurrentValue(selectedOption.value);
     }
-    onChange?.(selectedOption);
   }, [selectedOption]);
 
   useEffect(() => {
