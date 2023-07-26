@@ -156,14 +156,17 @@ export const AutocompleteInput = (props: AutocompleteInputProps) => {
           onChangeText={(value) => {
             setSelectedOption(null);
             setCurrentValue(value);
+            inputProps?.onChangeText?.(value);
           }}
-          onFocus={() => {
+          onFocus={(e) => {
             setInputFocused(true);
+            inputProps?.onFocus?.(e);
           }}
           onBlur={(e) => {
             if (isInputFocused) {
               (e.target as any).focus();
             }
+            inputProps?.onBlur?.(e);
           }}
           InputRightElement={
             <HStack alignItems={'center'}>

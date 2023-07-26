@@ -1,13 +1,16 @@
 import { Box, Button, IInputProps, Input } from 'native-base';
-import { useState } from 'react';
+import { ReactElement, useState } from 'react';
 import { SurveyActionProps } from '../types';
 
 export type SurveyInputActionProps = SurveyActionProps & {
   inputProps?: IInputProps;
+  actionElement?: (
+    props: SurveyActionProps & { handleSubmit: () => void },
+  ) => ReactElement;
 };
 
 export const SurveyInputAction = (props: SurveyInputActionProps) => {
-  const { onSubmit, question, inputProps } = props;
+  const { closeTooltip, onSubmit, inputProps, actionElement } = props;
   const [currentValue, setCurrentValue] = useState('');
   const handleSubmit = () => {
     if (currentValue.length === 0) {
@@ -21,11 +24,14 @@ export const SurveyInputAction = (props: SurveyInputActionProps) => {
       <Input
         onChangeText={(value) => {
           setCurrentValue(value);
+          closeTooltip();
         }}
         InputRightElement={
-          <Button variant={'link'} onPress={handleSubmit}>
-            Answer
-          </Button>
+          actionElement?.({ ...props, handleSubmit }) ?? (
+            <Button variant={'link'} onPress={handleSubmit}>
+              Answer
+            </Button>
+          )
         }
         {...inputProps}
       />

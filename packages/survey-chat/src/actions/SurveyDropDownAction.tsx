@@ -1,5 +1,5 @@
 import { Box, Button } from 'native-base';
-import { useState } from 'react';
+import { ReactElement, useState } from 'react';
 import { SurveyActionProps } from '../types';
 import {
   DropDownPicker,
@@ -9,10 +9,13 @@ import {
 
 export type SurveyDropDownActionProps = SurveyActionProps & {
   dropDownProps: DropDownPickerProps;
+  actionElement?: (
+    props: SurveyActionProps & { handleSubmit: () => void },
+  ) => ReactElement;
 };
 
 export const SurveyDropDownAction = (props: SurveyDropDownActionProps) => {
-  const { onSubmit, question, dropDownProps } = props;
+  const { closeTooltip, onSubmit, dropDownProps, actionElement } = props;
   const [currentValue, setCurrentValue] = useState<DropDownPickerOption>(null);
   const handleSubmit = () => {
     if (!currentValue) {
@@ -26,10 +29,14 @@ export const SurveyDropDownAction = (props: SurveyDropDownActionProps) => {
       <DropDownPicker
         onChange={(value) => {
           setCurrentValue(value);
+          closeTooltip();
+        }}
+        onOpen={() => {
+          closeTooltip();
         }}
         value={currentValue?.key}
         inputProps={{
-          InputRightElement: (
+          InputRightElement: actionElement?.({ ...props, handleSubmit }) ?? (
             <Button
               variant={'link'}
               onPress={handleSubmit}

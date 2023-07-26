@@ -1,11 +1,55 @@
-import { Box, Spacer, useTheme } from 'native-base';
+import {
+  Box,
+  CloseIcon,
+  Heading,
+  HStack,
+  IconButton,
+  Spacer,
+  Text,
+  useTheme,
+  VStack,
+} from 'native-base';
 import {
   SurveyAutocompleteAction,
   SurveyChat,
   SurveyDropDownAction,
   SurveyInputAction,
   SurveyQuestion,
+  SurveyTooltipProps,
 } from '@artsiombarouski/rn-survey-chat';
+
+const Tooltip = (props: SurveyTooltipProps) => {
+  return (
+    <Box>
+      <HStack w={'100%'} space={'sm'} p={2}>
+        <Text fontSize={24} lineHeight={24}>
+          😀
+        </Text>
+        <VStack flex={1} space={'2xs'}>
+          <HStack>
+            <Heading flex={1} fontSize={'md'}>
+              Good Example
+            </Heading>
+            <IconButton
+              p={1}
+              icon={<CloseIcon />}
+              size={'xs'}
+              onPress={props.close}
+              rounded={'full'}
+            />
+          </HStack>
+          <Text fontSize={12}>
+            “I've recently gone through a pretty tough breakup. I thought I was
+            okay at first, but it's been a few months and I can't seem to shake
+            this feeling of loneliness and self-doubt. It's gotten to the point
+            where I'm questioning my self-worth and I don't want to feel like
+            this anymore.”
+          </Text>
+        </VStack>
+      </HStack>
+    </Box>
+  );
+};
 
 const questions: SurveyQuestion[] = [
   {
@@ -15,6 +59,7 @@ const questions: SurveyQuestion[] = [
   {
     key: 'textInput',
     message: 'Here is text input',
+    tooltip: (props) => <Tooltip {...props} />,
     surveyAction: (props) => <SurveyInputAction {...props} />,
   },
   {
@@ -24,6 +69,8 @@ const questions: SurveyQuestion[] = [
   {
     key: 'autocomplete',
     message: 'Here is autocomplete',
+    tooltip: (props) => <Tooltip {...props} />,
+    tooltipInitialVisible: true,
     surveyAction: (props) => (
       <SurveyAutocompleteAction
         {...props}
@@ -74,6 +121,12 @@ export default function SurveyPage() {
         }}
         onComplete={(answers) => {
           console.log('onComplete', answers);
+        }}
+        tooltipProps={{
+          bgColor: 'white',
+          borderRadius: 16,
+          borderWidth: 1,
+          maxW: 512,
         }}
         messageProps={{
           messageProps: {

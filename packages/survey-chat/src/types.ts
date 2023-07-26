@@ -4,7 +4,15 @@ import { SurveyChatRunner } from './SurveyChatRunner';
 export type SurveyActionProps = {
   runner: SurveyChatRunner;
   question: SurveyQuestion;
+  openTooltip: () => void;
+  closeTooltip: () => void;
   onSubmit: (value: any, message?: string) => void;
+};
+
+export type SurveyTooltipProps = {
+  runner: SurveyChatRunner;
+  question: SurveyQuestion;
+  close: () => void;
 };
 
 export type SurveyMessage = {
@@ -19,6 +27,8 @@ export type SurveyQuestion = {
   dataKey?: string;
   message?: string | ((runner: SurveyChatRunner) => string);
   isAnswer?: boolean;
-  surveyAction?: (props: SurveyActionProps) => React.ReactNode;
+  tooltip?: (props: SurveyTooltipProps) => React.ReactNode;
+  tooltipInitialVisible?: boolean;
+  surveyAction?: (props: SurveyActionProps) => React.ReactElement;
   showDelay?: number;
 };

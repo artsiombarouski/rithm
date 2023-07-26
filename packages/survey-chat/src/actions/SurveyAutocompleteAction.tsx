@@ -1,5 +1,5 @@
 import { Box, Button } from 'native-base';
-import { useState } from 'react';
+import { ReactElement, useState } from 'react';
 import { SurveyActionProps } from '../types';
 import {
   AutocompleteInput,
@@ -9,12 +9,15 @@ import {
 
 export type SurveyAutocompleteActionProps = SurveyActionProps & {
   autocompleteProps: AutocompleteInputProps;
+  actionElement?: (
+    props: SurveyActionProps & { handleSubmit: () => void },
+  ) => ReactElement;
 };
 
 export const SurveyAutocompleteAction = (
   props: SurveyAutocompleteActionProps,
 ) => {
-  const { onSubmit, question, autocompleteProps } = props;
+  const { closeTooltip, onSubmit, autocompleteProps, actionElement } = props;
   const [currentValue, setCurrentValue] = useState<AutocompleteOption>(null);
   const handleSubmit = () => {
     if (!currentValue) {
@@ -28,9 +31,13 @@ export const SurveyAutocompleteAction = (
       <AutocompleteInput
         onChange={(value) => {
           setCurrentValue(value);
+          closeTooltip();
         }}
         inputProps={{
-          InputRightElement: (
+          onChangeText: () => {
+            closeTooltip();
+          },
+          InputRightElement: actionElement?.({ ...props, handleSubmit }) ?? (
             <Button
               isDisabled={!currentValue}
               variant={'link'}
