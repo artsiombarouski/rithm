@@ -39,6 +39,7 @@
   "dependencies": {
     "@artsiombarouski/rn-components": "*",
     "@artsiombarouski/rn-expo-router-service": "*",
+    "@artsiombarouski/rn-expo-router-top-tabs": "*",
     "@artsiombarouski/rn-form": "*",
     "@artsiombarouski/rn-resources": "*",
     "@artsiombarouski/rn-services": "*",

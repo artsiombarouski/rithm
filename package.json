@@ -54,6 +54,7 @@
     "packages/resources",
     "packages/user-store-service",
     "packages/expo-router-service",
+    "packages/expo-router-top-tabs",
     "packages/survey-chat"
   ],
   "publishConfig": {

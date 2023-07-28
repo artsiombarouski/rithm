@@ -2,9 +2,10 @@ import { DefaultTheme, Theme, ThemeProvider } from '@react-navigation/native';
 import { extendTheme, NativeBaseProvider } from 'native-base';
 import React from 'react';
 import {
-  PaperProvider,
   DefaultTheme as PaperDefaultTheme,
+  PaperProvider,
 } from 'react-native-paper';
+import { Platform } from 'react-native';
 
 const navigationTheme: Theme = {
   ...DefaultTheme,
@@ -81,7 +82,9 @@ const theme = extendTheme({
 });
 
 export const AppThemeProvider = (props: { children: any }) => {
-  document.getElementById('root')!.style.height = '100vh';
+  if (Platform.OS === 'web') {
+    document.getElementById('root')!.style.height = '100vh';
+  }
 
   return (
     <PaperProvider theme={PaperDefaultTheme}>
