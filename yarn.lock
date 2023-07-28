@@ -14035,13 +14035,6 @@ react-native-codegen@^0.71.5:
     jscodeshift "^0.13.1"
     nullthrows "^1.1.1"
 
-react-native-collapsible-tab-view@2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/react-native-collapsible-tab-view/-/react-native-collapsible-tab-view-2.0.2.tgz#633cdae6780c57b5e70a65ce66741df4d68ced92"
-  integrity sha512-83fme3FnMFIMIbhE6J7Iqmt2HG5q7A8d49X38VrSRegC1UG4sIAVjS3MSSVMgCip+WscqBc0aiJFQInTUzkUEw==
-  dependencies:
-    use-debounce "^5.1.0"
-
 react-native-gesture-handler@~2.9.0:
   version "2.9.0"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-2.9.0.tgz#2f63812e523c646f25b9ad660fc6f75948e51241"
@@ -16486,11 +16479,6 @@ url@^0.11.0:
   dependencies:
     punycode "1.3.2"
     querystring "0.2.0"
-
-use-debounce@^5.1.0:
-  version "5.2.1"
-  resolved "https://registry.yarnpkg.com/use-debounce/-/use-debounce-5.2.1.tgz#7366543c769f1de3e92104dee64de5c4dfddfd33"
-  integrity sha512-BQG5uEypYHd/ASF6imzYR8tJHh5qGn28oZG/5iVAbljV6MUrfyT4jzxA8co+L+WLCT1U8VBwzzvlb3CHmUDpEA==
 
 use-latest-callback@^0.1.5:
   version "0.1.6"
