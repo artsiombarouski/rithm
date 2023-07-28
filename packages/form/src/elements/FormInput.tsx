@@ -12,6 +12,12 @@ export const NumericFormInputFormatter: FormInputFormatter = (
   return input.replace(/[^0-9.,]/g, '');
 };
 
+export const NoSpaceFormInputFormatter: FormInputFormatter = (
+  input?: string,
+) => {
+  return input?.replace(/\s/g, '') || '';
+};
+
 export type FormInputProps<T extends FormValues = FormValues> =
   FormItemProps<T> &
     IInputProps & {

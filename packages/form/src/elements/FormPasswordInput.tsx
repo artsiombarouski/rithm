@@ -1,8 +1,12 @@
-import React from 'react';
 import { FormValues } from '../types';
-import { FormInput, FormInputProps } from './FormInput';
-import { Icon, Pressable } from 'native-base';
+import {
+  FormInput,
+  FormInputProps,
+  NoSpaceFormInputFormatter,
+} from './FormInput';
 import { MaterialIcons } from '@expo/vector-icons';
+import { Icon, Pressable } from 'native-base';
+import React from 'react';
 
 export type FormPasswordInputProps<T extends FormValues = FormValues> =
   FormInputProps<T>;
@@ -13,6 +17,7 @@ export const FormPasswordInput = (props: FormPasswordInputProps) => {
   return (
     <FormInput
       type={show ? 'text' : 'password'}
+      formatters={[NoSpaceFormInputFormatter]}
       InputRightElement={
         <Pressable onPress={() => setShow(!show)}>
           <Icon
