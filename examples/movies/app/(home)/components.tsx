@@ -4,7 +4,15 @@ import {
   ModalDialog,
   useAlert,
 } from '@artsiombarouski/rn-components';
-import { Button, Column, Divider, Heading, Row, ScrollView } from 'native-base';
+import {
+  Box,
+  Button,
+  Column,
+  Divider,
+  Heading,
+  Row,
+  ScrollView,
+} from 'native-base';
 import React from 'react';
 import {
   AutocompleteInput,
@@ -33,16 +41,18 @@ const Components = () => {
         <Avatar text={'Artsiom Barouski'} size={96} />
         <Divider />
         <Heading>Autocomplete</Heading>
-        <AutocompleteInput
-          getOptions={async (query) => {
-            await new Promise((resolve) => {
-              setTimeout(resolve, 1000);
-            });
-            return autocompleteOptions.filter((e) =>
-              e.value.toLowerCase().includes(query.toLowerCase()),
-            );
-          }}
-        />
+        <Box>
+          <AutocompleteInput
+            getOptions={async (query) => {
+              await new Promise((resolve) => {
+                setTimeout(resolve, 300);
+              });
+              return autocompleteOptions.filter((e) =>
+                e.value.toLowerCase().includes(query.toLowerCase()),
+              );
+            }}
+          />
+        </Box>
         <Divider />
         <Heading>Modal</Heading>
         <Heading size={'sm'}>Modal</Heading>

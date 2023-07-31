@@ -6,6 +6,7 @@ import {
   IBoxProps,
   IInputProps,
   Input,
+  Overlay,
   Pressable,
   Spinner,
   Text,
@@ -183,43 +184,50 @@ export const AutocompleteInput = (props: AutocompleteInputProps) => {
         />
       </Box>
       {isOverlayVisible && (
-        <Popper
-          triggerRef={inputRef}
-          offset={4}
-          {...restProps}
-          {...resolvedProps}
+        <Overlay
+          isOpen={isOverlayVisible}
+          useRNModalOnAndroid
+          useRNModal={useRNModal}
+          {..._overlay}
         >
-          <Popper.Content
-            ref={popperContentRef}
-            flex={1}
-            shadow={6}
-            borderRadius={8}
-            display={'flex'}
-            width={inputWidth}
-            overflow={'hidden'}
-            isOpen={isOverlayVisible}
-            maxHeight={Math.min(450, dimensions.height)}
+          <Popper
+            triggerRef={inputRef}
+            offset={4}
+            {...restProps}
+            {...resolvedProps}
           >
-            <Box flex={1} shadow={3}>
-              <FlatList<AutocompleteOption>
-                p={4}
-                data={popperState.options}
-                style={{ backgroundColor: theme.colors.white }}
-                renderItem={renderItem}
-                disableVirtualization={true}
-                showsVerticalScrollIndicator={false}
-                keyExtractor={(item) => item.key}
-                ListHeaderComponent={() => {
-                  if (popperState.options.length === 0) {
-                    return <Text>No results</Text>;
-                  }
-                  return <></>;
-                }}
-                {...listProps}
-              />
-            </Box>
-          </Popper.Content>
-        </Popper>
+            <Popper.Content
+              ref={popperContentRef}
+              flex={1}
+              shadow={6}
+              borderRadius={8}
+              display={'flex'}
+              width={inputWidth}
+              overflow={'hidden'}
+              isOpen={isOverlayVisible}
+              maxHeight={Math.min(450, dimensions.height)}
+            >
+              <Box flex={1} shadow={3}>
+                <FlatList<AutocompleteOption>
+                  p={4}
+                  data={popperState.options}
+                  style={{ backgroundColor: theme.colors.white }}
+                  renderItem={renderItem}
+                  disableVirtualization={true}
+                  showsVerticalScrollIndicator={false}
+                  keyExtractor={(item) => item.key}
+                  ListHeaderComponent={() => {
+                    if (popperState.options.length === 0) {
+                      return <Text>No results</Text>;
+                    }
+                    return <></>;
+                  }}
+                  {...listProps}
+                />
+              </Box>
+            </Popper.Content>
+          </Popper>
+        </Overlay>
       )}
     </>
   );
