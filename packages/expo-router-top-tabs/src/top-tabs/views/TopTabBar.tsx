@@ -341,7 +341,10 @@ export default function TopTabBar({
                   labelStyle={options.tabBarLabelStyle}
                   iconStyle={options.tabBarIconStyle}
                   iconSize={options.tabBarIconSize}
-                  style={options.tabBarItemStyle}
+                  style={[
+                    options.tabBarItemStyle,
+                    focused && options.tabBarActiveItemStyle,
+                  ]}
                   scrollEnabled={scrollEnabled}
                 />
               </NavigationRouteContext.Provider>
