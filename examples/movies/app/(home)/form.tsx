@@ -298,6 +298,19 @@ const FormExample = () => {
               rules={{ required: true }}
             />
           </FormExampleRow>
+          <FormExampleRow title={'Input (multiline)'}>
+            <FormInput
+              name={'input'}
+              title={'Input'}
+              helperText={'Helper Text'}
+              rightLabel={'Right label'}
+              onRightLabelPress={() => {
+                console.log('on right label click');
+              }}
+              multiline={true}
+              rules={{ required: true }}
+            />
+          </FormExampleRow>
           <FormExampleRow title={'Input (no error space keep)'}>
             <FormInput
               name={'input-nokeep-error'}

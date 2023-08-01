@@ -3,6 +3,7 @@ import { FormElementRenderProps, FormItemProps, FormValues } from '../types';
 import { IInputProps, Input, ITextProps, Text } from 'native-base';
 import numeral from 'numeral';
 import { useEffect, useState } from 'react';
+import { useInputAutoHeight } from '../utils';
 
 export type FormInputFormatter = (input?: string) => string;
 
@@ -26,6 +27,7 @@ export type FormInputProps<T extends FormValues = FormValues> =
       rawTextProps?: ITextProps;
       formatters?: FormInputFormatter[];
       maxChars?: number;
+      multilineAutoHeight?: boolean;
     };
 
 export const FormInput = (props: FormInputProps) => {
@@ -35,6 +37,7 @@ export const FormInput = (props: FormInputProps) => {
     rawTextProps,
     formatters,
     maxChars,
+    multilineAutoHeight = true,
     ...restProps
   } = props;
 
@@ -47,6 +50,7 @@ export const FormInput = (props: FormInputProps) => {
     props: IInputProps,
     renderProps: FormElementRenderProps,
   ) => {
+    const autoHeightProps = useInputAutoHeight(props, multilineAutoHeight);
     useEffect(() => {
       if (isNumericFormattingApplied && renderProps.field.value) {
         setDisplayValue(renderProps.field.value);
@@ -65,6 +69,7 @@ export const FormInput = (props: FormInputProps) => {
         size={'lg'}
         variant={'outline'}
         {...props}
+        {...autoHeightProps}
         value={
           isNumericFormattingApplied
             ? displayValue.toString()
@@ -83,7 +88,7 @@ export const FormInput = (props: FormInputProps) => {
           }
           if (isNumericFormattingApplied) {
             setDisplayValue(result);
-            const formattedResult = numeral(result).value().toString();
+            const formattedResult = numeral(result).value()?.toString();
             return renderProps.field.onChange(formattedResult);
           } else {
             return renderProps.field.onChange(result);
