@@ -24,6 +24,7 @@ import TopTabBarHeightCallbackContext from '../utils/TopTabBarHeightCallbackCont
 import TopTabBarHeightContext from '../utils/TopTabBarHeightContext';
 import TopTabBar, { getTabBarHeight } from './TopTabBar';
 import { MaybeScreen, MaybeScreenContainer } from './ScreenFallback';
+import SideTabBar from './SideTabBar';
 
 type Props = TopTabNavigationConfig & {
   state: TabNavigationState<ParamListBase>;
@@ -33,7 +34,12 @@ type Props = TopTabNavigationConfig & {
 
 export default function TopTabView(props: Props) {
   const {
-    tabBar = (props: TopTabBarProps) => <TopTabBar {...props} />,
+    tabBar = (props: TopTabBarProps) => {
+      if (props.tabBarPosition === 'left' || props.tabBarPosition === 'right') {
+        return <SideTabBar {...props} />;
+      }
+      return <TopTabBar {...props} />;
+    },
     tabBarPosition = 'bottom',
     state,
     navigation,
@@ -75,6 +81,7 @@ export default function TopTabView(props: Props) {
             state: state,
             descriptors: descriptors,
             navigation: navigation,
+            tabBarPosition: tabBarPosition,
             insets: {
               top: safeAreaInsets?.top ?? insets?.top ?? 0,
               right: safeAreaInsets?.right ?? insets?.right ?? 0,
@@ -93,7 +100,13 @@ export default function TopTabView(props: Props) {
     <SafeAreaProviderCompat
       style={{
         flexDirection:
-          tabBarPosition === 'bottom' ? 'column' : 'column-reverse',
+          tabBarPosition === 'top'
+            ? 'column-reverse'
+            : tabBarPosition === 'left'
+            ? 'row-reverse'
+            : tabBarPosition === 'right'
+            ? 'row'
+            : 'column',
       }}
     >
       <MaybeScreenContainer

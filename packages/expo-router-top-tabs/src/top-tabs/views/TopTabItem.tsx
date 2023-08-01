@@ -9,6 +9,7 @@ import {
   StyleSheet,
   Text,
   TextStyle,
+  View,
   ViewStyle,
 } from 'react-native';
 
@@ -124,6 +125,8 @@ type Props = {
   iconStyle?: StyleProp<ViewStyle>;
 
   iconSize?: number;
+
+  scrollEnabled?: boolean;
   /**
    * Style object for the wrapper element.
    */
@@ -195,6 +198,7 @@ export default function TopTabBarItem({
   labelStyle,
   iconStyle,
   iconSize,
+  scrollEnabled,
   style,
 }: Props) {
   const { colors } = useTheme();
@@ -280,7 +284,7 @@ export default function TopTabBarItem({
     ? activeBackgroundColor
     : inactiveBackgroundColor;
 
-  return button({
+  const child = button({
     to,
     onPress,
     onLongPress,
@@ -304,6 +308,12 @@ export default function TopTabBarItem({
       </React.Fragment>
     ),
   }) as React.ReactElement;
+
+  if (child && !scrollEnabled) {
+    return <View style={{ flex: 1 }}>{child}</View>;
+  }
+
+  return child;
 }
 
 const styles = StyleSheet.create({

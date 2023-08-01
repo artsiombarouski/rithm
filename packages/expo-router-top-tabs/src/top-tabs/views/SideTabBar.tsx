@@ -19,7 +19,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import { EdgeInsets, useSafeAreaFrame } from 'react-native-safe-area-context';
+import { useSafeAreaFrame } from 'react-native-safe-area-context';
 
 import type { TopTabBarProps, TopTabDescriptorMap } from '../types';
 import TopTabBarHeightCallbackContext from '../utils/TopTabBarHeightCallbackContext';
@@ -30,10 +30,6 @@ type Props = TopTabBarProps & {
   style?: Animated.WithAnimatedValue<StyleProp<ViewStyle>>;
 };
 
-const DEFAULT_TABBAR_HEIGHT = 49;
-const COMPACT_TABBAR_HEIGHT = 32;
-const DEFAULT_MAX_TAB_ITEM_WIDTH = 125;
-
 const useNativeDriver = Platform.OS !== 'web';
 
 type Options = {
@@ -43,94 +39,17 @@ type Options = {
   dimensions: { height: number; width: number };
 };
 
-const Separator = ({ width }: { width: number | string }) => {
-  return <View style={{ width }} />;
-};
-
-const shouldUseHorizontalLabels = ({
-  state,
-  descriptors,
-  layout,
-  dimensions,
-}: Options) => {
-  const { tabBarLabelPosition } =
-    descriptors[state.routes[state.index].key].options;
-
-  if (tabBarLabelPosition) {
-    switch (tabBarLabelPosition) {
-      case 'beside-icon':
-        return true;
-      case 'below-icon':
-        return false;
-    }
-  }
-
-  if (layout.width >= 768) {
-    // Screen size matches a tablet
-    const maxTabWidth = state.routes.reduce((acc, route) => {
-      const { tabBarItemStyle } = descriptors[route.key].options;
-      const flattenedStyle = StyleSheet.flatten(tabBarItemStyle);
-
-      if (flattenedStyle) {
-        if (typeof flattenedStyle.width === 'number') {
-          return acc + flattenedStyle.width;
-        } else if (typeof flattenedStyle.maxWidth === 'number') {
-          return acc + flattenedStyle.maxWidth;
-        }
-      }
-
-      return acc + DEFAULT_MAX_TAB_ITEM_WIDTH;
-    }, 0);
-
-    return maxTabWidth <= layout.width;
-  } else {
-    return dimensions.width > dimensions.height;
-  }
-};
-
-const getPaddingBottom = (insets: EdgeInsets) =>
-  Math.max(insets.bottom - Platform.select({ ios: 4, default: 0 }), 0);
-
-export const getTabBarHeight = ({
-  state,
-  descriptors,
-  dimensions,
-  insets,
-  style,
-  ...rest
-}: Options & {
-  insets: EdgeInsets;
-  style: Animated.WithAnimatedValue<StyleProp<ViewStyle>> | undefined;
+const Separator = ({
+  width,
+  height,
+}: {
+  width?: number | string;
+  height?: number | string;
 }) => {
-  // @ts-ignore
-  const customHeight = StyleSheet.flatten(style)?.height;
-
-  if (typeof customHeight === 'number') {
-    return customHeight;
-  }
-
-  const isLandscape = dimensions.width > dimensions.height;
-  const horizontalLabels = shouldUseHorizontalLabels({
-    state,
-    descriptors,
-    dimensions,
-    ...rest,
-  });
-  const paddingBottom = getPaddingBottom(insets);
-
-  if (
-    Platform.OS === 'ios' &&
-    !Platform.isPad &&
-    isLandscape &&
-    horizontalLabels
-  ) {
-    return COMPACT_TABBAR_HEIGHT + paddingBottom;
-  }
-
-  return DEFAULT_TABBAR_HEIGHT + paddingBottom;
+  return <View style={{ width, height }} />;
 };
 
-export default function TopTabBar({
+export default function SideTabBar({
   state,
   navigation,
   descriptors,
@@ -145,7 +64,6 @@ export default function TopTabBar({
   const focusedOptions = focusedDescriptor.options;
 
   const {
-    scrollEnabled,
     tabBarGap,
     tabBarShowLabel,
     tabBarHideOnKeyboard = false,
@@ -241,23 +159,6 @@ export default function TopTabBar({
 
   const { routes } = state;
 
-  const paddingBottom = getPaddingBottom(insets);
-  const tabBarHeight = getTabBarHeight({
-    state,
-    descriptors,
-    insets,
-    dimensions,
-    layout,
-    style: [tabBarStyle, style],
-  });
-
-  const hasHorizontalLabels = shouldUseHorizontalLabels({
-    state,
-    descriptors,
-    dimensions,
-    layout,
-  });
-
   const tabBarBackgroundElement = tabBarBackground?.();
 
   const renderTabList = () => {
@@ -309,14 +210,14 @@ export default function TopTabBar({
               value={descriptors[route.key].navigation}
             >
               {tabBarGap && index > 0 && index < routes.length - 1 && (
-                <Separator width={tabBarGap} />
+                <Separator height={tabBarGap} />
               )}
               <NavigationRouteContext.Provider value={route}>
                 <TopTabItem
                   route={route}
                   descriptor={descriptors[route.key]}
                   focused={focused}
-                  horizontal={hasHorizontalLabels}
+                  horizontal={true}
                   onPress={onPress}
                   onLongPress={onLongPress}
                   accessibilityLabel={accessibilityLabel}
@@ -341,8 +242,11 @@ export default function TopTabBar({
                   labelStyle={options.tabBarLabelStyle}
                   iconStyle={options.tabBarIconStyle}
                   iconSize={options.tabBarIconSize}
-                  style={options.tabBarItemStyle}
-                  scrollEnabled={scrollEnabled}
+                  style={[
+                    { alignItems: 'center', justifyContent: 'flex-start' },
+                    options.tabBarItemStyle,
+                    focused && options.tabBarActiveItemStyle,
+                  ]}
                 />
               </NavigationRouteContext.Provider>
             </NavigationContext.Provider>
@@ -361,27 +265,6 @@ export default function TopTabBar({
             tabBarBackgroundElement != null ? 'transparent' : colors.card,
           borderTopColor: colors.border,
         },
-        {
-          transform: [
-            {
-              translateY: visible.interpolate({
-                inputRange: [0, 1],
-                outputRange: [
-                  layout.height + paddingBottom + StyleSheet.hairlineWidth,
-                  0,
-                ],
-              }),
-            },
-          ],
-          // Absolutely position the tab bar so that the content is below it
-          // This is needed to avoid gap at bottom when the tab bar is hidden
-          position: isTabBarHidden ? 'absolute' : (null as any),
-        },
-        {
-          minHeight: tabBarHeight,
-          paddingBottom,
-          paddingHorizontal: Math.max(insets.left, insets.right),
-        },
         tabBarStyle,
       ]}
       pointerEvents={isTabBarHidden ? 'none' : 'auto'}
@@ -391,11 +274,9 @@ export default function TopTabBar({
         {tabBarBackgroundElement}
       </View>
       <ScrollView
-        horizontal={true}
         style={styles.contentWrapper}
-        scrollEnabled={scrollEnabled}
+        showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ flexGrow: scrollEnabled ? 0 : 1 }}
       >
         {renderTabList()}
       </ScrollView>
@@ -408,14 +289,13 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    borderTopWidth: StyleSheet.hairlineWidth,
-    elevation: 8,
   },
   contentWrapper: {
     flex: 1,
   },
   content: {
     flex: 1,
-    flexDirection: 'row',
+    width: 300,
+    flexDirection: 'column',
   },
 });

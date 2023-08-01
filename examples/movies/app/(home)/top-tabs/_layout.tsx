@@ -1,26 +1,50 @@
-import { useTheme } from 'native-base';
+import { useBreakpointValue, useTheme } from 'native-base';
 import { TopTabs } from '@artsiombarouski/rn-expo-router-top-tabs';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function Layout() {
   const theme = useTheme();
-  return (
-    <TopTabs
-      tabBarPosition={'top'}
-      screenOptions={{
-        tabBarGap: 24,
-        tabBarIconSize: 20,
+  const adaptiveProps = useBreakpointValue({
+    base: {
+      tabBarPosition: 'top',
+      screenOptions: {
+        tabBarGap: 8,
+        scrollEnabled: false,
         tabBarItemStyle: {
           backgroundColor: theme.colors.primary['100'],
           borderRadius: 24,
           paddingLeft: 8,
           paddingRight: 8,
+          paddingBottom: 8,
+          paddingTop: 8,
         },
-        scrollEnabled: false,
-        tabBarStyle: {
-          paddingLeft: '10%',
-          paddingRight: '10%',
+      },
+    },
+    md: {
+      tabBarPosition: 'left',
+      screenOptions: {
+        tabBarGap: 8,
+        tabBarItemStyle: {
+          backgroundColor: theme.colors.primary['100'],
+          borderRadius: 24,
+          paddingLeft: 8,
+          paddingRight: 8,
+          minHeight: 48,
         },
+        tabBarActiveItemStyle: {
+          backgroundColor: theme.colors.primary['300'],
+        },
+      },
+    },
+  });
+
+  return (
+    <TopTabs
+      {...adaptiveProps}
+      screenOptions={{
+        tabBarGap: 24,
+        tabBarIconSize: 20,
+        ...adaptiveProps.screenOptions,
       }}
     >
       <TopTabs.Screen name={'tab1'} />

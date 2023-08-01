@@ -34,6 +34,8 @@ export type TopTabNavigationEventMap = {
 
 export type LabelPosition = 'beside-icon' | 'below-icon';
 
+export type TabBarPosition = 'bottom' | 'top' | 'left' | 'right';
+
 export type TopTabNavigationHelpers = NavigationHelpers<
   ParamListBase,
   TopTabNavigationEventMap
@@ -212,6 +214,11 @@ export type TopTabNavigationOptions = HeaderOptions & {
   tabBarItemStyle?: StyleProp<ViewStyle>;
 
   /**
+   * Style object for the tab item container.
+   */
+  tabBarActiveItemStyle?: StyleProp<ViewStyle>;
+
+  /**
    * Whether the tab bar gets hidden when the keyboard is shown. Defaults to `false`.
    */
   tabBarHideOnKeyboard?: boolean;
@@ -285,7 +292,11 @@ export type TopTabNavigationConfig = {
    */
   tabBar?: (props: TopTabBarProps) => React.ReactNode;
 
-  tabBarPosition?: 'bottom' | 'top' | 'drawer-left' | 'drawer-right';
+  /**
+   * TabBarView position
+   */
+  tabBarPosition?: TabBarPosition;
+
   /**
    * Safe area insets for the tab bar. This is used to avoid elements like the navigation bar on Android and bottom safe area on iOS.
    * By default, the device's safe area insets are automatically detected. You can override the behavior with this option.
@@ -331,6 +342,7 @@ export type TopTabBarProps = {
   state: TabNavigationState<ParamListBase>;
   descriptors: TopTabDescriptorMap;
   navigation: NavigationHelpers<ParamListBase, TopTabNavigationEventMap>;
+  tabBarPosition?: TabBarPosition;
   insets: EdgeInsets;
 };
 
