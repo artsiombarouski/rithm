@@ -7,7 +7,7 @@ import { IAlertProps } from 'native-base/src/components/composites/Alert/types';
 import React, { ReactNode } from 'react';
 import { StyleSheet } from 'react-native';
 
-type AlertProps = Omit<IAlertProps, 'status'> & {
+export type AlertProps = Omit<IAlertProps, 'status'> & {
   title?: string | ReactNode;
   message?: string | ReactNode;
   iconProps?: any;
