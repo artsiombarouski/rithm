@@ -89,6 +89,7 @@ export type TableProps<TItem, WC extends View = any> = IVStackProps & {
   headerProps?: Omit<IHStackProps, 'size'>;
   listProps?: Omit<FlatListProps<TItem>, 'data' | 'renderItem'>;
   WrapperComponent?: WC;
+  canShowHeader?: boolean;
 };
 
 export function Table<TItem>(props: TableProps<TItem>) {
@@ -123,6 +124,7 @@ export function Table<TItem>(props: TableProps<TItem>) {
     },
     listProps,
     WrapperComponent = View,
+    canShowHeader = true,
     ...restProps
   } = props;
 
@@ -179,10 +181,12 @@ export function Table<TItem>(props: TableProps<TItem>) {
       {...restProps}
       // onLayout={handleParentLayout}
     >
-      <WrapperComponent>
-        <TableHeader columns={columns} space={space} {...headerProps} />
-        <Divider />
-      </WrapperComponent>
+      {canShowHeader && (
+        <WrapperComponent>
+          <TableHeader columns={columns} space={space} {...headerProps} />
+          <Divider />
+        </WrapperComponent>
+      )}
       <FlatList
         ref={listRef}
         data={data}
