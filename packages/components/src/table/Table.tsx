@@ -16,8 +16,8 @@ import {
 } from 'native-base';
 import { IHStackProps } from 'native-base/lib/typescript/components/primitives/Stack/HStack';
 import { IVStackProps } from 'native-base/lib/typescript/components/primitives/Stack/VStack';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { FlatListProps, LayoutChangeEvent } from 'react-native';
+import React, { useEffect, useMemo, useRef } from 'react';
+import { FlatListProps, View } from 'react-native';
 
 export type TableHeaderProps<TItem> = IHStackProps & {
   columns: TableColumn<TItem>[];
@@ -80,7 +80,7 @@ export function TableHeader<TItem>(props: TableHeaderProps<TItem>) {
   return <HStack {...restProps}>{columns.map(renderTitle)}</HStack>;
 }
 
-export type TableProps<TItem> = IVStackProps & {
+export type TableProps<TItem, WC extends View = any> = IVStackProps & {
   columns: TableColumn<TItem>[];
   data?: TItem[];
   itemKey?: string;
@@ -88,24 +88,25 @@ export type TableProps<TItem> = IVStackProps & {
   rowProps?: Omit<IHStackProps, 'size'>;
   headerProps?: Omit<IHStackProps, 'size'>;
   listProps?: Omit<FlatListProps<TItem>, 'data' | 'renderItem'>;
+  WrapperComponent?: WC;
 };
 
 export function Table<TItem>(props: TableProps<TItem>) {
   const listRef = useRef(null);
-  const [widthDiff, setWidthDiff] = useState(0);
-  const [parentWidth, setParentWidth] = useState<number>(0);
-  const [listWidth, setListWidth] = useState<number>(0);
+  // const [widthDiff, setWidthDiff] = useState(0); //todo: remove if no need
+  // const [parentWidth, setParentWidth] = useState<number>(0);
+  // const [listWidth, setListWidth] = useState<number>(0);
 
-  const handleParentLayout = (e: LayoutChangeEvent) => {
-    setParentWidth(e.nativeEvent.layout.width);
-  };
-  const handleListContentSize = (width: number, height: number) => {
-    setListWidth(width);
-  };
+  // const handleParentLayout = (e: LayoutChangeEvent) => {
+  //   setParentWidth(e.nativeEvent.layout.width);
+  // };
+  // const handleListContentSize = (width: number, height: number) => {
+  //   setListWidth(width);
+  // };
 
-  useEffect(() => {
-    setWidthDiff(Math.max(15, parentWidth - listWidth));
-  }, [parentWidth, listWidth]);
+  // useEffect(() => {
+  //   setWidthDiff(Math.max(15, parentWidth - listWidth));
+  // }, [parentWidth, listWidth]);
 
   const {
     columns,
@@ -121,6 +122,7 @@ export function Table<TItem>(props: TableProps<TItem>) {
       alignItems: 'center',
     },
     listProps,
+    WrapperComponent,
     ...restProps
   } = props;
 
@@ -141,26 +143,28 @@ export function Table<TItem>(props: TableProps<TItem>) {
 
   const renderRow = (item: TItem) => {
     return (
-      <Pressable key={item[itemKey]} onPress={() => onRowClick?.(item)}>
-        {({ isHovered, isPressed }) => {
-          return (
-            <HStack
-              space={space}
-              alignItems={'center'}
-              bg={
-                isPressed
-                  ? 'coolGray.200'
-                  : isHovered
-                  ? 'coolGray.100'
-                  : undefined
-              }
-              {...rowProps}
-            >
-              {columns.map((column) => renderRowColumn(column, item))}
-            </HStack>
-          );
-        }}
-      </Pressable>
+      <WrapperComponent>
+        <Pressable key={item[itemKey]} onPress={() => onRowClick?.(item)}>
+          {({ isHovered, isPressed }) => {
+            return (
+              <HStack
+                space={space}
+                alignItems={'center'}
+                bg={
+                  isPressed
+                    ? 'coolGray.200'
+                    : isHovered
+                    ? 'coolGray.100'
+                    : undefined
+                }
+                {...rowProps}
+              >
+                {columns.map((column) => renderRowColumn(column, item))}
+              </HStack>
+            );
+          }}
+        </Pressable>
+      </WrapperComponent>
     );
   };
 
@@ -169,21 +173,21 @@ export function Table<TItem>(props: TableProps<TItem>) {
   }, [data]);
 
   return (
-    <VStack {...restProps} onLayout={handleParentLayout}>
-      <TableHeader
-        columns={columns}
-        space={space}
-        {...headerProps}
-        mr={`${widthDiff}px`}
-      />
-      <Divider />
+    <VStack
+      {...restProps}
+      // onLayout={handleParentLayout}
+    >
+      <WrapperComponent>
+        <TableHeader columns={columns} space={space} {...headerProps} />
+        <Divider />
+      </WrapperComponent>
       <FlatList
         ref={listRef}
         data={data}
         style={[{ flex: 1 }]}
         {...listProps}
         renderItem={({ item }) => renderRow(item)}
-        onContentSizeChange={handleListContentSize}
+        // onContentSizeChange={handleListContentSize}
       />
     </VStack>
   );
