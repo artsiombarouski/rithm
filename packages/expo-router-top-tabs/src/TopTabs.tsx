@@ -26,6 +26,7 @@ export const TopTabs = withLayoutContext<
         ...screen,
         options: {
           ...options,
+          isHidden: href == null ? true : undefined,
           tabBarButton: (props) => {
             if (href == null) {
               return null;

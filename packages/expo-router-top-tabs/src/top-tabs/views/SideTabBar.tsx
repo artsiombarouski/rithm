@@ -195,7 +195,7 @@ export default function SideTabBar({
             options.tabBarAccessibilityLabel !== undefined
               ? options.tabBarAccessibilityLabel
               : typeof label === 'string' && Platform.OS === 'ios'
-              ? `${label}, tab, ${index + 1} of ${routes.length}`
+              ? `${label}, tab, ${index + 1} of ${visibleRoutes.length}`
               : undefined;
 
           return (
@@ -203,7 +203,7 @@ export default function SideTabBar({
               key={route.key}
               value={descriptors[route.key].navigation}
             >
-              {tabBarGap && index > 0 && index < routes.length - 1 && (
+              {tabBarGap && index > 0 && index < visibleRoutes.length && (
                 <Separator height={tabBarGap} />
               )}
               <NavigationRouteContext.Provider value={route}>
@@ -283,13 +283,13 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
+    width: 300,
   },
   contentWrapper: {
     flex: 1,
   },
   content: {
     flex: 1,
-    width: 300,
     flexDirection: 'column',
   },
 });

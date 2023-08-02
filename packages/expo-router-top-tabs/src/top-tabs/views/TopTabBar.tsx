@@ -300,7 +300,7 @@ export default function TopTabBar({
             options.tabBarAccessibilityLabel !== undefined
               ? options.tabBarAccessibilityLabel
               : typeof label === 'string' && Platform.OS === 'ios'
-              ? `${label}, tab, ${index + 1} of ${routes.length}`
+              ? `${label}, tab, ${index + 1} of ${visibleRoutes.length}`
               : undefined;
 
           return (
@@ -308,7 +308,7 @@ export default function TopTabBar({
               key={route.key}
               value={descriptors[route.key].navigation}
             >
-              {tabBarGap && index > 0 && index < routes.length - 1 && (
+              {tabBarGap && index > 0 && index < visibleRoutes.length && (
                 <Separator width={tabBarGap} />
               )}
               <NavigationRouteContext.Provider value={route}>
