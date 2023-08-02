@@ -126,6 +126,8 @@ export function Table<TItem>(props: TableProps<TItem>) {
     ...restProps
   } = props;
 
+  const { ListEmptyComponent, ...restListProps } = listProps;
+
   const renderRowColumn = (column: TableColumn<TItem>, item: TItem) => {
     const { key, render, flex, width, valueProps } = column;
     return (
@@ -185,8 +187,13 @@ export function Table<TItem>(props: TableProps<TItem>) {
         ref={listRef}
         data={data}
         style={[{ flex: 1 }]}
-        {...listProps}
+        {...restListProps}
         renderItem={({ item }) => renderRow(item)}
+        ListEmptyComponent={
+          ListEmptyComponent ? (
+            <WrapperComponent>{ListEmptyComponent}</WrapperComponent>
+          ) : undefined
+        }
         // onContentSizeChange={handleListContentSize}
       />
     </VStack>
