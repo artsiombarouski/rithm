@@ -150,6 +150,15 @@ export class ResourceList<T extends ResourceModel> {
   }
 
   @action
+  push(model: T) {
+    this.meta = {
+      ...this.meta,
+      total: (this.meta.total ?? 0) + 1,
+    };
+    this.models.push(model);
+  }
+
+  @action
   unshift(model: T) {
     this.meta = {
       ...this.meta,

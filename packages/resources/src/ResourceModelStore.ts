@@ -30,6 +30,7 @@ type ModelAttributes = { [key: string]: any };
 export enum ResourceExtendedActions {
   ModelCreated = 'model_created',
   ModelDeleted = 'model_deleted',
+  ModelUpdated = 'model_updated',
   ForceRefresh = 'force_refresh',
 }
 
@@ -365,7 +366,7 @@ export class ResourceModelStore<T extends ResourceModel> {
         );
       } else {
         toKeep.delete(model);
-        (model as any).modelStore = undefined;
+        // (model as any).modelStore = undefined;
         removed.add(model);
       }
     });
@@ -518,8 +519,9 @@ export class ResourceModelStore<T extends ResourceModel> {
   notifyExtendedAction(
     action: ResourceExtendedActions | string,
     payload: any = undefined,
+    data: any = undefined,
   ) {
-    this.extendedActionsNotifier.emit(action, payload);
+    this.extendedActionsNotifier.emit(action, payload, data);
   }
 
   listenExtendedActions<PayloadT = any>(

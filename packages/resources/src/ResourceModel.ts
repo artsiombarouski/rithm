@@ -98,6 +98,21 @@ export class ResourceModel<IdType extends Id = any> {
         );
       }
     },
+    notifyUpdated: (data?: { [key: string]: any }) => {
+      if (this.parentModel) {
+        this.parentModel?.modelStore?.notifyExtendedAction(
+          ResourceExtendedActions.ModelUpdated,
+          this.parentModel,
+          data,
+        );
+      } else {
+        this.modelStore?.notifyExtendedAction(
+          ResourceExtendedActions.ModelUpdated,
+          this,
+          data,
+        );
+      }
+    },
     notifyRemoved: () => {
       if (this.parentModel) {
         this.parentModel?.modelStore?.notifyExtendedAction(
@@ -457,6 +472,8 @@ export class ResourceModel<IdType extends Id = any> {
       });
       if (isNew) {
         this.mutateDispatchers.notifyAdded();
+      } else {
+        this.mutateDispatchers.notifyUpdated(data);
       }
       return new ResourceApiResponse(this);
     } catch (error) {
