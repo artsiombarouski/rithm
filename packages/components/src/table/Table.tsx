@@ -122,7 +122,7 @@ export function Table<TItem>(props: TableProps<TItem>) {
       alignItems: 'center',
     },
     listProps,
-    WrapperComponent,
+    WrapperComponent = View,
     ...restProps
   } = props;
 
