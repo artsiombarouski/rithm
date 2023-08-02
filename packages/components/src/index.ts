@@ -5,3 +5,4 @@ export * from './pagination';
 export * from './ModalDialog';
 export * from './alert';
 export * from './tooltip';
+export * from './list';
