@@ -62,7 +62,7 @@ export function TableHeader<TItem>(props: TableHeaderProps<TItem>) {
       >
         {tooltipText ? (
           <Tooltip placement={'top'} label={tooltipText}>
-            <Row alignSelf={'flex-start'}>
+            <Row alignSelf={'flex-start'} alignItems={'center'}>
               {textContent}
               {tooltipIcon ? (
                 tooltipIcon

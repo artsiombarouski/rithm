@@ -44,6 +44,7 @@ export const FormTitle = (props: FormTitleProps) => {
           <FormControl.Label
             maxWidth={'100%'}
             _text={{ numberOfLines: 1 }}
+            alignItems={'center'}
             {...titleProps}
           >
             {title}
