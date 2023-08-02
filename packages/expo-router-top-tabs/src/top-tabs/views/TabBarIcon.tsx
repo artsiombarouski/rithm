@@ -99,7 +99,6 @@ const styles = StyleSheet.create({
   },
   iconHorizontal: {
     height: '100%',
-    marginTop: 3,
   },
   badge: {
     position: 'absolute',

@@ -276,6 +276,8 @@ export type TopTabNavigationOptions = HeaderOptions & {
    * Only supported on iOS and Android.
    */
   freezeOnBlur?: boolean;
+
+  isHidden?: boolean;
 };
 
 export type TopTabDescriptor = Descriptor<

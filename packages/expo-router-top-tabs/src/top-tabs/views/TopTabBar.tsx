@@ -25,6 +25,7 @@ import type { TopTabBarProps, TopTabDescriptorMap } from '../types';
 import TopTabBarHeightCallbackContext from '../utils/TopTabBarHeightCallbackContext';
 import useIsKeyboardShown from '../utils/useIsKeyboardShown';
 import TopTabItem from './TopTabItem';
+import { Separator } from './Separator';
 
 type Props = TopTabBarProps & {
   style?: Animated.WithAnimatedValue<StyleProp<ViewStyle>>;
@@ -41,10 +42,6 @@ type Options = {
   descriptors: TopTabDescriptorMap;
   layout: { height: number; width: number };
   dimensions: { height: number; width: number };
-};
-
-const Separator = ({ width }: { width: number | string }) => {
-  return <View style={{ width }} />;
 };
 
 const shouldUseHorizontalLabels = ({
@@ -261,9 +258,12 @@ export default function TopTabBar({
   const tabBarBackgroundElement = tabBarBackground?.();
 
   const renderTabList = () => {
+    const visibleRoutes = routes.filter(
+      (route) => !descriptors[route.key].options.isHidden,
+    );
     return (
       <View accessibilityRole="tablist" style={styles.content}>
-        {routes.map((route, index) => {
+        {visibleRoutes.map((route, index) => {
           const focused = index === state.index;
           const { options } = descriptors[route.key];
 

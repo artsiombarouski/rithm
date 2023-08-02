@@ -82,8 +82,8 @@ function TopTabNavigator({
       `Top Tab Navigator: 'tabBarOptions' is deprecated. Migrate the options to 'screenOptions' instead.\n\nPlace the following in 'screenOptions' in your code to keep current behavior:\n\n${JSON.stringify(
         defaultScreenOptions,
         null,
-        2
-      )}\n\nSee https://reactnavigation.org/docs/bottom-tab-navigator#options for more details.`
+        2,
+      )}\n\nSee https://reactnavigation.org/docs/bottom-tab-navigator#options for more details.`,
     );
   }
 
@@ -92,7 +92,7 @@ function TopTabNavigator({
 
     warnOnce(
       true,
-      `Top Tab Navigator: 'lazy' in props is deprecated. Move it to 'screenOptions' instead.\n\nSee https://reactnavigation.org/docs/bottom-tab-navigator/#lazy for more details.`
+      `Top Tab Navigator: 'lazy' in props is deprecated. Move it to 'screenOptions' instead.\n\nSee https://reactnavigation.org/docs/bottom-tab-navigator/#lazy for more details.`,
     );
   }
 
