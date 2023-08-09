@@ -68,7 +68,7 @@ export const Calendar = (props: CalendarProps) => {
         }
         break;
       case SelectionType.MULTI:
-        (value as MultiDates).dates.forEach((date) => {
+        (value as MultiDates).dates?.forEach((date) => {
           dates[date] = {
             selected: true,
             color: 'green',
@@ -133,15 +133,15 @@ export const Calendar = (props: CalendarProps) => {
           onChange({ date: day.dateString });
           break;
         case SelectionType.MULTI:
-          const newDates = [...(value as MultiDates).dates];
+          let newDates = (value as MultiDates)?.dates || [];
           const index = newDates.indexOf(day.dateString);
+
           if (index >= 0) {
-            newDates.splice(index, 1);
+            newDates = newDates.filter((date) => date !== day.dateString);
           } else {
-            newDates.push(day.dateString);
+            newDates = [...newDates, day.dateString];
           }
           onChange({ dates: newDates });
-
           break;
         case SelectionType.RANGE:
           let { startDate, endDate } = (value as RangeDates) ?? {};

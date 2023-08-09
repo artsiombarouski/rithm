@@ -612,6 +612,7 @@ const FormExample = () => {
               name={'calendar-range'}
               selectionType={SelectionType.RANGE}
               assignValues={true}
+              rules={{ required: true }}
             />
           </FormExampleRow>
         </VStack>
