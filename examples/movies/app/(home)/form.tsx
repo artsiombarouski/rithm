@@ -604,6 +604,8 @@ const FormExample = () => {
               defaultValues: {
                 'calendar-range': {
                   time: 'NOW',
+                  startDate: '2023-10-01',
+                  endDate: '2023-10-02',
                 },
               },
             }}
@@ -613,6 +615,7 @@ const FormExample = () => {
               selectionType={SelectionType.RANGE}
               assignValues={true}
               rules={{ required: true }}
+              // useNavigationToCurrentMonth={true} //can see current month as left month
             />
           </FormExampleRow>
         </VStack>
