@@ -15,7 +15,9 @@ export function getInputValue(
 
   switch (selectionType) {
     case SelectionType.SINGLE:
-      formattedValue = (value as SingleDate).date || '';
+      formattedValue = (value as SingleDate).date
+        ? dayjs((value as SingleDate).date).format('MM/DD/YYYY')
+        : '';
       break;
 
     case SelectionType.MULTI:
@@ -24,15 +26,21 @@ export function getInputValue(
         formattedValue = multiDatesValue.dates
           .map((date) => dayjs(date))
           .sort((a, b) => (a.isBefore(b) ? -1 : 1))
-          .map((date) => date.format('YYYY-MM-DD'))
+          .map((date) => date.format('MM/DD/YYYY'))
           .join(', ');
       }
       break;
 
     case SelectionType.RANGE:
       const rangeDatesValue = value as RangeDates;
-      formattedValue = `${rangeDatesValue.startDate ?? ''} - ${
-        rangeDatesValue.endDate ?? ''
+      formattedValue = `${
+        rangeDatesValue.startDate
+          ? dayjs(rangeDatesValue.startDate).format('MM/DD/YYYY')
+          : ''
+      } - ${
+        rangeDatesValue.endDate
+          ? dayjs(rangeDatesValue.endDate).format('MM/DD/YYYY')
+          : ''
       }`;
       break;
   }
