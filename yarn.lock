@@ -4652,6 +4652,14 @@
     "@typescript-eslint/types" "5.59.7"
     eslint-visitor-keys "^3.3.0"
 
+"@uploadcare/upload-client@^6.6.1":
+  version "6.6.1"
+  resolved "https://registry.yarnpkg.com/@uploadcare/upload-client/-/upload-client-6.6.1.tgz#e5ca50aceee38a05acb7fa2669841fba53b014b7"
+  integrity sha512-bUePLdFBmuu6gTc1vWwo9Mq9dIWznnY5GY/FqLnWQTsP9/4Ht2hF/CZ8b4oFGipEda1DURcc7XrdTZxywBparQ==
+  dependencies:
+    form-data "^4.0.0"
+    ws "^8.2.3"
+
 "@urql/core@2.3.6":
   version "2.3.6"
   resolved "https://registry.yarnpkg.com/@urql/core/-/core-2.3.6.tgz#ee0a6f8fde02251e9560c5f17dce5cd90f948552"
@@ -8087,6 +8095,11 @@ expo-constants@~14.2.0, expo-constants@~14.2.1:
   dependencies:
     "@expo/config" "~8.0.0"
     uuid "^3.3.2"
+
+expo-document-picker@11.6.1:
+  version "11.6.1"
+  resolved "https://registry.yarnpkg.com/expo-document-picker/-/expo-document-picker-11.6.1.tgz#8d22de3376289baa25e2aaee57fb7ce9894e9400"
+  integrity sha512-5Oam/puHtB/1HzYbgId3V0UTpQ5+o98rzpOvej7teCwRKXkSSJscRCJpOIAP3LyizfX7+wsxhjaBpNsxdMYI3A==
 
 expo-file-system@~15.2.0, expo-file-system@~15.2.2:
   version "15.2.2"
@@ -14077,18 +14090,15 @@ react-native-paper@^5.8.0:
     color "^3.1.2"
     use-latest-callback "^0.1.5"
 
-react-native-reanimated@~2.14.4:
-  version "2.14.4"
-  resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-2.14.4.tgz#3fa3da4e7b99f5dfb28f86bcf24d9d1024d38836"
-  integrity sha512-DquSbl7P8j4SAmc+kRdd75Ianm8G+IYQ9T4AQ6lrpLVeDkhZmjWI0wkutKWnp6L7c5XNVUrFDUf69dwETLCItQ==
+react-native-reanimated@3.4.2, react-native-reanimated@~2.14.4:
+  version "3.4.2"
+  resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-3.4.2.tgz#744154fead6d8d31d5bd9ac617d8c84d74a6f697"
+  integrity sha512-FbtG+f1PB005vDTJSv4zAnTK7nNXi+FjFgbAM5gOzIZDajfph2BFMSUstzIsN8T77+OKuugUBmcTqLnQ24EBVg==
   dependencies:
     "@babel/plugin-transform-object-assign" "^7.16.7"
     "@babel/preset-typescript" "^7.16.7"
-    convert-source-map "^1.7.0"
+    convert-source-map "^2.0.0"
     invariant "^2.2.4"
-    lodash.isequal "^4.5.0"
-    setimmediate "^1.0.5"
-    string-hash-64 "^1.0.3"
 
 react-native-safe-area-context@3.3.2:
   version "3.3.2"
@@ -15471,11 +15481,6 @@ string-argv@^0.3.1:
   version "0.3.2"
   resolved "https://registry.yarnpkg.com/string-argv/-/string-argv-0.3.2.tgz#2b6d0ef24b656274d957d54e0a4bbf6153dc02b6"
   integrity sha512-aqD2Q0144Z+/RqG52NeHEkZauTAUWJO8c6yTftGJKO3Tja5tUgIfmIl6kExvhtxSDP7fXB6DvzkfMpCd/F3G+Q==
-
-string-hash-64@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/string-hash-64/-/string-hash-64-1.0.3.tgz#0deb56df58678640db5c479ccbbb597aaa0de322"
-  integrity sha512-D5OKWKvDhyVWWn2x5Y9b+37NUllks34q1dCDhk/vYcso9fmhs+Tl3KR/gE4v5UNj2UA35cnX4KdVVGkG1deKqw==
 
 string-length@^4.0.1:
   version "4.0.2"
@@ -16973,7 +16978,7 @@ ws@^7, ws@^7.5.1:
   resolved "https://registry.yarnpkg.com/ws/-/ws-7.5.9.tgz#54fa7db29f4c7cec68b1ddd3a89de099942bb591"
   integrity sha512-F+P9Jil7UiSKSkppIiD94dN07AwvFixvLIj1Og1Rl9GGMuNipJnV9JzjD6XuqmAeiswGvUmNLjr5cFuXwNS77Q==
 
-ws@^8.11.0, ws@^8.12.1, ws@^8.13.0:
+ws@^8.11.0, ws@^8.12.1, ws@^8.13.0, ws@^8.2.3:
   version "8.13.0"
   resolved "https://registry.yarnpkg.com/ws/-/ws-8.13.0.tgz#9a9fb92f93cf41512a0735c8f4dd09b8a1211cd0"
   integrity sha512-x9vcZYTrFPC7aSIbj7sRCYo7L/Xb8Iy+pW0ng0wt2vCJv7M9HOMy0UoN3rr+IFC7hb7vXoqS+P9ktyLLLhO+LA==
