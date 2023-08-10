@@ -34,6 +34,8 @@ import {
 import React, { PropsWithChildren, useEffect, useState } from 'react';
 import { UseFormProps } from 'react-hook-form';
 import { View } from 'react-native';
+import { FormUpload } from '@artsiombarouski/rn-form-upload';
+import { UploadCareController } from '../../services/UploadCareUploader';
 
 type FormItemDto = {
   item_input: string;
@@ -616,6 +618,28 @@ const FormExample = () => {
               assignValues={true}
               rules={{ required: true }}
               // useNavigationToCurrentMonth={true} //can see current month as left month
+            />
+          </FormExampleRow>
+          <FormExampleRow title={'Upload (single)'}>
+            <FormUpload
+              name={'uploadSingle'}
+              controller={UploadCareController}
+            />
+          </FormExampleRow>
+          <FormExampleRow title={'Upload (url only)'}>
+            <FormUpload
+              name={'uploadSingleUrlOnly'}
+              controller={UploadCareController}
+              supportedTypes={['image/*']}
+              urlOnly={true}
+              urlOnlyMimeType={'image/*'}
+            />
+          </FormExampleRow>
+          <FormExampleRow title={'Upload (multiple)'}>
+            <FormUpload
+              name={'uploadMultiple'}
+              controller={UploadCareController}
+              multiple={true}
             />
           </FormExampleRow>
         </VStack>

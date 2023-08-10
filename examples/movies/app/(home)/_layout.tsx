@@ -158,6 +158,13 @@ const RootLayout = () => {
           drawerLabel: 'Form',
         }}
       />
+      <Drawer.Screen
+        name={'upload'}
+        options={{
+          title: 'Upload',
+          drawerLabel: 'Upload',
+        }}
+      />
     </Drawer>
   );
 };

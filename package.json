@@ -44,9 +44,13 @@
     "ts-jest": "^29.1.0",
     "typescript": "^5.0.4"
   },
+  "resolutions": {
+    "react-native-reanimated": "3.4.2"
+  },
   "workspaces": [
     "examples/movies",
     "packages/form",
+    "packages/form-upload",
     "packages/components",
     "packages/services",
     "packages/analytics",
@@ -55,7 +59,8 @@
     "packages/user-store-service",
     "packages/expo-router-service",
     "packages/expo-router-top-tabs",
-    "packages/survey-chat"
+    "packages/survey-chat",
+    "packages/upload"
   ],
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"

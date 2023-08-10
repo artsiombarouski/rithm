@@ -1,0 +1,19 @@
+{
+  "name": "@artsiombarouski/rn-form-upload",
+  "version": "0.0.1",
+  "description": "",
+  "main": "src/index.ts",
+  "author": "Artsiom Barouski",
+  "license": "ISC",
+  "peerDependencies": {
+    "native-base": "*",
+    "react-native": "*",
+    "@artsiombarouski/rn-form": "*",
+    "@artsiombarouski/rn-upload": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/artsiombarouski/rithm.git",
+    "directory": "packages/form-upload"
+  }
+}
