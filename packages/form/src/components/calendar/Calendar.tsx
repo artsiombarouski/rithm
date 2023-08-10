@@ -34,6 +34,26 @@ const Arrow = ({ direction, onPress, ...props }: ArrowProps) => {
   );
 };
 
+const determineInitialLeftDate = (
+  selectionType: SelectionType,
+  value: any,
+): dayjs.Dayjs => {
+  switch (selectionType) {
+    case SelectionType.SINGLE:
+      return (value as SingleDate)?.date
+        ? dayjs((value as SingleDate).date)
+        : dayjs();
+    case SelectionType.MULTI:
+      const dates = (value as MultiDates)?.dates;
+      return dates && dates.length ? dayjs(dates[0]) : dayjs();
+    case SelectionType.RANGE:
+      const startDate = (value as RangeDates)?.startDate;
+      return startDate ? dayjs(startDate) : dayjs();
+    default:
+      return dayjs();
+  }
+};
+
 export const Calendar = (props: CalendarProps) => {
   const {
     selectionType,
@@ -42,6 +62,7 @@ export const Calendar = (props: CalendarProps) => {
     containerStyle,
     arrowProps,
     mode = 'dual',
+    useNavigationToCurrentMonth = false,
     ...calendarProps
   } = props;
   const { markingType, ...restCalendarProps } = calendarProps;
@@ -50,8 +71,11 @@ export const Calendar = (props: CalendarProps) => {
   const leftArrowMonthShift = mode === 'dual' ? -2 : -1;
   const rightArrowMonthShift = mode === 'dual' ? 2 : 1;
 
-  const [leftDate, setLeftDate] = useState(dayjs());
-  const [rightDate, setRightDate] = useState(dayjs().add(1, 'month'));
+  const initialLeftDate = !useNavigationToCurrentMonth
+    ? determineInitialLeftDate(selectionType, value)
+    : dayjs();
+  const [leftDate, setLeftDate] = useState(initialLeftDate);
+  const [rightDate, setRightDate] = useState(initialLeftDate.add(1, 'month'));
 
   const generatedMarkedDates = useMemo((): MarkedDates => {
     let dates: MarkedDates = {};
@@ -68,7 +92,7 @@ export const Calendar = (props: CalendarProps) => {
         }
         break;
       case SelectionType.MULTI:
-        (value as MultiDates).dates.forEach((date) => {
+        (value as MultiDates).dates?.forEach((date) => {
           dates[date] = {
             selected: true,
             color: 'green',
@@ -133,15 +157,17 @@ export const Calendar = (props: CalendarProps) => {
           onChange({ date: day.dateString });
           break;
         case SelectionType.MULTI:
-          const newDates = [...(value as MultiDates).dates];
+          let newDates = (value as MultiDates)?.dates || [];
           const index = newDates.indexOf(day.dateString);
-          if (index >= 0) {
-            newDates.splice(index, 1);
-          } else {
-            newDates.push(day.dateString);
-          }
-          onChange({ dates: newDates });
 
+          if (index >= 0) {
+            newDates = newDates.filter((date) => date !== day.dateString);
+          } else {
+            newDates = [...newDates, day.dateString];
+          }
+          newDates.sort();
+          console.log('newDates', newDates);
+          onChange({ dates: newDates });
           break;
         case SelectionType.RANGE:
           let { startDate, endDate } = (value as RangeDates) ?? {};

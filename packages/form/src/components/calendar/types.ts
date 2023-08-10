@@ -39,6 +39,7 @@ export type CalendarProps<T extends SelectedDates = SelectedDates> =
     value: T;
     onChange: Dispatch<SetStateAction<T>>;
     mode?: 'single' | 'dual';
+    useNavigationToCurrentMonth?: boolean;
   };
 
 export type CalendarTheme = Theme & {
