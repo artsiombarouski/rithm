@@ -24,10 +24,11 @@ import Animated, {
 import { useFileDrop } from './useFileDrop';
 import { UploadPickerSinglePlaceholder } from './UploadPickerSinglePlaceholder';
 import { UploadPickerPlaceholderProps } from './types';
+import { isFileTypeMatching } from '../../mime-utils';
 
 export type UploadPickerViewProps = {
   onPicked: (file: File[]) => void;
-  supportedType?: string[];
+  supportedTypes?: string[];
   multiple?: boolean;
   forReplace?: boolean;
   canShowReplaceOverlay?: boolean;
@@ -40,7 +41,7 @@ export type UploadPickerViewProps = {
 export const UploadPickerView = (props: UploadPickerViewProps) => {
   const {
     onPicked,
-    supportedType,
+    supportedTypes,
     multiple,
     forReplace,
     canShowReplaceOverlay,
@@ -56,7 +57,7 @@ export const UploadPickerView = (props: UploadPickerViewProps) => {
     }
     DocumentPicker.getDocumentAsync({
       multiple: multiple,
-      type: supportedType,
+      type: supportedTypes,
     }).then((res) => {
       onPicked?.(res.assets.map((e) => e.file));
     });
@@ -150,7 +151,18 @@ export const UploadPickerView = (props: UploadPickerViewProps) => {
       containerRef: containerRef,
       multiple: multiple,
       onClick: handleClick,
-      onDrop: onPicked,
+      onDrop: (files) => {
+        const filteredFiles = supportedTypes
+          ? files.filter((file) => {
+              return supportedTypes.some((type) =>
+                isFileTypeMatching(file, type),
+              );
+            })
+          : files;
+        if (filteredFiles.length > 0) {
+          onPicked?.(filteredFiles);
+        }
+      },
       onDragging: (dragging) =>
         (dragProgress.value = withSpring(dragging ? 1 : 0)),
     });

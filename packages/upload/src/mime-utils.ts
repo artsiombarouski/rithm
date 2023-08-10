@@ -120,3 +120,16 @@ export const isVideoMimeType = (mimeType?: string): boolean =>
 
 export const isImageMimeType = (mimeType?: string): boolean =>
   !isUndefined(mimeType) && mimeType.startsWith('image');
+
+export const isFileTypeMatching = (file: File, type: string) => {
+  const fileType = file.type;
+  if (type === fileType) {
+    return;
+  }
+  const indexOfWildcard = type.indexOf('/*');
+  if (indexOfWildcard > -1) {
+    return fileType.startsWith(type.substring(0, indexOfWildcard));
+  }
+  const extension = getFileExtension(file.name);
+  return type === extension;
+};

@@ -43,6 +43,7 @@
     "@artsiombarouski/rn-expo-router-service": "*",
     "@artsiombarouski/rn-expo-router-top-tabs": "*",
     "@artsiombarouski/rn-form": "*",
+    "@artsiombarouski/rn-form-upload": "*",
     "@artsiombarouski/rn-resources": "*",
     "@artsiombarouski/rn-services": "*",
     "@artsiombarouski/rn-survey-chat": "*",

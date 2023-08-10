@@ -4,6 +4,11 @@ import { UploadGridView } from './UploadGridView';
 import { UploadSingleView } from './single';
 import { StyleProp, ViewStyle } from 'react-native';
 import { UploadPickerViewProps } from './picker';
+import { useImperativeHandle } from 'react';
+
+export type UploadViewRef = {
+  haveUploadsInProgress: () => boolean;
+};
 
 export type UploadViewProps<TControllerOptions = any> =
   UseUploadServiceProps & {
@@ -21,40 +26,57 @@ export type UploadViewProps<TControllerOptions = any> =
       'style' | 'selectedStyle' | 'placeholder'
     >;
     itemSpace?: number | string;
+    supportedTypes?: string[];
   };
 
-export const UploadView = observer<UploadViewProps>((props) => {
-  const {
-    options,
-    multiple,
-    inline,
-    item,
-    picker,
-    itemSpace,
-    gridEmptyPicker,
-  } = props;
-  const service = useUploadService({ ...props, multiple: multiple });
+export const UploadView = observer<UploadViewProps>(
+  (props, ref) => {
+    const {
+      options,
+      multiple,
+      inline,
+      item,
+      picker,
+      itemSpace,
+      gridEmptyPicker,
+      supportedTypes,
+    } = props;
+    const service = useUploadService({ ...props, multiple: multiple });
 
-  if (!multiple) {
+    useImperativeHandle(
+      ref,
+      () => {
+        return {
+          haveUploadsInProgress: () => {
+            return service.uploadFiles.filter((e) => e.isUploading).length > 0;
+          },
+        };
+      },
+      [],
+    );
+
+    if (!multiple) {
+      return (
+        <UploadSingleView
+          service={service}
+          options={options}
+          inline={inline}
+          itemSpace={itemSpace}
+          itemStyle={item?.style}
+          pickerProps={{ supportedTypes, ...picker }}
+        />
+      );
+    }
     return (
-      <UploadSingleView
+      <UploadGridView
         service={service}
         options={options}
-        inline={inline}
         itemSpace={itemSpace}
         itemStyle={item?.style}
-        pickerProps={picker}
+        pickerProps={{ supportedTypes, ...picker }}
+        emptyPickerProps={{ supportedTypes, ...gridEmptyPicker }}
       />
     );
-  }
-  return (
-    <UploadGridView
-      service={service}
-      options={options}
-      itemSpace={itemSpace}
-      itemStyle={item?.style}
-      pickerProps={picker}
-      emptyPickerProps={gridEmptyPicker}
-    />
-  );
-});
+  },
+  { forwardRef: true },
+);

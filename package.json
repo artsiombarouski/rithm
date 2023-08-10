@@ -50,6 +50,7 @@
   "workspaces": [
     "examples/movies",
     "packages/form",
+    "packages/form-upload",
     "packages/components",
     "packages/services",
     "packages/analytics",
