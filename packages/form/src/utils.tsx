@@ -27,3 +27,9 @@ export function useInputAutoHeight(
     },
   };
 }
+
+const ua = window.navigator.userAgent;
+const isIOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i);
+const isWebKit = !!ua.match(/WebKit/i);
+export const isIOSSafari = isIOS && isWebKit && !ua.match(/CriOS/i);
+export const isIOSChrome = isIOS && isWebKit && !ua.match(/Version/i);
