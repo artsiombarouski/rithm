@@ -1,0 +1,29 @@
+{
+  "name": "@artsiombarouski/rn-page-builder",
+  "version": "0.0.1",
+  "description": "",
+  "main": "src/index.ts",
+  "author": "Artsiom Barouski",
+  "license": "ISC",
+  "dependencies": {
+    "expo-av": "13.5.1",
+    "react-native-draggable-flatlist": "4.0.1"
+  },
+  "peerDependencies": {
+    "react-native": "*",
+    "react-native-reanimated": "*",
+    "mobx": "*",
+    "mobx-react-lite": "*",
+    "uuid": "*",
+    "native-base": "*",
+    "@artsiombarouski/rn-form": "*",
+    "@artsiombarouski/rn-upload": "*",
+    "@artsiombarouski/rn-form-upload": "*",
+    "@artsiombarouski/rn-video-player": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/artsiombarouski/rithm.git",
+    "directory": "packages/page-builder"
+  }
+}

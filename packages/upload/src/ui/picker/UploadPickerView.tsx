@@ -7,7 +7,7 @@ import {
   VStack,
 } from 'native-base';
 import * as DocumentPicker from 'expo-document-picker';
-import React, { useRef } from 'react';
+import React, {JSX, useRef} from 'react';
 import {
   NativeSyntheticEvent,
   Platform,
@@ -34,7 +34,7 @@ export type UploadPickerViewProps = {
   canShowReplaceOverlay?: boolean;
   style?: StyleProp<ViewStyle>;
   selectedStyle?: StyleProp<ViewStyle>;
-  placeholder?: React.ComponentType<UploadPickerPlaceholderProps>;
+  placeholder?: React.ComponentType<UploadPickerPlaceholderProps> | JSX.Element;
   clickable?: boolean;
 };
 
@@ -131,7 +131,7 @@ export const UploadPickerView = (props: UploadPickerViewProps) => {
 
   let children = (
     <>
-      {React.createElement(placeholder, {
+      {typeof placeholder === 'object' ? placeholder : React.createElement(placeholder, {
         dragProgress: dragProgress,
         forReplace: forReplace,
       })}

@@ -10,7 +10,10 @@ export function useHover(props: UseHoverProps) {
   }
   return {
     // @ts-ignore
-    onMouseEnter: () => {
+    onMouseEnter: (e) => {
+      if (e.buttons !== 0) {
+        return;
+      }
       props.onHoverChange?.(true);
     },
     // @ts-ignore

@@ -35,7 +35,7 @@ import React, { PropsWithChildren, useEffect, useState } from 'react';
 import { UseFormProps } from 'react-hook-form';
 import { View } from 'react-native';
 import { FormUpload } from '@artsiombarouski/rn-form-upload';
-import { UploadCareController } from '../../services/UploadCareUploader';
+import { UploadCareController } from '../../services/UploadCareController';
 
 type FormItemDto = {
   item_input: string;
