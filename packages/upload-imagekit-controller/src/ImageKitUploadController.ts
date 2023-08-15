@@ -55,7 +55,7 @@ export const createImageKitUploadController = (
           xhr: xhrTracker,
           fileName: file.name,
           useUniqueFileName: true,
-          folder: options.folder ?? folder,
+          folder: options?.folder ?? folder,
         },
         async (err, response) => {
           if (err) {
