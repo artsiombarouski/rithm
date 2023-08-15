@@ -60,7 +60,8 @@
     "packages/expo-router-service",
     "packages/expo-router-top-tabs",
     "packages/survey-chat",
-    "packages/upload"
+    "packages/upload",
+    "packages/video-player"
   ],
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
