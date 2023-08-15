@@ -66,7 +66,6 @@
     "packages/survey-chat",
     "packages/upload",
     "packages/video-player",
-    "packages/upload",
     "packages/upload-imagekit-controller",
     "packages/page-builder"
   ],
