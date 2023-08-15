@@ -1,7 +1,11 @@
-import { Drawer } from 'expo-router/drawer';
-import { View } from 'react-native';
-import DrawerContent from '@react-navigation/drawer/src/views/DrawerContent';
+import { useUsers } from '../../services/utils';
 import { useNavigationService } from '@artsiombarouski/rn-expo-router-service/src/hooks/useNavigationService';
+import DrawerContent from '@react-navigation/drawer/src/views/DrawerContent';
+import { Drawer } from 'expo-router/drawer';
+import { observer } from 'mobx-react-lite';
+import { useBreakpointValue } from 'native-base';
+import { useState } from 'react';
+import { View } from 'react-native';
 import {
   Avatar,
   Divider,
@@ -10,10 +14,6 @@ import {
   Text,
   useTheme,
 } from 'react-native-paper';
-import { observer } from 'mobx-react-lite';
-import { useState } from 'react';
-import { useUsers } from '../../services/utils';
-import { useBreakpointValue } from 'native-base';
 
 const UserView = observer(() => {
   const theme = useTheme();
@@ -163,6 +163,13 @@ const RootLayout = () => {
         options={{
           title: 'Upload',
           drawerLabel: 'Upload',
+        }}
+      />
+      <Drawer.Screen
+        name={'video-player'}
+        options={{
+          title: 'Video Player',
+          drawerLabel: 'Video Player',
         }}
       />
     </Drawer>
