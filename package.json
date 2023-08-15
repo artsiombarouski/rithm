@@ -42,7 +42,11 @@
     "prettier": "2.8.8",
     "react-test-renderer": "^18.2.0",
     "ts-jest": "^29.1.0",
-    "typescript": "^5.0.4"
+    "typescript": "^5.0.4",
+    "react-native-draggable-flatlist": "4.0.1",
+    "expo-av": "13.5.1",
+    "imagekit-javascript": "^1.5.5",
+    "react-hook-form": "7.44.2"
   },
   "resolutions": {
     "react-native-reanimated": "3.4.2"
@@ -61,7 +65,10 @@
     "packages/expo-router-top-tabs",
     "packages/survey-chat",
     "packages/upload",
-    "packages/video-player"
+    "packages/video-player",
+    "packages/upload",
+    "packages/upload-imagekit-controller",
+    "packages/page-builder"
   ],
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"

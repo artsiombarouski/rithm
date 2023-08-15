@@ -19,7 +19,7 @@ export const StoredFileView = observer<StoredFileViewProps>((props) => {
         type={file.type}
         url={file.url}
         name={file.name}
-        thumbnailUrl={controller?.getPreviewUrl(file) ?? file.thumbnailUrl}
+        thumbnailUrl={controller?.getPreviewUrl?.(file) ?? file.thumbnailUrl}
         metadata={file.metadata}
       />
     </FileContainerView>

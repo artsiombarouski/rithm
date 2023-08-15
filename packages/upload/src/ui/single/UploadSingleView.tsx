@@ -81,11 +81,13 @@ export const UploadSingleView = observer<UploadSingleViewProps>((props) => {
       {!inline && renderItems()}
       <UploadPickerView
         onPicked={handlePick}
-        placeholder={inline && haveAnyFiles ? renderItems : undefined}
         forReplace={haveAnyFiles}
         clickable={!(inline && haveAnyFiles)}
         canShowReplaceOverlay={haveAnyFiles && inline}
         {...pickerProps}
+        placeholder={
+          inline && haveAnyFiles ? renderItems() : pickerProps.placeholder
+        }
       />
     </HStack>
   );

@@ -5,7 +5,7 @@ import {
 } from '@artsiombarouski/rn-upload';
 import { Box, Divider, Heading, ScrollView, Text, VStack } from 'native-base';
 import { useState } from 'react';
-import { UploadCareController } from '../../services/UploadCareUploader';
+import { UploadCareController } from '../../services/UploadCareController';
 
 const UploadPage = () => {
   const [pickedFiles, setPickedFiles] = useState<File[] | undefined>();
