@@ -8,12 +8,15 @@ import {
 import ImageKit from 'imagekit-javascript';
 import { ImageKitOptions } from 'imagekit-javascript/src/interfaces';
 
-export type ImageKitUploadControllerProps = {};
+export type ImageKitUploadControllerProps = {
+  folder?: string;
+};
 
 export type ImageKitUploadControllerBuilderProps = Omit<
   ImageKitOptions,
   'sdkVersion'
 > & {
+  folder?: string;
   privateKey?: string;
   waitForVideoThumbnail?: boolean;
 };
@@ -21,7 +24,7 @@ export type ImageKitUploadControllerBuilderProps = Omit<
 export const createImageKitUploadController = (
   props: ImageKitUploadControllerBuilderProps,
 ): UploadController<ImageKitUploadControllerProps> => {
-  const { waitForVideoThumbnail = true, ...restProps } = props;
+  const { folder, waitForVideoThumbnail = true, ...restProps } = props;
   const imagekit = new ImageKit(restProps);
   const getPreviewUrl = (file: Partial<StoredFile>) => {
     if (isImageMimeType(file.type)) {
@@ -52,6 +55,7 @@ export const createImageKitUploadController = (
           xhr: xhrTracker,
           fileName: file.name,
           useUniqueFileName: true,
+          folder: options.folder ?? folder,
         },
         async (err, response) => {
           if (err) {
