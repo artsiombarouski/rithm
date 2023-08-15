@@ -15,12 +15,14 @@ export type ImageKitUploadControllerBuilderProps = Omit<
   'sdkVersion'
 > & {
   privateKey?: string;
+  waitForVideoThumbnail?: boolean;
 };
 
 export const createImageKitUploadController = (
   props: ImageKitUploadControllerBuilderProps,
 ): UploadController<ImageKitUploadControllerProps> => {
-  const imagekit = new ImageKit(props);
+  const { waitForVideoThumbnail = true, ...restProps } = props;
+  const imagekit = new ImageKit(restProps);
   const getPreviewUrl = (file: Partial<StoredFile>) => {
     if (isImageMimeType(file.type)) {
       let result = file.url;
@@ -67,6 +69,24 @@ export const createImageKitUploadController = (
               result.thumbnailUrl = getPreviewUrl(result);
             } else if (!result.thumbnailUrl && isVideoMimeType(file.type)) {
               result.thumbnailUrl = `${response.url}/ik-thumbnail.jpg`;
+              if (waitForVideoThumbnail) {
+                let retryCount = 0;
+                while (retryCount < 5) {
+                  const fetchResult = await fetch(result.thumbnailUrl)
+                    .then((res) => {
+                      if (res.status === 200) {
+                        return true;
+                      }
+                    })
+                    .catch(() => null);
+                  if (fetchResult) {
+                    break;
+                  }
+                  await new Promise((resolve) => {
+                    setTimeout(resolve, 1000);
+                  });
+                }
+              }
             }
             if (
               !result.metadata.width &&

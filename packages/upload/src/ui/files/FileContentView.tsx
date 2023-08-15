@@ -1,9 +1,8 @@
-import { Text, View } from 'native-base';
+import { Image, Text, View } from 'native-base';
 import { FileMetadata } from '../../types';
 import { isImageMimeType } from '../../mime-utils';
-import { Image } from 'react-native';
 import { useRetry } from '../hooks';
-import { Fragment } from 'react';
+import React, { Fragment } from 'react';
 
 export type FileContentViewProps = {
   type?: string;
@@ -34,11 +33,11 @@ export const FileContentView = (props: FileContentViewProps) => {
         <Image
           key={`thumbnail-retry-count-${retryCount}`}
           style={{ flex: 1 }}
-          resizeMode={'cover'}
           source={{
             uri: thumbnailUrl,
             cache: retryCount > 1 ? 'reload' : undefined,
           }}
+          resizeMode={'cover'}
           onError={retry}
         />
       ) : (
