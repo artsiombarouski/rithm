@@ -94,19 +94,20 @@ export class UploadService {
     return {
       onComplete: async (result) => {
         uploadFile.setInfo(result);
-        await this.callbacks?.onComplete(uploadFile);
+        const storedFile: StoredFile = {
+          key: uploadFile.key,
+          type: uploadFile.mimeType,
+          ...result,
+          metadata: {
+            displayName: uploadFile.fileName,
+            ...result.metadata,
+          },
+        };
+        await this.callbacks?.onComplete(uploadFile, storedFile);
         uploadFile.setCompleted();
         runInAction(() => {
           (this.uploadFiles as IObservableArray).remove(uploadFile);
-          (this.storedFiles as IObservableArray).push({
-            key: uploadFile.key,
-            type: uploadFile.mimeType,
-            ...result,
-            metadata: {
-              displayName: uploadFile.fileName,
-              ...result.metadata,
-            },
-          });
+          (this.storedFiles as IObservableArray).push(storedFile);
           this.notifyChanged();
         });
       },

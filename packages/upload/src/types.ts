@@ -35,6 +35,6 @@ export type UploadController<TOptions = any> = {
 };
 
 export type UploadCallbacks = {
-  onComplete?: (file: UploadFile) => Promise<void>;
+  onComplete?: (file: UploadFile, storedFile: StoredFile) => Promise<void>;
   onError?: (file: UploadFile) => Promise<void>;
 };
