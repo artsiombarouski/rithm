@@ -111,9 +111,10 @@ export function Select<OptionType = any>(props: SelectProps<OptionType>) {
     }
     const optionKey = getOptionKey(option);
     if (multiple) {
-      onChange?.(
-        (value as OptionType[]).filter((e) => getOptionKey(e) !== optionKey),
+      const targetOptions = (value as OptionType[]).filter(
+        (e) => getOptionKey(e) !== optionKey,
       );
+      onChange?.(useObjects ? targetOptions : targetOptions.map(getOptionKey));
     } else if (optionKey === getOptionKey(value as OptionType)) {
       onChange?.(null);
     }
@@ -194,17 +195,24 @@ export function Select<OptionType = any>(props: SelectProps<OptionType>) {
     const handleClick = () => {
       const optionKey = getOptionKey(info.item);
       if (multiple) {
-        const targetOptions = !value
-          ? [info.item]
-          : isSelected
-          ? (value as OptionType[]).filter((e) => getOptionKey(e) !== optionKey)
-          : [...(value as []), info.item];
-        onChange(useObjects ? targetOptions : targetOptions.map(getOptionKey));
+        let targetOptions: OptionType[];
+        if (!value) {
+          targetOptions = [info.item];
+        } else if (isSelected) {
+          targetOptions = (value as OptionType[]).filter(
+            (e) => getOptionKey(e) !== optionKey,
+          );
+        } else {
+          targetOptions = [...(value as []), info.item];
+        }
+        onChange?.(
+          useObjects ? targetOptions : targetOptions.map(getOptionKey),
+        );
       } else if (isSelected) {
-        onChange(null);
+        onChange?.(null);
         setOverlayVisible(false);
       } else {
-        onChange(useObjects ? info.item : getOptionKey(info.item));
+        onChange?.(useObjects ? info.item : getOptionKey(info.item));
         setOverlayVisible(false);
       }
     };
