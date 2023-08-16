@@ -1,11 +1,17 @@
 import { observer } from 'mobx-react-lite';
-import { useUploadService, UseUploadServiceProps } from '../service';
+import {
+  StoredFile,
+  UploadFile,
+  useUploadService,
+  UseUploadServiceProps,
+} from '../service';
 import { UploadGridView } from './grid';
 import { UploadSingleView } from './single';
 import { StyleProp, ViewStyle } from 'react-native';
 import { UploadPickerViewProps } from './picker';
 import { useImperativeHandle } from 'react';
 import { FileContainerViewProps } from './files/FileContainerView';
+import { IFlatListProps } from 'native-base/lib/typescript/components/basic/FlatList';
 
 export type UploadViewRef = {
   haveUploadsInProgress: () => boolean;
@@ -23,6 +29,7 @@ export type UploadViewProps<TControllerOptions = any> =
       UploadPickerViewProps,
       'style' | 'selectedStyle' | 'placeholder'
     >;
+    gridProps?: Partial<IFlatListProps<StoredFile | UploadFile>>;
     gridEmptyPicker?: Pick<
       UploadPickerViewProps,
       'style' | 'selectedStyle' | 'placeholder'
@@ -39,8 +46,9 @@ export const UploadView = observer<UploadViewProps>(
       inline,
       item,
       picker,
-      itemSpace,
+      gridProps,
       gridEmptyPicker,
+      itemSpace,
       supportedTypes,
     } = props;
     const service = useUploadService({ ...props, multiple: multiple });
@@ -79,6 +87,7 @@ export const UploadView = observer<UploadViewProps>(
         itemContainerProps={item?.containerProps}
         pickerProps={{ supportedTypes, ...picker }}
         emptyPickerProps={{ supportedTypes, ...gridEmptyPicker }}
+        {...gridProps}
       />
     );
   },
