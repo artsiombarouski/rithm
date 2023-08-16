@@ -36,6 +36,7 @@ import { UseFormProps } from 'react-hook-form';
 import { View } from 'react-native';
 import { FormUpload } from '@artsiombarouski/rn-form-upload';
 import { UploadCareController } from '../../services/UploadCareController';
+import { FormSelect } from '@artsiombarouski/rn-form/src/elements/FormSelect';
 
 type FormItemDto = {
   item_input: string;
@@ -180,6 +181,51 @@ const FormExample = () => {
           </Row>
         </FormExampleRow>
         <VStack flex={1} space={6}>
+          <FormExampleRow title={'Select'}>
+            <FormSelect
+              name={'select'}
+              keyProperty={'key'}
+              titleProperty={'value'}
+              options={new Array(100).fill(null).map((_, index) => {
+                return { key: `key${index}`, value: `Key ${index}` };
+              })}
+            />
+          </FormExampleRow>
+          <FormExampleRow title={'Select (multiple)'}>
+            <FormSelect
+              name={'select'}
+              multiple={true}
+              keyProperty={'key'}
+              titleProperty={'value'}
+              options={new Array(100).fill(null).map((_, index) => {
+                return { key: `key${index}`, value: `Key ${index}` };
+              })}
+            />
+          </FormExampleRow>
+          <FormExampleRow title={'Select (single, no objects)'}>
+            <FormSelect
+              name={'select'}
+              keyProperty={'key'}
+              titleProperty={'value'}
+              useObjects={false}
+              options={new Array(10).fill(null).map((_, index) => {
+                return { key: `key${index}`, value: `Key ${index}` };
+              })}
+            />
+          </FormExampleRow>
+          <FormExampleRow title={'Select (multiple, no objects)'}>
+            <FormSelect
+              name={'select'}
+              multiple={true}
+              keyProperty={'key'}
+              titleProperty={'value'}
+              useObjects={false}
+              options={new Array(100).fill(null).map((_, index) => {
+                return { key: `key${index}`, value: `Key ${index}` };
+              })}
+              placeholder={'Placeholder'}
+            />
+          </FormExampleRow>
           <FormExampleRow title={'Numeric input'}>
             <FormNumericInput
               name={'input-numeric'}

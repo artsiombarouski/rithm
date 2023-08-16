@@ -6,3 +6,4 @@ export * from './calendar';
 export * from './dropdown';
 export * from './timepicker';
 export * from './datepicker';
+export * from './select';
