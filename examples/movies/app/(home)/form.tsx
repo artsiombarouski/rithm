@@ -334,6 +334,30 @@ const FormExample = () => {
               }}
             />
           </FormExampleRow>
+          <FormExampleRow
+            title={'Date (date only)'}
+            formProps={{
+              defaultValues: {
+                'date-picker': '2023-07-14',
+              },
+            }}
+          >
+            <FormDatePicker
+              name={'date-picker'}
+              title={'Date'}
+              dateOnly={true}
+              rules={{ required: true }}
+              inputProps={{
+                InputLeftElement: (
+                  <Icon
+                    as={MaterialCommunityIcons}
+                    name={'calendar-month'}
+                    ml={3}
+                  />
+                ),
+              }}
+            />
+          </FormExampleRow>
           <FormExampleRow title={'Input'}>
             <FormInput
               name={'input'}

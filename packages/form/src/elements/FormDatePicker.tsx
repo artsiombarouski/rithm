@@ -6,10 +6,11 @@ export type FormDatePickerProps<T extends FormValues = FormValues> =
   FormItemProps<T> &
     Omit<DatePickerProps, 'value' | 'onChange'> & {
       assignValues?: boolean;
+      dateOnly?: boolean;
     };
 
 export const FormDatePicker = (props: FormDatePickerProps) => {
-  const { assignValues, ...restProps } = props;
+  const { assignValues, dateOnly, ...restProps } = props;
 
   const renderDatePicker = (
     props: DatePickerProps,
@@ -18,11 +19,15 @@ export const FormDatePicker = (props: FormDatePickerProps) => {
     return (
       <DatePicker
         {...props}
-        value={renderProps.field.value}
+        value={
+          dateOnly ? { date: renderProps.field.value } : renderProps.field.value
+        }
         onChange={(value) => {
           let targetValue;
           if (assignValues) {
             targetValue = { ...renderProps.field.value, ...value };
+          } else if (dateOnly) {
+            targetValue = value.date;
           } else {
             targetValue = value;
           }
