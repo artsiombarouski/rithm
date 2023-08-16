@@ -19,6 +19,8 @@ export type FileContainerViewProps = ViewProps & {
   error?: boolean;
   onRemoveClicked?: () => void;
   canShowOverlay?: boolean;
+  canDelete?: boolean;
+  canPreview?: boolean;
 };
 
 export const FileContainerView = (props: FileContainerViewProps) => {
@@ -28,6 +30,8 @@ export const FileContainerView = (props: FileContainerViewProps) => {
     error,
     onRemoveClicked,
     canShowOverlay = true,
+    canDelete = true,
+    canPreview = true,
     ...restProps
   } = props;
   const theme = useTheme();
@@ -80,19 +84,21 @@ export const FileContainerView = (props: FileContainerViewProps) => {
       >
         {children}
       </View>
-      {canShowOverlay && (
+      {canShowOverlay && (canPreview || canDelete) && (
         <Animated.View style={overlayStyle} pointerEvents={'box-none'}>
           <HStack flex={1} alignItems={'center'} justifyContent={'center'}>
-            <IconButton icon={<EyeIcon color={'white'} />} />
-            <IconButton
-              icon={<DeleteIcon />}
-              colorScheme={'error'}
-              onPress={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                onRemoveClicked?.();
-              }}
-            />
+            {canPreview && <IconButton icon={<EyeIcon color={'white'} />} />}
+            {canDelete && (
+              <IconButton
+                icon={<DeleteIcon />}
+                colorScheme={'error'}
+                onPress={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  onRemoveClicked?.();
+                }}
+              />
+            )}
           </HStack>
         </Animated.View>
       )}

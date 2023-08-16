@@ -9,3 +9,4 @@ export * from './FormPasswordInput';
 export * from './FormTimePicker';
 export * from './FormNumericInput';
 export * from './FormDatePicker';
+export * from './FormSelect';

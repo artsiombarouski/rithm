@@ -10,11 +10,15 @@ export type StoredFileViewProps = UploadItemProps & {
 };
 
 export const StoredFileView = observer<StoredFileViewProps>((props) => {
-  const { file, style, onRemoveClicked } = props;
+  const { file, style, onRemoveClicked, containerProps } = props;
   const controller = useUploadContext()?.controller;
 
   return (
-    <FileContainerView style={style} onRemoveClicked={onRemoveClicked}>
+    <FileContainerView
+      style={style}
+      onRemoveClicked={onRemoveClicked}
+      {...containerProps}
+    >
       <FileContentView
         type={file.type}
         url={file.url}

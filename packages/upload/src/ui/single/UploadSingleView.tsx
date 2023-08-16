@@ -18,6 +18,7 @@ export const UploadSingleView = observer<UploadSingleViewProps>((props) => {
     itemStyle,
     pickerProps,
     itemSpace = 'md',
+    itemContainerProps,
   } = props;
 
   const storedFiles = service.storedFiles.slice();
@@ -49,6 +50,7 @@ export const UploadSingleView = observer<UploadSingleViewProps>((props) => {
                 key={file.key ?? file.url}
                 file={file}
                 style={targetItemStyle}
+                containerProps={itemContainerProps}
                 onRemoveClicked={() => {
                   service.remove(file);
                 }}
@@ -66,6 +68,7 @@ export const UploadSingleView = observer<UploadSingleViewProps>((props) => {
               key={file.key}
               file={file}
               style={[targetItemStyle]}
+              containerProps={itemContainerProps}
               onRemoveClicked={() => {
                 service.remove(file);
               }}

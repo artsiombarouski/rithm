@@ -10,7 +10,7 @@ export type UploadFileViewProps = UploadItemProps & {
 };
 
 export const UploadFileView = observer<UploadFileViewProps>((props) => {
-  const { file, style, onRemoveClicked } = props;
+  const { file, style, onRemoveClicked, containerProps } = props;
   let content;
   if (file.isCompleted) {
     content = (
@@ -68,6 +68,7 @@ export const UploadFileView = observer<UploadFileViewProps>((props) => {
       error={!!file.error}
       onRemoveClicked={onRemoveClicked}
       canShowOverlay={file.isCompleted}
+      {...containerProps}
     >
       {content}
     </FileContainerView>

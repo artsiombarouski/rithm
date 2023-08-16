@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { FlatList, useBreakpointValue, useToken } from 'native-base';
 import { IFlatListProps } from 'native-base/lib/typescript/components/basic/FlatList';
-import { StoredFile, UploadFile } from '../service';
+import { StoredFile, UploadFile } from '../../service';
 import {
   ListRenderItemInfo,
   StyleProp,
@@ -9,13 +9,13 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import { UploadComponentViewProps } from './types';
-import { StoredFileView, UploadFileView } from './files';
+import { UploadComponentViewProps } from '../types';
+import { StoredFileView, UploadFileView } from '../files';
 import {
   UploadPickerLargePlaceholder,
   UploadPickerView,
   UploadPickerViewProps,
-} from './picker';
+} from '../picker';
 import React from 'react';
 
 export type UploadGridViewProps = Partial<
@@ -35,6 +35,7 @@ export const UploadGridView = observer<UploadGridViewProps>((props) => {
     emptyPickerProps,
     itemSpace = 8,
     numColumns: externalNumColumns,
+    itemContainerProps,
     ...restProps
   } = props;
   const defaultNumColumns = useBreakpointValue({
@@ -72,6 +73,7 @@ export const UploadGridView = observer<UploadGridViewProps>((props) => {
         <UploadFileView
           file={item}
           style={targetItemStyle}
+          containerProps={itemContainerProps}
           onRemoveClicked={() => {
             service.remove(item);
           }}
@@ -82,6 +84,7 @@ export const UploadGridView = observer<UploadGridViewProps>((props) => {
       <StoredFileView
         file={item}
         style={targetItemStyle}
+        containerProps={itemContainerProps}
         onRemoveClicked={() => {
           service.remove(item);
         }}
