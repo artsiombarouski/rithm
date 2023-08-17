@@ -2,7 +2,6 @@ import type {
   ArrowProps,
   CalendarProps,
   CalendarTheme,
-  MarkedDates,
   MultiDates,
   RangeDates,
   SingleDate,
@@ -15,7 +14,7 @@ import { Icon, IconButton, useTheme } from 'native-base';
 import React, { useCallback, useMemo, useState } from 'react';
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { Calendar as BaseCalendar, DateData } from 'react-native-calendars';
-import { MarkingTypes } from 'react-native-calendars/src/types';
+import { MarkingTypes, MarkedDates } from 'react-native-calendars/src/types';
 
 const Arrow = ({ direction, onPress, ...props }: ArrowProps) => {
   return (
@@ -63,6 +62,7 @@ export const Calendar = (props: CalendarProps) => {
     arrowProps,
     mode = 'dual',
     useNavigationToCurrentMonth = false,
+    selectedColor = 'primary',
     ...calendarProps
   } = props;
   const { markingType, ...restCalendarProps } = calendarProps;
@@ -87,7 +87,12 @@ export const Calendar = (props: CalendarProps) => {
         if (date) {
           dates[date] = {
             selected: true,
-            color: 'green',
+            selectedColor: theme.colors[selectedColor]['500'],
+            customStyles: {
+              container: {
+                borderRadius: 17,
+              },
+            },
           };
         }
         break;
@@ -95,7 +100,12 @@ export const Calendar = (props: CalendarProps) => {
         (value as MultiDates).dates?.forEach((date) => {
           dates[date] = {
             selected: true,
-            color: 'green',
+            selectedColor: theme.colors[selectedColor]['500'],
+            customStyles: {
+              container: {
+                borderRadius: 17,
+              },
+            },
           };
         });
         break;
@@ -108,21 +118,21 @@ export const Calendar = (props: CalendarProps) => {
           for (let d = dayjs(start); d.isBefore(end); d = d.add(1, 'day')) {
             dates[d.format('YYYY-MM-DD')] = {
               selected: false,
-              color: theme.colors.blue['300'],
+              color: theme.colors[selectedColor]['300'],
             };
           }
 
           // Mark start and end dates
           dates[start.format('YYYY-MM-DD')] = {
             ...dates[start.format('YYYY-MM-DD')],
-            color: theme.colors.blue['500'],
+            color: theme.colors[selectedColor]['500'],
             textColor: 'white',
             selected: true,
             startingDay: true,
           };
           dates[end.format('YYYY-MM-DD')] = {
             ...dates[end.format('YYYY-MM-DD')],
-            color: theme.colors.blue['500'],
+            color: theme.colors[selectedColor]['500'],
             textColor: 'white',
             selected: true,
             endingDay: true,
@@ -130,7 +140,7 @@ export const Calendar = (props: CalendarProps) => {
         } else if (startDate) {
           dates[startDate] = {
             textColor: 'white',
-            color: theme.colors.blue['500'],
+            color: theme.colors[selectedColor]['500'],
             selected: true,
             startingDay: true,
           };
@@ -166,7 +176,6 @@ export const Calendar = (props: CalendarProps) => {
             newDates = [...newDates, day.dateString];
           }
           newDates.sort();
-          console.log('newDates', newDates);
           onChange({ dates: newDates });
           break;
         case SelectionType.RANGE:
@@ -227,9 +236,9 @@ export const Calendar = (props: CalendarProps) => {
   const getMarkingType = (selectionType: SelectionType): MarkingTypes => {
     switch (selectionType) {
       case SelectionType.SINGLE:
-        return 'dot';
+        return 'custom';
       case SelectionType.MULTI:
-        return 'multi-dot';
+        return 'custom';
       case SelectionType.RANGE:
         return 'period';
       default:
@@ -261,7 +270,14 @@ export const Calendar = (props: CalendarProps) => {
     'stylesheet.day.period': {
       todayText: {
         fontWeight: '600',
-        color: theme.colors.blue[500],
+        color: theme.colors[selectedColor][500],
+      },
+      base: styles.day,
+    },
+    'stylesheet.day.basic': {
+      todayText: {
+        fontWeight: '600',
+        color: theme.colors[selectedColor][500],
       },
       base: styles.day,
     },

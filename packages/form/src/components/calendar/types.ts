@@ -4,16 +4,6 @@ import { GestureResponderEvent, ViewStyle } from 'react-native';
 import { CalendarProps as BaseCalendarProps } from 'react-native-calendars';
 import { Theme } from 'react-native-calendars/src/types';
 
-export type MarkedDates = {
-  [date: string]: {
-    selected: boolean;
-    startingDay?: boolean;
-    endingDay?: boolean;
-    color: string;
-    textColor?: string;
-  };
-};
-
 export type ArrowProps = {
   direction: 'left' | 'right';
   onPress: (event: GestureResponderEvent) => void;
@@ -40,10 +30,12 @@ export type CalendarProps<T extends SelectedDates = SelectedDates> =
     onChange: Dispatch<SetStateAction<T>>;
     mode?: 'single' | 'dual';
     useNavigationToCurrentMonth?: boolean;
+    selectedColor?: string;
   };
 
 export type CalendarTheme = Theme & {
   'stylesheet.calendar.header'?: object;
   'stylesheet.calendar.main'?: object;
   'stylesheet.day.period'?: object;
+  'stylesheet.day.basic'?: object;
 };
