@@ -1,4 +1,4 @@
-import { isIOSChrome, isIOSSafari } from '../../utils';
+import { isIOSChrome, isIOSSafari, isSafari } from '../../utils';
 import FormDropDownMenu from './FormDropDownMenu';
 import { useFocusRing } from '@react-native-aria/focus';
 import { useHover } from '@react-native-aria/interactions';
@@ -161,7 +161,9 @@ export function FormDropDownComponent(props: FormDropDownComponentProps) {
           InputRightElement={rightIcon}
           {...nonLayoutProps}
           selection={
-            isIOSSafari || isIOSChrome ? undefined : nonLayoutProps.selection
+            isIOSSafari || isIOSChrome || isSafari
+              ? undefined
+              : nonLayoutProps.selection
           } // https://github.com/GeekyAnts/NativeBase/issues/5111#issuecomment-1450106575
           // NOTE: Adding ts-ignore as we're not exposing isFocused in the Input component
           // @ts-ignore-next-line
