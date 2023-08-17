@@ -169,6 +169,9 @@ export default function SurveyPage() {
             },
           },
         }}
+        footerWrapperProps={{
+          paddingBottom: 200,
+        }}
         indicatorProps={{
           containerProps: {
             px: 1,

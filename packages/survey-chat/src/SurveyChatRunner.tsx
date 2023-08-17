@@ -3,6 +3,10 @@ import { SurveyMessage, SurveyQuestion } from './types';
 import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash';
 
+export type SurveyChatRunnerOptions = {
+  showDelay?: number;
+};
+
 export class SurveyChatRunner {
   @observable
   isInitialized: boolean = false;
@@ -17,7 +21,10 @@ export class SurveyChatRunner {
   @observable
   canShowTypingIndicator: boolean = false;
 
-  constructor(readonly questions: SurveyQuestion[]) {
+  constructor(
+    readonly questions: SurveyQuestion[],
+    readonly options: SurveyChatRunnerOptions = {},
+  ) {
     makeObservable(this);
   }
 
@@ -47,15 +54,20 @@ export class SurveyChatRunner {
     const indexOfCurrentQuestion = this.questions.findIndex(
       (e) => e.key === this.currentQuestion?.key,
     );
+    if (!this.currentQuestion) {
+      this.canShowTypingIndicator = true;
+      await this.timeout(this.options.showDelay ?? 1000);
+    }
     this.currentQuestion = null;
     if (indexOfCurrentQuestion + 1 >= this.questions.length) {
       this.isCompleted = true;
       return;
     }
     const nextQuestion = this.questions[indexOfCurrentQuestion + 1];
-    await this.timeout(200);
     this.canShowTypingIndicator = true;
-    await this.timeout(nextQuestion.showDelay ?? 600);
+    await this.timeout(
+      nextQuestion.showDelay ?? this.options.showDelay ?? 1000,
+    );
     this.currentQuestion = nextQuestion;
     this.messages.push({ ...nextQuestion });
 

@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { observer, useLocalObservable } from 'mobx-react-lite';
 import { Box, FlatList, IBoxProps, IIconButtonProps } from 'native-base';
 import { SurveyMessage, SurveyQuestion } from './types';
-import { SurveyChatRunner } from './SurveyChatRunner';
+import { SurveyChatRunner, SurveyChatRunnerOptions } from './SurveyChatRunner';
 import { ListRenderItemInfo } from 'react-native';
 import {
   SurveyChatMessage,
@@ -13,6 +13,7 @@ import { IFlatListProps } from 'native-base/lib/typescript/components/basic/Flat
 import { toJS } from 'mobx';
 import { SurveyChatActionContainer } from './SurveyChatActionContainer';
 import { ControlledTooltipProps } from '@artsiombarouski/rn-components';
+import { IViewProps } from 'native-base/lib/typescript/components/primitives/View';
 
 export type SurveyChatProps = {
   questions?: SurveyQuestion[];
@@ -23,9 +24,11 @@ export type SurveyChatProps = {
     messageProps?: SurveyChatMessageStylingProps;
     answerMessageProps?: SurveyChatMessageStylingProps;
   };
+  footerWrapperProps?: IViewProps;
   indicatorProps?: IndicatorProps;
   tooltipProps?: Partial<ControlledTooltipProps>;
   tooltipButtonProps?: IIconButtonProps;
+  runnerOptions?: SurveyChatRunnerOptions;
 };
 
 export const SurveyChat = observer<SurveyChatProps>((props) => {
@@ -35,21 +38,29 @@ export const SurveyChat = observer<SurveyChatProps>((props) => {
     containerProps,
     listProps,
     messageProps,
+    footerWrapperProps,
     indicatorProps,
     tooltipProps,
     tooltipButtonProps,
+    runnerOptions,
   } = props;
   const runner = useLocalObservable(
-    () => new SurveyChatRunner(questions ?? []),
+    () => new SurveyChatRunner(questions ?? [], runnerOptions),
   );
 
   const renderMessage = ({ item }: ListRenderItemInfo<SurveyMessage>) => {
     return <SurveyChatMessage value={item} runner={runner} {...messageProps} />;
   };
 
-  const renderFooter = () => {
-    return <SurveyChatFooter runner={runner} indicatorProps={indicatorProps} />;
-  };
+  const footer = useMemo(() => {
+    return (
+      <SurveyChatFooter
+        runner={runner}
+        wrapperProps={footerWrapperProps}
+        indicatorProps={indicatorProps}
+      />
+    );
+  }, [runner, footerWrapperProps, indicatorProps]);
 
   useEffect(() => {
     runner.init();
@@ -66,13 +77,15 @@ export const SurveyChat = observer<SurveyChatProps>((props) => {
 
   return (
     <Box flex={1} {...containerProps}>
-      <FlatList
+      <FlatList<SurveyMessage>
+        key={'survey-chat-list'}
         flex={1}
         data={isInverted ? data.reverse() : data}
         showsVerticalScrollIndicator={false}
         renderItem={renderMessage}
-        ListFooterComponent={!isInverted && renderFooter()}
-        ListHeaderComponent={isInverted && renderFooter()}
+        keyExtractor={(item) => item.key}
+        ListFooterComponent={!isInverted && footer}
+        ListHeaderComponent={isInverted && footer}
         {...listProps}
       />
       <SurveyChatActionContainer

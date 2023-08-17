@@ -36,7 +36,11 @@ export const SurveyChatMessage = (props: SurveyChatMessageProps) => {
       };
 
   return (
-    <PresenceTransition visible={true} initial={{ opacity: 0 }}>
+    <PresenceTransition
+      visible={true}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1, transition: { duration: 400 } }}
+    >
       <Box {...layoutProps}>
         <Box
           {...stylingProps?.containerProps}
