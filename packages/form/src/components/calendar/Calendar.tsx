@@ -1,3 +1,5 @@
+import CalendarHeader from './CalendarHeader';
+import YearPicker from './YearPicker';
 import type {
   ArrowProps,
   CalendarProps,
@@ -63,6 +65,8 @@ export const Calendar = (props: CalendarProps) => {
     mode = 'dual',
     useNavigationToCurrentMonth = false,
     selectedColor = 'primary',
+    startYear, //todo: work with minDate, maxDate?
+    endYear,
     ...calendarProps
   } = props;
   const { markingType, ...restCalendarProps } = calendarProps;
@@ -76,6 +80,22 @@ export const Calendar = (props: CalendarProps) => {
     : dayjs();
   const [leftDate, setLeftDate] = useState(initialLeftDate);
   const [rightDate, setRightDate] = useState(initialLeftDate.add(1, 'month'));
+
+  const [selectingYear, setSelectingYear] = useState<boolean>(false);
+
+  const onPressYear = useCallback(
+    (year: number) => {
+      setLeftDate((current) => dayjs(current).year(year));
+      setRightDate((current) => {
+        if (current.month() === 0) {
+          return dayjs(current).year(year + 1);
+        }
+        return dayjs(current).year(year);
+      });
+      setSelectingYear((prev) => !prev);
+    },
+    [setSelectingYear],
+  );
 
   const generatedMarkedDates = useMemo((): MarkedDates => {
     let dates: MarkedDates = {};
@@ -312,6 +332,17 @@ export const Calendar = (props: CalendarProps) => {
     ],
   );
 
+  const selectedYear = leftDate.year();
+
+  const _renderHeader = (props) => (
+    <CalendarHeader
+      mode={mode}
+      onPressHeader={() => onPressYear(selectedYear)}
+      selectingYear={selectingYear}
+      {...props}
+    />
+  );
+
   const renderCalendar = (direction: 'left' | 'right') => {
     return (
       <View style={{ flex: 1 }}>
@@ -320,6 +351,7 @@ export const Calendar = (props: CalendarProps) => {
           style={calendarStyle}
           theme={calendarTheme}
           hideExtraDays={true}
+          customHeader={_renderHeader}
         />
       </View>
     );
@@ -329,6 +361,13 @@ export const Calendar = (props: CalendarProps) => {
     <View style={[styles.container, containerStyle]}>
       {renderCalendar('left')}
       {mode === 'dual' && renderCalendar('right')}
+      <YearPicker
+        selectedYear={selectedYear}
+        selectingYear={selectingYear}
+        onPressYear={onPressYear}
+        startYear={startYear || 1950}
+        endYear={endYear || 2050}
+      />
     </View>
   );
 };
@@ -354,7 +393,6 @@ const styles = StyleSheet.create({
     height: 34,
     alignItems: 'center',
     justifyContent: 'center',
-    maxWidth: 34,
-    width: '100%',
+    width: 34,
   },
 });

@@ -1,11 +1,11 @@
 import { DefaultTheme, Theme, ThemeProvider } from '@react-navigation/native';
 import { extendTheme, NativeBaseProvider } from 'native-base';
 import React from 'react';
+import { Platform } from 'react-native';
 import {
   DefaultTheme as PaperDefaultTheme,
   PaperProvider,
 } from 'react-native-paper';
-import { Platform } from 'react-native';
 
 const navigationTheme: Theme = {
   ...DefaultTheme,
@@ -56,6 +56,11 @@ const theme = extendTheme({
         _stack: {
           width: '100%',
         },
+      },
+    },
+    IconButton: {
+      baseStyle: {
+        borderRadius: '50%',
       },
     },
   },
