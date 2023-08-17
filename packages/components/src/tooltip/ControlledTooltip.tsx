@@ -137,7 +137,6 @@ export const ControlledTooltip = ({
               <Popper.Content isOpen={isOpen}>
                 {hasArrow && (
                   <Popper.Arrow
-                    borderColor="transparent"
                     backgroundColor={arrowBg}
                     height={arrowSize}
                     width={arrowSize}

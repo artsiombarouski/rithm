@@ -1,6 +1,7 @@
 import { Box, Button, IInputProps, Input } from 'native-base';
 import { ReactElement, useState } from 'react';
 import { SurveyActionProps } from '../types';
+import { useInputAutoHeight } from '@artsiombarouski/rn-form';
 
 export type SurveyInputActionProps = SurveyActionProps & {
   inputProps?: IInputProps;
@@ -12,11 +13,12 @@ export type SurveyInputActionProps = SurveyActionProps & {
 export const SurveyInputAction = (props: SurveyInputActionProps) => {
   const { closeTooltip, onSubmit, inputProps, actionElement } = props;
   const [currentValue, setCurrentValue] = useState('');
+  const autoHeightProps = useInputAutoHeight(props.inputProps ?? {}, true);
   const handleSubmit = () => {
     if (currentValue.length === 0) {
       onSubmit(null, currentValue);
     } else {
-      onSubmit(currentValue, currentValue);
+      onSubmit(currentValue.trim(), currentValue.trim());
     }
   };
   return (
@@ -34,6 +36,7 @@ export const SurveyInputAction = (props: SurveyInputActionProps) => {
           )
         }
         {...inputProps}
+        {...autoHeightProps}
       />
     </Box>
   );

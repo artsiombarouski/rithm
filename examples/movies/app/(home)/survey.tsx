@@ -61,7 +61,14 @@ const questions: SurveyQuestion[] = [
     message: 'Here is text input',
     tooltipInitialVisible: true,
     tooltip: (props) => <Tooltip {...props} />,
-    surveyAction: (props) => <SurveyInputAction {...props} />,
+    surveyAction: (props) => (
+      <SurveyInputAction
+        {...props}
+        inputProps={{
+          multiline: true,
+        }}
+      />
+    ),
   },
   {
     key: 'preAutocomplete',

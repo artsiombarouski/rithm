@@ -29,6 +29,7 @@ export const SurveyAutocompleteAction = (
   return (
     <Box>
       <AutocompleteInput
+        {...autocompleteProps}
         onChange={(value) => {
           setCurrentValue(value);
           closeTooltip();
@@ -39,16 +40,15 @@ export const SurveyAutocompleteAction = (
           },
           InputRightElement: actionElement?.({ ...props, handleSubmit }) ?? (
             <Button
-              isDisabled={!currentValue}
               variant={'link'}
               onPress={handleSubmit}
+              isDisabled={!currentValue}
             >
               Answer
             </Button>
           ),
           ...autocompleteProps.inputProps,
         }}
-        {...autocompleteProps}
       />
     </Box>
   );
