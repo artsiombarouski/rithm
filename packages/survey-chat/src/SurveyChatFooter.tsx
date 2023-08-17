@@ -18,7 +18,10 @@ export type SurveyChatFooterProps = {
 export const SurveyChatFooter = observer<SurveyChatFooterProps>((props) => {
   const { runner, wrapperProps, indicatorProps } = props;
   return (
-    <View {...wrapperProps}>
+    <View
+      {...wrapperProps}
+      style={{ opacity: runner.canShowTypingIndicator ? 1 : 0 }}
+    >
       {runner.canShowTypingIndicator && (
         <PresenceTransition visible={true} initial={{ opacity: 0 }}>
           <HStack>

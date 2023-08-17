@@ -24,6 +24,10 @@ export type SurveyMessage = {
   isAnswer?: boolean;
 };
 
+export type SurveyQuestionAction = (
+  props: SurveyActionProps,
+) => React.ReactElement;
+
 export type SurveyQuestion = {
   key: string;
   dataKey?: string;
@@ -32,6 +36,6 @@ export type SurveyQuestion = {
   isAnswer?: boolean;
   tooltip?: (props: SurveyTooltipProps) => React.ReactNode;
   tooltipInitialVisible?: boolean;
-  surveyAction?: (props: SurveyActionProps) => React.ReactElement;
+  surveyAction?: SurveyQuestionAction;
   showDelay?: number;
 };
