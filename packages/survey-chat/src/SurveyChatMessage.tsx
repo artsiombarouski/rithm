@@ -38,9 +38,17 @@ export const SurveyChatMessage = (props: SurveyChatMessageProps) => {
   return (
     <PresenceTransition visible={true} initial={{ opacity: 0 }}>
       <Box {...layoutProps}>
-        <Box {...stylingProps?.containerProps}>
+        <Box
+          {...stylingProps?.containerProps}
+          {...value?.messageStylingProps?.containerProps}
+        >
           {typeof displayMessage === 'string' ? (
-            <Text {...stylingProps?.textProps}>{displayMessage}</Text>
+            <Text
+              {...stylingProps?.textProps}
+              {...value?.messageStylingProps?.textProps}
+            >
+              {displayMessage}
+            </Text>
           ) : (
             displayMessage
           )}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { SurveyChatRunner } from './SurveyChatRunner';
+import { SurveyChatMessageStylingProps } from './SurveyChatMessage';
 
 export type SurveyActionProps = {
   runner: SurveyChatRunner;
@@ -19,13 +20,15 @@ export type SurveyMessage = {
   key: string;
   dataKey?: string;
   message?: string | ((runner: SurveyChatRunner) => string | React.ReactNode);
+  messageStylingProps?: SurveyChatMessageStylingProps;
   isAnswer?: boolean;
 };
 
 export type SurveyQuestion = {
   key: string;
   dataKey?: string;
-  message?: string | ((runner: SurveyChatRunner) => string);
+  message?: string | ((runner: SurveyChatRunner) => string | React.ReactNode);
+  messageStylingProps?: SurveyChatMessageStylingProps;
   isAnswer?: boolean;
   tooltip?: (props: SurveyTooltipProps) => React.ReactNode;
   tooltipInitialVisible?: boolean;

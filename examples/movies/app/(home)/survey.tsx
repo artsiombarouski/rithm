@@ -53,6 +53,15 @@ const Tooltip = (props: SurveyTooltipProps) => {
 
 const questions: SurveyQuestion[] = [
   {
+    key: 'customStyle',
+    message: 'Custom style example',
+    messageStylingProps: {
+      containerProps: {
+        backgroundColor: 'red.900',
+      },
+    },
+  },
+  {
     key: 'preTextInput',
     message: 'Now will be text input',
   },
