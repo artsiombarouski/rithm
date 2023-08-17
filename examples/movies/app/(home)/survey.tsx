@@ -178,7 +178,6 @@ export default function SurveyPage() {
             py: 2,
             backgroundColor: theme.colors.primary['500'],
             borderRadius: 4,
-            mt: 2,
           },
           indicatorProps: {
             dotStyle: {

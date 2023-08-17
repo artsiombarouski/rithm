@@ -23,6 +23,7 @@ export type SurveyActionContainerProps = {
 export const SurveyChatActionContainer = observer<SurveyActionContainerProps>(
   (props) => {
     const { runner, tooltipProps, tooltipButtonProps } = props;
+    const canShowAction = runner.canShowAction;
     const currentQuestion = runner.currentQuestion;
     const [tooltipState, setTooltipState] = useState({
       visible: false,
@@ -30,9 +31,9 @@ export const SurveyChatActionContainer = observer<SurveyActionContainerProps>(
     });
 
     useEffect(() => {
-      const unsubscribe = observe(runner, 'currentQuestion', (change) => {
+      const unsubscribe = observe(runner, 'canShowAction', (change) => {
         setTooltipState({
-          visible: change.newValue?.tooltipInitialVisible === true,
+          visible: runner.currentQuestion?.tooltipInitialVisible === true,
           clicked: false,
         });
       });
@@ -53,7 +54,8 @@ export const SurveyChatActionContainer = observer<SurveyActionContainerProps>(
           }),
       });
 
-    const tooltipTriggerElement = currentQuestion?.tooltip &&
+    const tooltipTriggerElement = canShowAction &&
+      currentQuestion?.tooltip &&
       !tooltipState.visible && (
         <PresenceTransition
           visible={!tooltipState.visible}
@@ -80,8 +82,12 @@ export const SurveyChatActionContainer = observer<SurveyActionContainerProps>(
         </PresenceTransition>
       );
 
-    const actionElement = currentQuestion?.surveyAction && (
-      <PresenceTransition visible={true} initial={{ opacity: 0 }}>
+    const actionElement = canShowAction && currentQuestion?.surveyAction && (
+      <PresenceTransition
+        visible={true}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1, transition: { duration: 400 } }}
+      >
         {React.createElement(currentQuestion!.surveyAction!, {
           runner: runner,
           question: currentQuestion,

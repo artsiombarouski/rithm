@@ -47,20 +47,23 @@ export const SurveyChat = observer<SurveyChatProps>((props) => {
   const runner = useLocalObservable(
     () => new SurveyChatRunner(questions ?? [], runnerOptions),
   );
-
-  const renderMessage = ({ item }: ListRenderItemInfo<SurveyMessage>) => {
-    return <SurveyChatMessage value={item} runner={runner} {...messageProps} />;
-  };
-
   const footer = useMemo(() => {
     return (
       <SurveyChatFooter
+        key={'chat-footer'}
         runner={runner}
         wrapperProps={footerWrapperProps}
         indicatorProps={indicatorProps}
       />
     );
   }, [runner, footerWrapperProps, indicatorProps]);
+
+  const renderMessage = ({ item, index }: ListRenderItemInfo<any>) => {
+    if (item === 'footer') {
+      return footer;
+    }
+    return <SurveyChatMessage value={item} runner={runner} {...messageProps} />;
+  };
 
   useEffect(() => {
     runner.init();
@@ -73,19 +76,18 @@ export const SurveyChat = observer<SurveyChatProps>((props) => {
   }, [runner.isCompleted]);
 
   const isInverted = listProps?.inverted;
-  const data = runner.messages.slice();
+  const data: any[] = runner.messages.slice();
+  data.push('footer');
 
   return (
     <Box flex={1} {...containerProps}>
-      <FlatList<SurveyMessage>
+      <FlatList<any>
         key={'survey-chat-list'}
         flex={1}
         data={isInverted ? data.reverse() : data}
         showsVerticalScrollIndicator={false}
         renderItem={renderMessage}
-        keyExtractor={(item) => item.key}
-        ListFooterComponent={!isInverted && footer}
-        ListHeaderComponent={isInverted && footer}
+        keyExtractor={(item) => (item === 'footer' ? 'footer' : item.key)}
         {...listProps}
       />
       <SurveyChatActionContainer

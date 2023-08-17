@@ -5,6 +5,8 @@ import _ from 'lodash';
 
 export type SurveyChatRunnerOptions = {
   showDelay?: number;
+  actionShowDelay?: number;
+  firstMessageDelay?: number;
 };
 
 export class SurveyChatRunner {
@@ -14,6 +16,8 @@ export class SurveyChatRunner {
   messages: SurveyMessage[] = [];
   @observable
   currentQuestion?: SurveyQuestion | undefined;
+  @observable
+  canShowAction: boolean = false;
   @observable
   answers: { [key: string]: any } = {};
   @observable
@@ -54,11 +58,15 @@ export class SurveyChatRunner {
     const indexOfCurrentQuestion = this.questions.findIndex(
       (e) => e.key === this.currentQuestion?.key,
     );
-    if (!this.currentQuestion) {
+    if (!this.currentQuestion && this.options.firstMessageDelay) {
       this.canShowTypingIndicator = true;
-      await this.timeout(this.options.showDelay ?? 1000);
+      await this.timeout(this.options.firstMessageDelay);
     }
     this.currentQuestion = null;
+    if (this.canShowAction) {
+      await this.timeout(200);
+      this.canShowAction = false;
+    }
     if (indexOfCurrentQuestion + 1 >= this.questions.length) {
       this.isCompleted = true;
       return;
@@ -75,6 +83,10 @@ export class SurveyChatRunner {
       this.next().then((ignore) => {});
     } else {
       this.canShowTypingIndicator = false;
+      if (nextQuestion.surveyAction) {
+        await this.timeout(this.options.actionShowDelay ?? 400);
+        this.canShowAction = true;
+      }
     }
   }
 
