@@ -9,7 +9,7 @@ import type {
   SingleDate,
 } from './types';
 import { SelectionType } from './types';
-import { getFontString } from './utils';
+import { getFontFamilyByWeight } from './utils';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import dayjs from 'dayjs';
 import { Icon, IconButton, useTheme } from 'native-base';
@@ -269,12 +269,15 @@ export const Calendar = (props: CalendarProps) => {
     restCalendarProps?.style,
   ]);
 
+  const fontName = theme.fonts.body;
+  const fontConfig = theme.fontConfig;
+
   const calendarTheme: CalendarTheme = {
-    textDayFontFamily: getFontString(theme.fonts.body, 'Medium'),
+    textDayFontFamily: getFontFamilyByWeight(fontName, '500', fontConfig),
     textDayFontSize: 14,
-    textDayHeaderFontFamily: getFontString(theme.fonts.body, 'Medium'),
+    textDayHeaderFontFamily: getFontFamilyByWeight(fontName, '500', fontConfig),
     textDayHeaderFontSize: 12,
-    textMonthFontFamily: getFontString(theme.fonts.body, 'Medium'),
+    textMonthFontFamily: getFontFamilyByWeight(fontName, '500', fontConfig),
     textMonthFontSize: 16,
     monthTextColor: theme.colors.blueGray[700],
     dayTextColor: theme.colors.blueGray[800],

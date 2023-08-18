@@ -1,9 +1,16 @@
 import XDate from 'xdate';
 
 const latinNumbersPattern = /[0-9]/g;
-export function getFontString(fontFamily: string, fontWeight: string): string {
-  return `${fontFamily}-${fontWeight}`;
-}
+
+export const getFontFamilyByWeight = (
+  fontName: string,
+  weight: string,
+  fontConfig: any,
+) => {
+  const font = fontConfig?.[fontName];
+  if (!font) return fontName; // fallback to the base font name
+  return font[weight] || fontName; // fallback to the base font name if weight not found
+};
 
 export function getLocale() {
   return XDate.locales[XDate.defaultLocale];

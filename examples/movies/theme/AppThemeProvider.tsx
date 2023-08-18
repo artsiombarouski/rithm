@@ -66,18 +66,10 @@ const theme = extendTheme({
   },
   fontConfig: {
     Inter: {
-      400: {
-        normal: 'Inter-Regular',
-      },
-      500: {
-        normal: 'Inter-Medium',
-      },
-      600: {
-        normal: 'Inter-SemiBold',
-      },
-      700: {
-        normal: 'Inter-Bold',
-      },
+      400: 'Inter-Regular',
+      500: 'Inter-Medium',
+      600: 'Inter-SemiBold',
+      700: 'Inter-Bold',
     },
   },
   fonts: {
