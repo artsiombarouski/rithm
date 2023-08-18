@@ -31,8 +31,6 @@ export type CalendarProps<T extends SelectedDates = SelectedDates> =
     mode?: 'single' | 'dual';
     useNavigationToCurrentMonth?: boolean;
     selectedColor?: string;
-    startYear?: number;
-    endYear?: number;
   };
 
 export type CalendarTheme = Theme & {

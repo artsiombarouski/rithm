@@ -65,8 +65,6 @@ export const Calendar = (props: CalendarProps) => {
     mode = 'dual',
     useNavigationToCurrentMonth = false,
     selectedColor = 'primary',
-    startYear, //todo: work with minDate, maxDate?
-    endYear,
     ...calendarProps
   } = props;
   const { markingType, ...restCalendarProps } = calendarProps;
@@ -333,7 +331,8 @@ export const Calendar = (props: CalendarProps) => {
   );
 
   const selectedYear = leftDate.year();
-
+  const startYear = props?.minDate ? dayjs(props.minDate).year() : 1950;
+  const endYear = props?.maxDate ? dayjs(props.maxDate).year() : 2050;
   const _renderHeader = (props) => (
     <CalendarHeader
       mode={mode}
@@ -365,8 +364,8 @@ export const Calendar = (props: CalendarProps) => {
         selectedYear={selectedYear}
         selectingYear={selectingYear}
         onPressYear={onPressYear}
-        startYear={startYear || 1950}
-        endYear={endYear || 2050}
+        startYear={startYear}
+        endYear={endYear}
       />
     </View>
   );
