@@ -7,9 +7,13 @@ export const getFontFamilyByWeight = (
   weight: string,
   fontConfig: any,
 ) => {
-  const font = fontConfig?.[fontName];
-  if (!font) return fontName; // fallback to the base font name
-  return font[weight] || fontName; // fallback to the base font name if weight not found
+  const fontObject = fontConfig?.[fontName];
+  if (!fontObject || !fontObject?.[weight]) return fontName; // fallback to the base font name
+
+  if (typeof fontObject[weight] === 'string') {
+    return fontObject[weight];
+  }
+  return fontObject[weight].normal;
 };
 
 export function getLocale() {
