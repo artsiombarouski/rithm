@@ -59,6 +59,11 @@ export default function YearPicker({
         )}
         keyExtractor={(item) => `${item}`}
         numColumns={3}
+        getItemLayout={(data, index) => ({
+          length: ITEM_HEIGHT,
+          offset: ITEM_HEIGHT * index,
+          index,
+        })}
       />
     </View>
   );
