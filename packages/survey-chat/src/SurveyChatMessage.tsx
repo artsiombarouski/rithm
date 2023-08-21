@@ -7,6 +7,7 @@ import {
   Text,
 } from 'native-base';
 import { SurveyChatRunner } from './SurveyChatRunner';
+import { GrowingComponent } from './components';
 
 export type SurveyChatMessageStylingProps = {
   textProps?: ITextProps;
@@ -36,28 +37,35 @@ export const SurveyChatMessage = (props: SurveyChatMessageProps) => {
       };
 
   return (
-    <PresenceTransition
-      visible={true}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1, transition: { duration: 400 } }}
-    >
-      <Box {...layoutProps}>
-        <Box
-          {...stylingProps?.containerProps}
-          {...value?.messageStylingProps?.containerProps}
+    <GrowingComponent
+      component={
+        <PresenceTransition
+          visible={true}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, transition: { delay: 100, duration: 400 } }}
         >
-          {typeof displayMessage === 'string' ? (
-            <Text
-              {...stylingProps?.textProps}
-              {...value?.messageStylingProps?.textProps}
+          <Box {...layoutProps}>
+            <Box
+              {...stylingProps?.containerProps}
+              {...value?.messageStylingProps?.containerProps}
             >
-              {displayMessage}
-            </Text>
-          ) : (
-            displayMessage
-          )}
-        </Box>
-      </Box>
-    </PresenceTransition>
+              {typeof displayMessage === 'string' ? (
+                <Text
+                  {...stylingProps?.textProps}
+                  {...value?.messageStylingProps?.textProps}
+                >
+                  {displayMessage}
+                </Text>
+              ) : (
+                displayMessage
+              )}
+            </Box>
+          </Box>
+        </PresenceTransition>
+      }
+      componentStyle={{ width: '100%' }}
+      componentWrapperStyle={{ width: '100%' }}
+      containerStyle={{ width: '100%' }}
+    />
   );
 };

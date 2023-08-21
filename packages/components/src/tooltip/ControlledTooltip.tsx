@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { OverlayContainer } from '@react-native-aria/overlays';
 import { Platform, StyleSheet } from 'react-native';
 import { useId } from '@react-native-aria/utils';
@@ -14,13 +14,14 @@ import {
 import { ResponsiveQueryContext } from 'native-base/lib/module/utils/useResponsiveQuery/ResponsiveQueryProvider';
 import { useHasResponsiveProps } from 'native-base/lib/module/hooks/useHasResponsiveProps';
 import { Popper } from 'native-base/lib/module/components/composites/Popper';
-import { mergeRefs } from 'native-base/src/utils';
 
 export type ControlledTooltipProps = Omit<ITooltipProps, 'label'> & {
+  targetRef: any;
   label: any;
 };
 
 export const ControlledTooltip = ({
+  targetRef,
   label,
   children,
   onClose,
@@ -55,39 +56,18 @@ export const ControlledTooltip = ({
   const arrowBg =
     props.backgroundColor ?? props.bgColor ?? props.bg ?? resolvedProps.bg;
 
-  const targetRef = useRef(null);
-
   const enterTimeout = useRef<any>();
   const exitTimeout = useRef<any>();
-  // const tooltipID = '';
-  // const tooltipID = useId();
 
   let tooltipID = uniqueId();
 
-  // let id = uniqueId();
   const responsiveQueryContext = useContext(ResponsiveQueryContext);
   const disableCSSMediaQueries = (responsiveQueryContext as any)
     .disableCSSMediaQueries;
 
   if (!disableCSSMediaQueries) {
-    // This if statement technically breaks the rules of hooks, but is safe
-    // because the condition never changes after mounting.
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     tooltipID = useId();
   }
-
-  const openWithDelay = useCallback(() => {
-    if (!isDisabled) {
-      enterTimeout.current = setTimeout(() => setIsOpen(true), openDelay);
-    }
-  }, [isDisabled, setIsOpen, openDelay]);
-
-  const closeWithDelay = useCallback(() => {
-    if (enterTimeout.current) {
-      clearTimeout(enterTimeout.current);
-    }
-    exitTimeout.current = setTimeout(() => setIsOpen(false), closeDelay);
-  }, [closeDelay, setIsOpen]);
 
   useEffect(
     () => () => {
@@ -102,11 +82,6 @@ export const ControlledTooltip = ({
   if (typeof children === 'string') {
     newChildren = <Box>{children}</Box>;
   }
-
-  newChildren = React.cloneElement(newChildren, {
-    ref: mergeRefs([newChildren.ref, targetRef]),
-    'aria-describedby': isOpen ? tooltipID : undefined,
-  });
 
   useKeyboardDismissable({
     enabled: isOpen,

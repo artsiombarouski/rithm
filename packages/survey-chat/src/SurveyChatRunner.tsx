@@ -7,6 +7,8 @@ export type SurveyChatRunnerOptions = {
   showDelay?: number;
   actionShowDelay?: number;
   firstMessageDelay?: number;
+  completeDelay?: number;
+  afterAnswerDelay?: number;
 };
 
 export class SurveyChatRunner {
@@ -54,7 +56,7 @@ export class SurveyChatRunner {
   }
 
   @action.bound
-  async next() {
+  async next(withAfterAnswerDelay?: boolean) {
     const indexOfCurrentQuestion = this.questions.findIndex(
       (e) => e.key === this.currentQuestion?.key,
     );
@@ -67,7 +69,15 @@ export class SurveyChatRunner {
       await this.timeout(200);
       this.canShowAction = false;
     }
+    if (withAfterAnswerDelay) {
+      this.canShowTypingIndicator = false;
+      await this.timeout(this.options.afterAnswerDelay ?? 800);
+    }
     if (indexOfCurrentQuestion + 1 >= this.questions.length) {
+      this.canShowTypingIndicator = false;
+      if (this.options.completeDelay) {
+        await this.timeout(this.options.completeDelay);
+      }
       this.isCompleted = true;
       return;
     }

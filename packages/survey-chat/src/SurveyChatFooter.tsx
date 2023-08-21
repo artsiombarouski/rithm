@@ -18,19 +18,18 @@ export type SurveyChatFooterProps = {
 export const SurveyChatFooter = observer<SurveyChatFooterProps>((props) => {
   const { runner, wrapperProps, indicatorProps } = props;
   return (
-    <View
-      {...wrapperProps}
-      style={{ opacity: runner.canShowTypingIndicator ? 1 : 0 }}
-    >
-      {runner.canShowTypingIndicator && (
-        <PresenceTransition visible={true} initial={{ opacity: 0 }}>
-          <HStack>
-            <Box {...indicatorProps?.containerProps}>
-              <TypingIndicator {...indicatorProps?.indicatorProps} />
-            </Box>
-          </HStack>
-        </PresenceTransition>
-      )}
+    <View {...wrapperProps}>
+      <PresenceTransition
+        visible={runner.canShowTypingIndicator}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1, transition: { delay: 100, duration: 200 } }}
+      >
+        <HStack>
+          <Box {...indicatorProps?.containerProps}>
+            <TypingIndicator {...indicatorProps?.indicatorProps} />
+          </Box>
+        </HStack>
+      </PresenceTransition>
     </View>
   );
 });

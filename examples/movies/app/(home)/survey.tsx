@@ -133,7 +133,6 @@ export default function SurveyPage() {
       <SurveyChat
         questions={questions}
         containerProps={{
-          p: 4,
           maxW: 512,
         }}
         onComplete={(answers) => {
@@ -188,7 +187,16 @@ export default function SurveyPage() {
         listProps={{
           inverted: true,
           py: 4,
+          px: 4,
           ItemSeparatorComponent: () => <Spacer h={2} />,
+        }}
+        actionContainerProps={{
+          px: 4,
+          pt: 1,
+          pb: 4,
+        }}
+        tooltipButtonProps={{
+          right: 4,
         }}
       />
     </Box>
