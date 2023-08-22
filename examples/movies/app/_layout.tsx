@@ -3,6 +3,7 @@ import { rootServices, scopedServices } from '../services/Services';
 import { useUsers } from '../services/utils';
 import { AppThemeProvider } from '../theme';
 import { AnalyticsWrapper } from '@artsiombarouski/rn-analytics';
+import { FirebaseAnalyticsService } from '@artsiombarouski/rn-analytics-firebase';
 import {
   AlertProvider,
   ModalDialogProvider,
@@ -94,6 +95,7 @@ const RootLayout = () => {
     // new AmplitudeAnalyticsService({
     //   apiKey: 'YOUR_API_KEY',
     // }),
+    new FirebaseAnalyticsService(),
   ];
   return (
     <AnalyticsWrapper services={analyticsServices}>

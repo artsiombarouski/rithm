@@ -59,6 +59,7 @@
     "packages/services",
     "packages/analytics",
     "packages/analytics-amplitude",
+    "packages/analytics-firebase",
     "packages/resources",
     "packages/user-store-service",
     "packages/expo-router-service",
