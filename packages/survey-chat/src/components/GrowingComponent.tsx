@@ -20,13 +20,10 @@ type Props = {
   exitingDelay?: number;
   exitingDuration?: number;
   exiting?: boolean;
-  typing?: boolean;
   logo?: ReactElement;
   enteringLogo?: boolean;
   showLogo?: boolean;
 };
-
-const TYPING_COMPONENT_HEIGHT = 44;
 
 export const GrowingComponent = React.memo(
   ({
@@ -38,7 +35,6 @@ export const GrowingComponent = React.memo(
     exitingDuration = 200,
     exitingDelay = 0,
     exiting = false,
-    typing = false,
     logo,
     enteringLogo = false,
     showLogo = false,
@@ -54,14 +50,6 @@ export const GrowingComponent = React.memo(
         }, exitingDelay);
       }
     }, [exiting]);
-
-    useEffect(() => {
-      if (typing) {
-        height.value = TYPING_COMPONENT_HEIGHT;
-        open.value = true;
-        openLogo.value = true;
-      }
-    }, [typing]);
 
     const progress = useDerivedValue(() =>
       open.value
@@ -130,13 +118,18 @@ export const GrowingComponent = React.memo(
             growingStyleCreator(progress),
           ]}
         >
-          {!typing && (
-            <GetDimensions
-              component={<MemoizedComponent />}
-              onDimensions={onDimensions}
-            />
-          )}
-          <View style={[componentWrapperStyle, styles.enteringWrapper]}>
+          <GetDimensions
+            component={<MemoizedComponent />}
+            onDimensions={onDimensions}
+          />
+          <View
+            style={[componentWrapperStyle, styles.enteringWrapper]}
+            onLayout={(event) => {
+              onDimensions({
+                height: Math.round(event.nativeEvent.layout.height),
+              });
+            }}
+          >
             <Animated.View
               style={[componentStyle, enteringStyleCreator(progress)]}
             >
