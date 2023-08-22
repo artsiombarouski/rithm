@@ -54,6 +54,21 @@ const Components = () => {
           />
         </Box>
         <Divider />
+        <Heading>Autocomplete (with initial value)</Heading>
+        <Box>
+          <AutocompleteInput
+            currentOption={autocompleteOptions[1]}
+            getOptions={async (query) => {
+              await new Promise((resolve) => {
+                setTimeout(resolve, 300);
+              });
+              return autocompleteOptions.filter((e) =>
+                e.value.toLowerCase().includes(query.toLowerCase()),
+              );
+            }}
+          />
+        </Box>
+        <Divider />
         <Heading>Modal</Heading>
         <Heading size={'sm'}>Modal</Heading>
         <Button

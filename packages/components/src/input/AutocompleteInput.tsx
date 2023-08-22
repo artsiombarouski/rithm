@@ -25,6 +25,7 @@ export type AutocompleteOption = {
 
 export type AutocompleteInputProps = {
   getOptions: (query: string) => Promise<AutocompleteOption[]>;
+  currentOption?: AutocompleteOption;
   onChange?: (value: AutocompleteOption) => void;
   inputProps?: IInputProps;
   inputContainerProps?: IBoxProps;
@@ -34,6 +35,7 @@ export type AutocompleteInputProps = {
 export const AutocompleteInput = (props: AutocompleteInputProps) => {
   const {
     getOptions,
+    currentOption,
     onChange,
     inputProps,
     inputContainerProps,
@@ -49,7 +51,7 @@ export const AutocompleteInput = (props: AutocompleteInputProps) => {
   const [isInputFocused, setInputFocused] = useState(false);
   const [selectedOption, setSelectedOption] = useState<
     AutocompleteOption | undefined
-  >(null);
+  >(currentOption);
   const [popperState, setPopperState] = useState<{
     options: AutocompleteOption[];
     isVisible: boolean;
