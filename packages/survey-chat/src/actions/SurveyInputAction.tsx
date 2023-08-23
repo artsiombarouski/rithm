@@ -8,17 +8,24 @@ export type SurveyInputActionProps = SurveyActionProps & {
   actionElement?: (
     props: SurveyActionProps & { handleSubmit: () => void },
   ) => ReactElement;
+  required?: boolean;
 };
 
 export const SurveyInputAction = (props: SurveyInputActionProps) => {
-  const { closeTooltip, onSubmit, inputProps, actionElement } = props;
+  const {
+    closeTooltip,
+    onSubmit,
+    inputProps,
+    actionElement,
+    required = true,
+  } = props;
   const [currentValue, setCurrentValue] = useState('');
   const autoHeightProps = useInputAutoHeight(props.inputProps ?? {}, true);
   const handleSubmit = () => {
-    if (currentValue.length === 0) {
-      onSubmit(null, currentValue);
-    } else {
+    if (currentValue && currentValue.length > 0) {
       onSubmit(currentValue.trim(), currentValue.trim());
+    } else if (!required) {
+      onSubmit(null, null);
     }
   };
   return (
@@ -30,7 +37,13 @@ export const SurveyInputAction = (props: SurveyInputActionProps) => {
         }}
         InputRightElement={
           actionElement?.({ ...props, handleSubmit }) ?? (
-            <Button variant={'link'} onPress={handleSubmit}>
+            <Button
+              variant={'link'}
+              onPress={handleSubmit}
+              isDisabled={
+                required && (!currentValue || currentValue.length === 0)
+              }
+            >
               Answer
             </Button>
           )

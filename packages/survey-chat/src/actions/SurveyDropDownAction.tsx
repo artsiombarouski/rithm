@@ -12,16 +12,23 @@ export type SurveyDropDownActionProps = SurveyActionProps & {
   actionElement?: (
     props: SurveyActionProps & { handleSubmit: () => void },
   ) => ReactElement;
+  required?: boolean;
 };
 
 export const SurveyDropDownAction = (props: SurveyDropDownActionProps) => {
-  const { closeTooltip, onSubmit, dropDownProps, actionElement } = props;
+  const {
+    closeTooltip,
+    onSubmit,
+    dropDownProps,
+    actionElement,
+    required = true,
+  } = props;
   const [currentValue, setCurrentValue] = useState<DropDownPickerOption>(null);
   const handleSubmit = () => {
-    if (!currentValue) {
-      onSubmit(null, null);
-    } else {
+    if (currentValue) {
       onSubmit(currentValue.key, currentValue.label ?? currentValue.key);
+    } else if (required) {
+      onSubmit(null, null);
     }
   };
   return (
