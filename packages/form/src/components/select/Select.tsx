@@ -6,6 +6,7 @@ import {
   ChevronUpIcon,
   FlatList,
   HStack,
+  IBoxProps,
   Icon,
   Input,
   Overlay,
@@ -40,6 +41,7 @@ export type SelectProps<OptionType = any> = {
   renderChip?: (option: OptionType) => React.ReactElement | null;
   useObjects?: boolean;
   chipProps?: ChipProps;
+  containerProps?: IBoxProps;
 };
 
 export function Select<OptionType = any>(props: SelectProps<OptionType>) {
@@ -56,6 +58,7 @@ export function Select<OptionType = any>(props: SelectProps<OptionType>) {
     placeholder,
     useObjects = true,
     chipProps,
+    containerProps,
   } = props;
   const theme = useTheme();
   const anchorRef = React.useRef(null);
@@ -152,7 +155,7 @@ export function Select<OptionType = any>(props: SelectProps<OptionType>) {
         }}
       >
         {multiple ? (
-          <SelectMultipleContainer>
+          <SelectMultipleContainer {...(containerProps as any)}>
             <HStack flex={1}>
               <View
                 p={1}
@@ -183,6 +186,7 @@ export function Select<OptionType = any>(props: SelectProps<OptionType>) {
             value={value ? getOptionTitle(value as OptionType) : undefined}
             placeholder={placeholder}
             InputRightElement={<Box pr={2}>{renderIcon()}</Box>}
+            {...(containerProps as any)}
           />
         )}
       </Pressable>

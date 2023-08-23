@@ -189,6 +189,9 @@ const FormExample = () => {
               options={new Array(100).fill(null).map((_, index) => {
                 return { key: `key${index}`, value: `Key ${index}` };
               })}
+              containerProps={{
+                size: 'lg'
+              }}
             />
           </FormExampleRow>
           <FormExampleRow title={'Select (multiple)'}>
@@ -200,6 +203,9 @@ const FormExample = () => {
               options={new Array(100).fill(null).map((_, index) => {
                 return { key: `key${index}`, value: `Key ${index}` };
               })}
+              containerProps={{
+                size: 'xl'
+              }}
             />
           </FormExampleRow>
           <FormExampleRow title={'Select (single, no objects)'}>
