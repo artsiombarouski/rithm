@@ -138,6 +138,11 @@ export default function SurveyPage() {
         onComplete={(answers) => {
           console.log('onComplete', answers);
         }}
+        runnerOptions={{
+          onChange: (answers) => {
+            console.log('answers', answers);
+          },
+        }}
         tooltipProps={{
           bgColor: 'white',
           borderRadius: 16,

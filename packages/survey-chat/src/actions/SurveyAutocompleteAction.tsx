@@ -12,18 +12,25 @@ export type SurveyAutocompleteActionProps = SurveyActionProps & {
   actionElement?: (
     props: SurveyActionProps & { handleSubmit: () => void },
   ) => ReactElement;
+  required?: boolean;
 };
 
 export const SurveyAutocompleteAction = (
   props: SurveyAutocompleteActionProps,
 ) => {
-  const { closeTooltip, onSubmit, autocompleteProps, actionElement } = props;
+  const {
+    closeTooltip,
+    onSubmit,
+    autocompleteProps,
+    actionElement,
+    required = true,
+  } = props;
   const [currentValue, setCurrentValue] = useState<AutocompleteOption>(null);
   const handleSubmit = () => {
-    if (!currentValue) {
-      onSubmit(null, null);
-    } else {
+    if (currentValue) {
       onSubmit(currentValue.key, currentValue.value);
+    } else if (!required) {
+      onSubmit(null, null);
     }
   };
   return (
@@ -42,7 +49,7 @@ export const SurveyAutocompleteAction = (
             <Button
               variant={'link'}
               onPress={handleSubmit}
-              isDisabled={!currentValue}
+              isDisabled={required && !currentValue}
             >
               Answer
             </Button>
