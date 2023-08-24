@@ -12,7 +12,12 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { FieldArrayWithId, useFieldArray } from 'react-hook-form';
+import {
+  FieldArrayWithId,
+  useFieldArray,
+  UseFieldArrayReturn,
+  useFormContext,
+} from 'react-hook-form';
 import { StyleSheet, View } from 'react-native';
 
 export type FormListItemRenderProps<TItem extends FormValues = FormValues> = {
@@ -35,11 +40,11 @@ export type FormListFormRenderProps<
 };
 
 export type FormListActionsProps<
-  TItem extends FormValues = FormValues,
+  TItem extends FormValues | string = FormValues,
   TFormValues extends FormValues = FormValues,
 > = {
   onPress: () => void;
-  addItem: (item: Partial<TItem>) => void;
+  addItem: (item: Partial<TItem> | string) => void;
 };
 
 export type FormListComponentProps<
@@ -58,10 +63,62 @@ export type FormListComponentProps<
   keepErrorSpace?: boolean;
   showHelper?: boolean;
   showError?: boolean;
+  isSimpleArray?: boolean;
   isFormInitialVisible?: boolean;
   hideActionWhenInlineFormVisible?: boolean;
 } & Pick<FormHelperProps, 'helperText' | 'helperProps'> &
   Omit<FormErrorProps, 'error'>;
+
+const generateId = () => {
+  const d =
+    typeof performance === 'undefined' ? Date.now() : performance.now() * 1000;
+
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16 + d) % 16 | 0;
+
+    return (c == 'x' ? r : (r & 0x3) | 0x8).toString(16);
+  });
+};
+
+type UseFormArrayHelperProps<TItem> = {
+  renderProps: FormElementRenderProps<any>;
+  isSimpleArray?: boolean;
+};
+
+export function useFormArrayHelper<TItem>(
+  props: UseFormArrayHelperProps<TItem>,
+): Pick<UseFieldArrayReturn<TItem>, 'fields' | 'append' | 'update' | 'remove'> {
+  const { renderProps, isSimpleArray } = props;
+  if (isSimpleArray) {
+    const methods = useFormContext();
+    return {
+      fields: (renderProps.field.value ?? []).map(() => ({
+        id: generateId(),
+      })) as any,
+      append: (item: any) => {
+        const currentValue = methods.getValues(renderProps.field.name);
+        const itemsToAdd = Array.isArray(item) ? item : [item];
+        renderProps.field.onChange([...currentValue, ...itemsToAdd]);
+      },
+      update: (index, value) => {
+        const currentValue = methods.getValues(renderProps.field.name);
+        currentValue[index] = value;
+        renderProps.field.onChange(currentValue);
+      },
+      remove: (index: number | number[]) => {
+        const currentValue = methods.getValues(renderProps.field.name);
+        const indexesToRemove = Array.isArray(index) ? index : [index];
+        renderProps.field.onChange(
+          currentValue.filter((e, index) => !indexesToRemove.includes(index)),
+        );
+      },
+    };
+  } else {
+    return useFieldArray<TItem>({
+      name: renderProps.field.name as any,
+    });
+  }
+}
 
 export function FormListComponent<
   TItem extends FormValues = FormValues,
@@ -79,12 +136,15 @@ export function FormListComponent<
     helperText,
     helperProps,
     errorProps,
+    isSimpleArray,
     isFormInitialVisible,
     hideActionWhenInlineFormVisible,
   } = props;
   const ref = useRef<any>();
-  const { fields, append, update, remove } = useFieldArray<TItem>({
-    name: renderProps.field.name as any,
+  const context = useFormContext();
+  const { fields, append, update, remove } = useFormArrayHelper<TItem>({
+    renderProps: renderProps as any,
+    isSimpleArray: isSimpleArray,
   });
 
   const [isItemFormVisible, setItemFormVisible] =
@@ -163,13 +223,15 @@ export function FormListComponent<
       <Fragment key={item.id}>
         {React.createElement(props.renderItem, {
           key: item.id,
-          item: item as any,
+          item: isSimpleArray ? renderProps.field.value[index] : item,
           index: index,
           itemPath: `${renderProps.field.name}.${index}`,
           fields: fields,
           update: (values) => {
-            Object.assign(renderProps.field.value[index], values);
-            renderProps.field.onChange([...renderProps.field.value]);
+            context.setValue(
+              `${renderProps.field.name}.${index}`,
+              values as any,
+            );
           },
           edit: () => handleEdit(index),
           remove: () => handleRemove(index),

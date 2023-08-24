@@ -227,7 +227,14 @@ const FormExample = () => {
               titleProperty={'value'}
               useObjects={false}
               options={new Array(100).fill(null).map((_, index) => {
-                return { key: `key${index}`, value: `Key ${index}` };
+                return {
+                  key: `key${index}`,
+                  value: `Key ${index}${
+                    index % 3 === 0
+                      ? 'asd asd asd asd asd asd asd asd asd asd asd asd asd asd asd asd asd asd asd asd asd asd asd asd asd asd asd asd'
+                      : ''
+                  }`,
+                };
               })}
               placeholder={'Placeholder'}
             />
@@ -478,6 +485,77 @@ const FormExample = () => {
           <FormExampleRow title={'DropDown (lazy options)'}>
             <LazyLoadSelectOptions />
           </FormExampleRow>
+          <FormExampleRow title={'List'}>
+            <FormList<FormItemDto>
+              name={'listModal'}
+              mode={'modal'}
+              title={'List'}
+              renderItem={FormListItem}
+              listItemContainerProps={{
+                space: 2,
+                py: 2,
+              }}
+              placeholder={
+                <Input
+                  editable={false}
+                  value={'Placeholder'}
+                  focusable={false}
+                  size={'md'}
+                  pointerEvents={'none'}
+                  _hover={{
+                    isReadOnly: true,
+                  }}
+                  _focus={{
+                    isReadOnly: true,
+                  }}
+                />
+              }
+              actions={(props) => {
+                return (
+                  <HStack>
+                    <Button onPress={props.onPress} variant={'link'}>
+                      + Add element
+                    </Button>
+                  </HStack>
+                );
+              }}
+              renderForm={(props) => {
+                const form = useForm({
+                  values: props.initialValues ?? {},
+                });
+                return (
+                  <Form form={form}>
+                    <HStack
+                      style={{ width: '100%' }}
+                      alignItems={'center'}
+                      space={4}
+                    >
+                      <FormInput
+                        name={'item_input'}
+                        placeholder={'Input'}
+                        title={'Input'}
+                        itemContainerStyle={{
+                          flex: 1,
+                        }}
+                      />
+                      <FormCheckbox
+                        name={'item_checkbox'}
+                        title={'Checkbox'}
+                        label={<Text>Checkbox</Text>}
+                        itemContainerStyle={{
+                          flex: 1,
+                        }}
+                      />
+                      <Button onPress={props.dismiss}>Cancel</Button>
+                      <Button onPress={form.handleSubmit(props.onSubmit)}>
+                        {props.initialValues ? 'Update' : 'Create'}
+                      </Button>
+                    </HStack>
+                  </Form>
+                );
+              }}
+            />
+          </FormExampleRow>
           <FormExampleRow title={'List (inline)'}>
             <FormList<FormItemDto>
               name={'listInline'}
@@ -669,6 +747,57 @@ const FormExample = () => {
                     <Button
                       onPress={() => {
                         props.addItem({});
+                      }}
+                    >
+                      Add item
+                    </Button>
+                  </HStack>
+                );
+              }}
+            />
+          </FormExampleRow>
+          <FormExampleRow
+            title={'List (strings only)'}
+            formProps={{
+              defaultValues: {
+                stringsOnly: [''],
+              },
+            }}
+          >
+            <FormList
+              name={'stringsOnly'}
+              mode={'inline'}
+              isSimpleArray={true}
+              renderItem={(props) => {
+                return (
+                  <HStack>
+                    <FormInput
+                      name={`${props.itemPath}`}
+                      title={'Title'}
+                      rules={{ required: true }}
+                      itemContainerStyle={{
+                        flex: 1,
+                      }}
+                    />
+                    <Button
+                      variant={'link'}
+                      onPress={() => {
+                        props.remove();
+                      }}
+                    >
+                      Remove
+                    </Button>
+                  </HStack>
+                );
+              }}
+              showError={false}
+              keepErrorSpace={false}
+              actions={(props) => {
+                return (
+                  <HStack mb={4}>
+                    <Button
+                      onPress={() => {
+                        props.addItem('');
                       }}
                     >
                       Add item

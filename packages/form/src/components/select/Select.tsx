@@ -156,7 +156,7 @@ export function Select<OptionType = any>(props: SelectProps<OptionType>) {
       >
         {multiple ? (
           <SelectMultipleContainer {...(containerProps as any)}>
-            <HStack flex={1}>
+            <HStack flex={1} w={'100%'}>
               <View
                 p={1}
                 flex={1}
@@ -164,6 +164,7 @@ export function Select<OptionType = any>(props: SelectProps<OptionType>) {
                 flexWrap={'wrap'}
                 flexDirection={'row'}
                 alignItems={'center'}
+                overflowX={'hidden'}
               >
                 {(value as OptionType[])?.map(
                   renderChip ?? internalRenderChip,
