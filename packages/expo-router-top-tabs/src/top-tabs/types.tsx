@@ -214,6 +214,11 @@ export type TopTabNavigationOptions = HeaderOptions & {
   tabBarItemStyle?: StyleProp<ViewStyle>;
 
   /**
+   * Style object for the tab item outside container.
+   */
+  tabBarItemContainerStyle?: StyleProp<ViewStyle>;
+
+  /**
    * Style object for the tab item container.
    */
   tabBarActiveItemStyle?: StyleProp<ViewStyle>;

@@ -1,3 +1,9 @@
+import type {
+  LabelPosition,
+  TopTabBarButtonProps,
+  TopTabDescriptor,
+} from '../types';
+import TabBarIcon from './TabBarIcon';
 import { Link, Route, useTheme } from '@react-navigation/native';
 import Color from 'color';
 import React from 'react';
@@ -12,13 +18,6 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-
-import type {
-  LabelPosition,
-  TopTabBarButtonProps,
-  TopTabDescriptor,
-} from '../types';
-import TabBarIcon from './TabBarIcon';
 
 type Props = {
   /**
@@ -310,7 +309,13 @@ export default function TopTabBarItem({
   }) as React.ReactElement;
 
   if (child && !scrollEnabled) {
-    return <View style={{ flex: 1 }}>{child}</View>;
+    const { options } = descriptor;
+
+    return (
+      <View style={[{ flex: 1 }, options.tabBarItemContainerStyle]}>
+        {child}
+      </View>
+    );
   }
 
   return child;
