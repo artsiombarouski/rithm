@@ -227,7 +227,14 @@ const FormExample = () => {
               titleProperty={'value'}
               useObjects={false}
               options={new Array(100).fill(null).map((_, index) => {
-                return { key: `key${index}`, value: `Key ${index}` };
+                return {
+                  key: `key${index}`,
+                  value: `Key ${index}${
+                    index % 3 === 0
+                      ? 'asd asd asd asd asd asd asd asd asd asd asd asd asd asd asd asd asd asd asd asd asd asd asd asd asd asd asd asd'
+                      : ''
+                  }`,
+                };
               })}
               placeholder={'Placeholder'}
             />

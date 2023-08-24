@@ -3,7 +3,7 @@ import {
   HStack,
   IBoxProps,
   IconButton,
-  IIconProps,
+  IIconButtonProps,
   ITextProps,
   Text,
   useTheme,
@@ -12,7 +12,7 @@ import {
 export type ChipProps = IBoxProps & {
   title?: string;
   textProps?: ITextProps;
-  iconProps?: IIconProps;
+  iconProps?: IIconButtonProps;
   onRemove?: () => void;
 };
 
@@ -22,6 +22,7 @@ export const Chip = (props: ChipProps) => {
   return (
     <HStack
       pl={3}
+      maxW={'100%'}
       pr={onRemove ? 0 : 1}
       backgroundColor={theme.colors.primary['300']}
       borderRadius={'3xl'}
