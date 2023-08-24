@@ -1,7 +1,10 @@
 import { PageBuilderElementEditProps } from '../../types';
-import { FormInput } from '@artsiombarouski/rn-form';
+import { FormInput, FormInputProps } from '@artsiombarouski/rn-form';
 
-export const TextElementEdit = (props: PageBuilderElementEditProps) => {
+export type TextElementEditProps = PageBuilderElementEditProps &
+  Partial<FormInputProps>;
+
+export const TextElementEdit = (props: TextElementEditProps) => {
   return (
     <FormInput
       {...props}

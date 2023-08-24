@@ -5,10 +5,10 @@ import {
   VideoPlayerProps,
 } from '@artsiombarouski/rn-video-player';
 
-export const VideoElementView = (
-  props: PageBuilderElementViewProps<VideoElementPayload> &
-    Partial<VideoPlayerProps>,
-) => {
+export type VideoElementViewProps =
+  PageBuilderElementViewProps<VideoElementPayload> & Partial<VideoPlayerProps>;
+
+export const VideoElementView = (props: VideoElementViewProps) => {
   const { payload, ...restProps } = props;
   return (
     <VideoPlayer

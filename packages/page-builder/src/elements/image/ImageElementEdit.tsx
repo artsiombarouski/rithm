@@ -1,11 +1,17 @@
 import { PageBuilderElementEditProps } from '../../types';
-import { FormUpload } from '@artsiombarouski/rn-form-upload';
-import { Box } from 'native-base';
+import { FormUpload, FormUploadProps } from '@artsiombarouski/rn-form-upload';
+import { Box, IBoxProps } from 'native-base';
 import { UploadPickerLargePlaceholder } from '@artsiombarouski/rn-upload';
 
-export const ImageElementEdit = (props: PageBuilderElementEditProps) => {
+export type ImageElementEditProps = PageBuilderElementEditProps &
+  Partial<FormUploadProps> & {
+    wrapperProps?: IBoxProps;
+  };
+
+export const ImageElementEdit = (props: ImageElementEditProps) => {
+  const { wrapperProps, ...restProps } = props;
   return (
-    <Box flex={1} p={3}>
+    <Box flex={1} p={3} {...wrapperProps}>
       <FormUpload
         supportedTypes={['image/*']}
         keepErrorSpace={false}
@@ -24,7 +30,7 @@ export const ImageElementEdit = (props: PageBuilderElementEditProps) => {
           placeholder: (props) => <UploadPickerLargePlaceholder {...props} />,
         }}
         inline={true}
-        {...props}
+        {...restProps}
       />
     </Box>
   );
