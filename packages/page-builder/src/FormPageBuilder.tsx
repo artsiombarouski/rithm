@@ -10,17 +10,22 @@ import { PageBuilderList, PageBuilderListProps } from './ui';
 import { v4 as uuidv4 } from 'uuid';
 import { ImageElement, TextElement, VideoElement } from './elements';
 import { PageBuilderElement } from './types';
-import { ElementButton } from './ui/ElementButton';
+import { ElementButton, ElementButtonProps } from './ui/ElementButton';
 import { useFieldArray } from 'react-hook-form';
 
 export type FormPageBuilderProps<T extends FormValues = FormValues> =
   FormItemProps<T> &
     Partial<PageBuilderListProps> & {
       elements?: { [key: string]: PageBuilderElement<any> };
+      elementButtonProps?: ElementButtonProps;
     };
 
 export const FormPageBuilder = (props: FormPageBuilderProps) => {
-  const { elements: externalElements, ...restProps } = props;
+  const {
+    elements: externalElements,
+    elementButtonProps,
+    ...restProps
+  } = props;
 
   const elements = {
     [TextElement.type]: TextElement,
@@ -59,8 +64,9 @@ export const FormPageBuilder = (props: FormPageBuilderProps) => {
                     type: element.type,
                   });
                 }}
-                icon={element.icon}
+                icon={element.Icon}
                 title={element.title}
+                {...elementButtonProps}
               />
             );
           })}

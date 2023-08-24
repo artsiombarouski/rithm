@@ -8,7 +8,7 @@ export type TextElementPayload = PageBuilderElementPayload<string>;
 export const TextElement: PageBuilderElement<TextElementPayload> = {
   type: 'text',
   title: 'Text',
-  icon: TextElementIcon,
-  edit: TextElementEdit,
-  view: TextElementView,
+  Icon: TextElementIcon,
+  Edit: TextElementEdit,
+  View: TextElementView,
 };

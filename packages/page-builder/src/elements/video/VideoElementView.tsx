@@ -1,9 +1,20 @@
 import { PageBuilderElementViewProps } from '../../types';
 import { VideoElementPayload } from './VideoElement';
-import { VideoPlayer } from '@artsiombarouski/rn-video-player';
+import {
+  VideoPlayer,
+  VideoPlayerProps,
+} from '@artsiombarouski/rn-video-player';
 
 export const VideoElementView = (
-  props: PageBuilderElementViewProps<VideoElementPayload>,
+  props: PageBuilderElementViewProps<VideoElementPayload> &
+    Partial<VideoPlayerProps>,
 ) => {
-  return <VideoPlayer style={{ flex: 1 }} source={props.payload.value.url} />;
+  const { payload, ...restProps } = props;
+  return (
+    <VideoPlayer
+      style={{ flex: 1 }}
+      source={props.payload.value.url}
+      {...restProps}
+    />
+  );
 };

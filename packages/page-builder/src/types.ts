@@ -19,7 +19,7 @@ export type PageBuilderElement<PayloadType extends PageBuilderElementPayload> =
   {
     type: string;
     title: string;
-    icon: React.ComponentType<any>;
-    edit: React.ComponentType<PageBuilderElementEditProps>;
-    view: React.ComponentType<PageBuilderElementViewProps<PayloadType>>;
+    Icon: React.ComponentType<any>;
+    Edit: React.ComponentType<PageBuilderElementEditProps>;
+    View: React.ComponentType<PageBuilderElementViewProps<PayloadType>>;
   };

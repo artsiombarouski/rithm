@@ -1,17 +1,20 @@
 import { PageBuilderElementViewProps } from '../../types';
 import { ImageElementPayload } from './ImageElement';
-import { Image } from 'native-base';
+import { IImageProps, Image } from 'native-base';
 
 export const ImageElementView = (
-  props: PageBuilderElementViewProps<ImageElementPayload>,
+  props: PageBuilderElementViewProps<ImageElementPayload> &
+    Partial<IImageProps>,
 ) => {
+  const { payload, ...restProps } = props;
   return (
     <Image
       flex={1}
       source={{
-        uri: props.payload.value.thumbnailUrl ?? props.payload.value.url,
+        uri: payload.value.thumbnailUrl ?? payload.value.url,
       }}
       resizeMode={'cover'}
+      {...restProps}
     />
   );
 };

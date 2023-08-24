@@ -1,9 +1,10 @@
 import { TextElementPayload } from './TextElement';
 import { PageBuilderElementViewProps } from '../../types';
-import { Text } from 'native-base';
+import { ITextProps, Text } from 'native-base';
 
 export const TextElementView = (
-  props: PageBuilderElementViewProps<TextElementPayload>,
+  props: PageBuilderElementViewProps<TextElementPayload> & Partial<ITextProps>,
 ) => {
-  return <Text>{props.payload.value ?? ''}</Text>;
+  const { payload, ...restProps } = props;
+  return <Text {...restProps}>{payload.value ?? ''}</Text>;
 };

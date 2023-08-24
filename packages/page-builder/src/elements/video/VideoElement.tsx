@@ -9,7 +9,7 @@ export type VideoElementPayload = PageBuilderElementPayload<StoredFile>;
 export const VideoElement: PageBuilderElement<VideoElementPayload> = {
   type: 'video',
   title: 'Video',
-  icon: TextElementIcon,
-  edit: VideoElementEdit,
-  view: VideoElementView,
+  Icon: TextElementIcon,
+  Edit: VideoElementEdit,
+  View: VideoElementView,
 };

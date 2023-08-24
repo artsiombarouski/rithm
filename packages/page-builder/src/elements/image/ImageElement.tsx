@@ -9,7 +9,7 @@ export type ImageElementPayload = PageBuilderElementPayload<StoredFile>;
 export const ImageElement: PageBuilderElement<ImageElementPayload> = {
   type: 'image',
   title: 'Image',
-  icon: BinIcon,
-  edit: (props) => <ImageElementEdit {...props} />,
-  view: (props) => <ImageElementView {...props} />,
+  Icon: BinIcon,
+  Edit: ImageElementEdit,
+  View: ImageElementView,
 };

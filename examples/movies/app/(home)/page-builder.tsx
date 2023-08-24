@@ -2,20 +2,15 @@ import { Form, useForm } from '@artsiombarouski/rn-form';
 import { Box, Button, HStack, ScrollView, VStack } from 'native-base';
 import {
   FormPageBuilder,
+  ImageElement,
   PageBuilderElementPayload,
+  TextElement,
+  VideoElement,
 } from '@artsiombarouski/rn-page-builder';
 import { UploadProvider } from '@artsiombarouski/rn-upload';
 import { createImageKitUploadController } from '@artsiombarouski/rn-upload-imagekit-controller';
 import { useState } from 'react';
 import { isEmpty } from 'lodash';
-import {
-  ImageElement,
-  TextElement,
-  VideoElement,
-} from '@artsiombarouski/rn-page-builder/src/elements';
-import { TextElementView } from '@artsiombarouski/rn-page-builder/src/elements/text/TextElementView';
-import { ImageElementView } from '@artsiombarouski/rn-page-builder/src/elements/image/ImageElementView';
-import { VideoElementView } from '@artsiombarouski/rn-page-builder/src/elements/video/VideoElementView';
 
 const imageKitController = createImageKitUploadController({
   publicKey: 'public_k+u0xXV8i5yBn2vSzUiM71Z4Z4Y=',
@@ -58,19 +53,19 @@ export default function PageBuilderPage() {
             {data.data.map((e) => {
               console.log('render', e.type);
               if (e.type === TextElement.type) {
-                return <TextElementView payload={e} />;
+                return <TextElement.View payload={e} />;
               }
               if (e.type === ImageElement.type) {
                 return (
                   <Box style={{ flex: 1, aspectRatio: 1 }}>
-                    <ImageElementView payload={e} />
+                    <ImageElement.View payload={e} />
                   </Box>
                 );
               }
               if (e.type === VideoElement.type) {
                 return (
                   <Box style={{ flex: 1, aspectRatio: 1 }}>
-                    <VideoElementView payload={e} />
+                    <VideoElement.View payload={e} />
                   </Box>
                 );
               }

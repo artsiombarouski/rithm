@@ -8,12 +8,12 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { useSharedValue } from 'react-native-reanimated';
 
-type Props = VideoProps & {
+export type VideoPlayerProps = VideoProps & {
   shadeStyle?: StyleProp<ViewStyle>;
   autoPlay?: boolean;
 };
 
-export const VideoPlayer = observer<Props>((props) => {
+export const VideoPlayer = observer<VideoPlayerProps>((props) => {
   const { shadeStyle, autoPlay, muted = false, ...restProps } = props;
   const videoRef = useRef();
   const uiVisibility = useSharedValue(0);

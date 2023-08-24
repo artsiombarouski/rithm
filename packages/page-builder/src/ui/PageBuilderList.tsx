@@ -79,7 +79,7 @@ export const PageBuilderList = (props: PageBuilderListProps) => {
           </HStack>
         }
       >
-        {React.createElement(element.edit, {
+        {React.createElement(element.Edit, {
           name: `${namePrefix}.${getIndex()}.value`,
         })}
       </ElementContainer>
