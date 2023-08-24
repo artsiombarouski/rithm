@@ -58,6 +58,8 @@ export type FormListComponentProps<
   keepErrorSpace?: boolean;
   showHelper?: boolean;
   showError?: boolean;
+  isFormInitialVisible?: boolean;
+  hideActionWhenInlineFormVisible?: boolean;
 } & Pick<FormHelperProps, 'helperText' | 'helperProps'> &
   Omit<FormErrorProps, 'error'>;
 
@@ -77,16 +79,19 @@ export function FormListComponent<
     helperText,
     helperProps,
     errorProps,
+    isFormInitialVisible,
+    hideActionWhenInlineFormVisible,
   } = props;
   const ref = useRef<any>();
   const { fields, append, update, remove } = useFieldArray<TItem>({
     name: renderProps.field.name as any,
   });
 
-  const [isItemFormVisible, setItemFormVisible] = useState(false);
+  const [isItemFormVisible, setItemFormVisible] =
+    useState(isFormInitialVisible);
   const [currentEditingItemIndex, setCurrentEditingItemIndex] = useState<
     number | undefined | null
-  >();
+  >(null);
 
   const handleAdd = useCallback(() => {
     setCurrentEditingItemIndex(null);
@@ -199,16 +204,17 @@ export function FormListComponent<
       {showError && (
         <FormError error={renderProps.fieldState?.error} {...errorProps} />
       )}
-      {actions ? (
-        React.createElement(actions, {
-          onPress: handleAdd,
-          addItem: (item) => {
-            append(item as any);
-          },
-        })
-      ) : (
-        <Button onPress={handleAdd}>Add element</Button>
-      )}
+      {(!canRenderInlineForm || !hideActionWhenInlineFormVisible) &&
+        (actions ? (
+          React.createElement(actions, {
+            onPress: handleAdd,
+            addItem: (item) => {
+              append(item as any);
+            },
+          })
+        ) : (
+          <Button onPress={handleAdd}>Add element</Button>
+        ))}
       <FormListDialog<TItem, TFormValues>
         listProps={props}
         onSubmit={handleSubmit}

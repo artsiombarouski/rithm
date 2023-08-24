@@ -190,7 +190,7 @@ const FormExample = () => {
                 return { key: `key${index}`, value: `Key ${index}` };
               })}
               containerProps={{
-                size: 'lg'
+                size: 'lg',
               }}
             />
           </FormExampleRow>
@@ -204,7 +204,7 @@ const FormExample = () => {
                 return { key: `key${index}`, value: `Key ${index}` };
               })}
               containerProps={{
-                size: 'xl'
+                size: 'xl',
               }}
             />
           </FormExampleRow>
@@ -482,8 +482,10 @@ const FormExample = () => {
             <FormList<FormItemDto>
               name={'listInline'}
               mode={'inline'}
-              title={'List (modal)'}
+              title={'List (inline)'}
               renderItem={FormListItem}
+              isFormInitialVisible={true}
+              hideActionWhenInlineFormVisible={true}
               listItemContainerProps={{
                 space: 2,
                 py: 2,
