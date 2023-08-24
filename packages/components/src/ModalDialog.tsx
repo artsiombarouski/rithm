@@ -39,6 +39,7 @@ type ModalDialogPropsBase = {
   contentStyle?: StyleProp<ViewStyle>;
   bodyStyle?: StyleProp<ViewStyle>;
   alert?: boolean;
+  wrapWithBody?: boolean;
 };
 
 type ModalDialogProps = ModalDialogPropsBase &
@@ -63,6 +64,7 @@ const ModalDialogView = (props: ModalDialogProps) => {
     contentStyle,
     bodyStyle,
     alert = false,
+    wrapWithBody = true,
     ...restProps
   } = props;
   const [visible, setVisible] = useState(true);
@@ -111,6 +113,18 @@ const ModalDialogView = (props: ModalDialogProps) => {
 
   const DialogComponent = alert ? AlertDialog : Modal;
 
+  const contentToRender = content ? (
+    typeof content === 'string' ? (
+      <Text>{content ?? ''}</Text>
+    ) : (
+      React.createElement(content as any, {
+        onOkClick,
+        onCancelClick,
+        isPerformingAction,
+      })
+    )
+  ) : undefined;
+
   return (
     <DialogComponent
       isOpen={visible}
@@ -143,19 +157,14 @@ const ModalDialogView = (props: ModalDialogProps) => {
         {!isEmpty(title) && (
           <DialogComponent.Header>{title}</DialogComponent.Header>
         )}
-        {content && (
-          <DialogComponent.Body style={bodyStyle}>
-            {typeof content === 'string' ? (
-              <Text>{content ?? ''}</Text>
-            ) : (
-              React.createElement(content as any, {
-                onOkClick,
-                onCancelClick,
-                isPerformingAction,
-              })
-            )}
-          </DialogComponent.Body>
-        )}
+        {content &&
+          (wrapWithBody ? (
+            <DialogComponent.Body style={bodyStyle}>
+              {contentToRender}
+            </DialogComponent.Body>
+          ) : (
+            contentToRender
+          ))}
         {actions &&
           React.createElement(actions, {
             onOkClick,
