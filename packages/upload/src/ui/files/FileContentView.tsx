@@ -23,25 +23,25 @@ export const FileContentView = (props: FileContentViewProps) => {
       {isImageMimeType(type) ? (
         <Image
           key={`image-retry-count-${retryCount}`}
-          style={{ flex: 1, display: show ? 'flex' : 'none' }}
+          style={{ flex: 1 }}
           resizeMode={'cover'}
           source={{
             uri: thumbnailUrl ?? url,
             cache: retryCount > 1 ? 'reload' : undefined,
           }}
           onError={retry}
-          onLoad={() => setShow(true)}
         />
       ) : thumbnailUrl ? (
         <Image
           key={`thumbnail-retry-count-${retryCount}`}
-          style={{ flex: 1 }}
+          style={{ flex: 1, display: show ? 'flex' : 'none' }}
           source={{
             uri: thumbnailUrl,
             cache: retryCount > 1 ? 'reload' : undefined,
           }}
           resizeMode={'cover'}
           onError={retry}
+          onLoad={() => setShow(true)}
         />
       ) : (
         <View flex={1}>
