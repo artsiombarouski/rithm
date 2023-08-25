@@ -10,3 +10,7 @@ export function createXhrTracker(uploadFile: UploadFile) {
   }
   return xhrTracker;
 }
+
+export function getFilenameFromUrl(url: string) {
+  return url?.replace(/\/+$/, '').split('/').pop();
+}

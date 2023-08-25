@@ -17,7 +17,7 @@ export default function VideoPage() {
           {/*<Button onPress={() => setPlaying((current) => !current)}>*/}
           {/*  {isPlaying ? 'Pause' : 'Play'}*/}
           {/*</Button>*/}
-          <Box style={{ aspectRatio: 1 }} />
+          {/*<Box style={{ aspectRatio: 1 }} />*/}
           <VideoPlayer
             source={
               'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4'

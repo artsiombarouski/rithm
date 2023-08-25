@@ -1,4 +1,5 @@
-import { ViewProps } from 'react-native';
+import { DeleteIcon, EyeIcon } from '../Icons';
+import { useHover } from '../hooks';
 import {
   HStack,
   IconButton,
@@ -7,17 +8,17 @@ import {
   useToken,
   View,
 } from 'native-base';
+import { ViewProps } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
-import { useHover } from '../hooks';
-import { DeleteIcon, EyeIcon } from '../Icons';
 
 export type FileContainerViewProps = ViewProps & {
   error?: boolean;
   onRemoveClicked?: () => void;
+  showPreview?: () => void;
   canShowOverlay?: boolean;
   canDelete?: boolean;
   canPreview?: boolean;
@@ -29,6 +30,7 @@ export const FileContainerView = (props: FileContainerViewProps) => {
     children,
     error,
     onRemoveClicked,
+    showPreview,
     canShowOverlay = true,
     canDelete = true,
     canPreview = true,
@@ -87,7 +89,12 @@ export const FileContainerView = (props: FileContainerViewProps) => {
       {canShowOverlay && (canPreview || canDelete) && (
         <Animated.View style={overlayStyle} pointerEvents={'box-none'}>
           <HStack flex={1} alignItems={'center'} justifyContent={'center'}>
-            {canPreview && <IconButton icon={<EyeIcon color={'white'} />} />}
+            {canPreview && (
+              <IconButton
+                onPress={showPreview}
+                icon={<EyeIcon color={'white'} />}
+              />
+            )}
             {canDelete && (
               <IconButton
                 icon={<DeleteIcon />}
