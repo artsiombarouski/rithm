@@ -17,7 +17,7 @@ export const StoredFileView = observer<StoredFileViewProps>((props) => {
   const controller = useUploadContext()?.controller;
   const thumbnailUrl = controller?.getPreviewUrl?.(file) ?? file.thumbnailUrl;
   const showPreview = () => {
-    const isVideo = file?.type?.includes('video');
+    const isVideo = (file.type || file.mimeType)?.includes('video');
     ModalDialog.show({
       title: file.name ?? getFilenameFromUrl(file.url) ?? '',
       content: () =>

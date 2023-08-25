@@ -5,6 +5,7 @@ export type StoredFile = {
   url?: string;
   thumbnailUrl?: string;
   type?: string;
+  mimeType?: string;
   name?: string;
   metadata?: FileMetadata;
 };
