@@ -1,8 +1,8 @@
-import { Image, Text, View } from 'native-base';
-import { FileMetadata } from '../../types';
 import { isImageMimeType } from '../../mime-utils';
+import { FileMetadata } from '../../types';
 import { useRetry } from '../hooks';
-import React, { Fragment } from 'react';
+import { Image, Text, View } from 'native-base';
+import React, { Fragment, useState } from 'react';
 
 export type FileContentViewProps = {
   type?: string;
@@ -16,18 +16,21 @@ export type FileContentViewProps = {
 export const FileContentView = (props: FileContentViewProps) => {
   const { type, url, name, thumbnailUrl, maxRetryCount, metadata } = props;
   const { retry, retryCount } = useRetry({ maxRetryCount });
+  const [show, setShow] = useState(false);
+
   return (
     <Fragment key={`retry-${retryCount}`}>
       {isImageMimeType(type) ? (
         <Image
           key={`image-retry-count-${retryCount}`}
-          style={{ flex: 1 }}
+          style={{ flex: 1, display: show ? 'flex' : 'none' }}
           resizeMode={'cover'}
           source={{
             uri: thumbnailUrl ?? url,
             cache: retryCount > 1 ? 'reload' : undefined,
           }}
           onError={retry}
+          onLoad={() => setShow(true)}
         />
       ) : thumbnailUrl ? (
         <Image
