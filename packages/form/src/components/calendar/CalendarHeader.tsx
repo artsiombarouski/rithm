@@ -78,6 +78,7 @@ export interface CalendarHeaderProps {
   mode?: 'single' | 'dual';
   onPressHeader?: () => void;
   selectingYear?: boolean;
+  colorScheme: string;
 }
 
 const accessibilityActions = [
@@ -116,6 +117,7 @@ const CalendarHeader = forwardRef((props: CalendarHeaderProps, ref) => {
     mode = 'single',
     onPressHeader,
     selectingYear = false,
+    colorScheme,
   } = props;
 
   const numberOfDaysCondition = useMemo(() => {
@@ -267,6 +269,7 @@ const CalendarHeader = forwardRef((props: CalendarHeaderProps, ref) => {
                 color={'blueGray.700'}
               />
             }
+            colorScheme={colorScheme}
           />
         </Row>
       </Pressable>

@@ -250,10 +250,15 @@ export const Calendar = (props: CalendarProps) => {
       };
 
       return (
-        <Arrow direction={direction} onPress={onArrowPress} {...arrowProps} />
+        <Arrow
+          direction={direction}
+          onPress={onArrowPress}
+          colorScheme={colorScheme}
+          {...arrowProps}
+        />
       );
     },
-    [leftDate, rightDate, mode],
+    [leftDate, rightDate, mode, colorScheme],
   );
 
   const getMarkingType = (selectionType: SelectionType): MarkingTypes => {
@@ -346,6 +351,7 @@ export const Calendar = (props: CalendarProps) => {
       mode={mode}
       onPressHeader={() => onPressYear(selectedYear)}
       selectingYear={selectingYear}
+      colorScheme={colorScheme}
       {...props}
     />
   );
