@@ -1,3 +1,5 @@
+import { MultiDates, RangeDates, SelectionType, SingleDate } from './types';
+import dayjs from 'dayjs';
 import XDate from 'xdate';
 
 const latinNumbersPattern = /[0-9]/g;
@@ -45,3 +47,23 @@ export function range(start: number, end: number) {
     .fill(null)
     .map((_, i) => start + i);
 }
+
+export const determineInitialLeftDate = (
+  selectionType: SelectionType,
+  value: any,
+): dayjs.Dayjs => {
+  switch (selectionType) {
+    case SelectionType.SINGLE:
+      return (value as SingleDate)?.date
+        ? dayjs((value as SingleDate).date)
+        : dayjs();
+    case SelectionType.MULTI:
+      const dates = (value as MultiDates)?.dates;
+      return dates && dates.length ? dayjs(dates[0]) : dayjs();
+    case SelectionType.RANGE:
+      const startDate = (value as RangeDates)?.startDate;
+      return startDate ? dayjs(startDate) : dayjs();
+    default:
+      return dayjs();
+  }
+};

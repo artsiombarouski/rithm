@@ -1,7 +1,7 @@
+import { CalendarArrow } from './CalendarArrow';
 import CalendarHeader from './CalendarHeader';
 import YearPicker from './YearPicker';
 import type {
-  ArrowProps,
   CalendarProps,
   CalendarTheme,
   MultiDates,
@@ -9,51 +9,13 @@ import type {
   SingleDate,
 } from './types';
 import { SelectionType } from './types';
-import { getFontFamilyByWeight } from './utils';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { determineInitialLeftDate, getFontFamilyByWeight } from './utils';
 import dayjs from 'dayjs';
-import { Icon, IconButton, useTheme } from 'native-base';
+import { useTheme } from 'native-base';
 import React, { useCallback, useMemo, useState } from 'react';
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { Calendar as BaseCalendar, DateData } from 'react-native-calendars';
 import { MarkingTypes, MarkedDates } from 'react-native-calendars/src/types';
-
-const Arrow = ({ direction, onPress, ...props }: ArrowProps) => {
-  return (
-    <IconButton
-      onPress={onPress}
-      p={'6px'}
-      icon={
-        <Icon
-          as={MaterialCommunityIcons}
-          name={direction === 'left' ? 'chevron-left' : 'chevron-right'}
-          color={'blueGray.700'}
-        />
-      }
-      {...props}
-    />
-  );
-};
-
-const determineInitialLeftDate = (
-  selectionType: SelectionType,
-  value: any,
-): dayjs.Dayjs => {
-  switch (selectionType) {
-    case SelectionType.SINGLE:
-      return (value as SingleDate)?.date
-        ? dayjs((value as SingleDate).date)
-        : dayjs();
-    case SelectionType.MULTI:
-      const dates = (value as MultiDates)?.dates;
-      return dates && dates.length ? dayjs(dates[0]) : dayjs();
-    case SelectionType.RANGE:
-      const startDate = (value as RangeDates)?.startDate;
-      return startDate ? dayjs(startDate) : dayjs();
-    default:
-      return dayjs();
-  }
-};
 
 export const Calendar = (props: CalendarProps) => {
   const {
@@ -87,17 +49,48 @@ export const Calendar = (props: CalendarProps) => {
   const [selectingYear, setSelectingYear] = useState<boolean>(false);
 
   const onPressYear = useCallback(
-    (year: number) => {
-      setLeftDate((current) => dayjs(current).year(year));
+    (newYear: number) => {
+      setLeftDate((current) => dayjs(current).year(newYear));
       setRightDate((current) => {
         if (current.month() === 0) {
-          return dayjs(current).year(year + 1);
+          return dayjs(current).year(newYear + 1);
         }
-        return dayjs(current).year(year);
+        return dayjs(current).year(newYear);
       });
+
+      // Update the currently selected date based on the new year
+      switch (selectionType) {
+        case SelectionType.SINGLE:
+          const oldSingleDate = dayjs((value as SingleDate)?.date);
+          const newSingleDate = oldSingleDate
+            .year(newYear)
+            .format('YYYY-MM-DD');
+          onChange({ date: newSingleDate });
+          break;
+
+        case SelectionType.MULTI:
+          const oldMultiDates = (value as MultiDates)?.dates;
+          const newMultiDates = oldMultiDates?.map((date) =>
+            dayjs(date).year(newYear).format('YYYY-MM-DD'),
+          );
+          onChange({ dates: newMultiDates });
+          break;
+
+        case SelectionType.RANGE:
+          const { startDate, endDate } = (value as RangeDates) ?? {};
+          const newStartDate = startDate
+            ? dayjs(startDate).year(newYear).format('YYYY-MM-DD')
+            : null;
+          const newEndDate = endDate
+            ? dayjs(endDate).year(newYear).format('YYYY-MM-DD')
+            : null;
+          onChange({ startDate: newStartDate, endDate: newEndDate });
+          break;
+      }
+
       setSelectingYear((prev) => !prev);
     },
-    [setSelectingYear],
+    [selectionType, setSelectingYear, value],
   );
 
   const generatedMarkedDates = useMemo((): MarkedDates => {
@@ -224,7 +217,7 @@ export const Calendar = (props: CalendarProps) => {
       if (direction !== calendar && mode === 'dual')
         //for centering month
         return (
-          <Arrow
+          <CalendarArrow
             disabled={true}
             opacity={0}
             direction={direction}
@@ -250,7 +243,7 @@ export const Calendar = (props: CalendarProps) => {
       };
 
       return (
-        <Arrow
+        <CalendarArrow
           direction={direction}
           onPress={onArrowPress}
           colorScheme={colorScheme}
@@ -349,7 +342,7 @@ export const Calendar = (props: CalendarProps) => {
   const _renderHeader = (props) => (
     <CalendarHeader
       mode={mode}
-      onPressHeader={() => onPressYear(selectedYear)}
+      onPressHeader={() => setSelectingYear(!selectingYear)}
       selectingYear={selectingYear}
       colorScheme={colorScheme}
       {...props}
