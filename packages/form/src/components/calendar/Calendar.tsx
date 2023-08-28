@@ -64,11 +64,16 @@ export const Calendar = (props: CalendarProps) => {
     arrowProps,
     mode = 'dual',
     useNavigationToCurrentMonth = false,
-    selectedColor = 'primary',
+    selectedColor,
     ...calendarProps
   } = props;
   const { markingType, ...restCalendarProps } = calendarProps;
   const theme = useTheme();
+  const colorScheme =
+    selectedColor ??
+    // @ts-ignore
+    theme.components.Calendar?.defaultProps?.colorScheme ??
+    'primary';
 
   const leftArrowMonthShift = mode === 'dual' ? -2 : -1;
   const rightArrowMonthShift = mode === 'dual' ? 2 : 1;
@@ -105,7 +110,7 @@ export const Calendar = (props: CalendarProps) => {
         if (date) {
           dates[date] = {
             selected: true,
-            selectedColor: theme.colors[selectedColor]['500'],
+            selectedColor: theme.colors[colorScheme]['500'],
             customStyles: {
               container: {
                 borderRadius: 17,
@@ -118,7 +123,7 @@ export const Calendar = (props: CalendarProps) => {
         (value as MultiDates).dates?.forEach((date) => {
           dates[date] = {
             selected: true,
-            selectedColor: theme.colors[selectedColor]['500'],
+            selectedColor: theme.colors[colorScheme]['500'],
             customStyles: {
               container: {
                 borderRadius: 17,
@@ -136,21 +141,21 @@ export const Calendar = (props: CalendarProps) => {
           for (let d = dayjs(start); d.isBefore(end); d = d.add(1, 'day')) {
             dates[d.format('YYYY-MM-DD')] = {
               selected: false,
-              color: theme.colors[selectedColor]['300'],
+              color: theme.colors[colorScheme]['300'],
             };
           }
 
           // Mark start and end dates
           dates[start.format('YYYY-MM-DD')] = {
             ...dates[start.format('YYYY-MM-DD')],
-            color: theme.colors[selectedColor]['500'],
+            color: theme.colors[colorScheme]['500'],
             textColor: 'white',
             selected: true,
             startingDay: true,
           };
           dates[end.format('YYYY-MM-DD')] = {
             ...dates[end.format('YYYY-MM-DD')],
-            color: theme.colors[selectedColor]['500'],
+            color: theme.colors[colorScheme]['500'],
             textColor: 'white',
             selected: true,
             endingDay: true,
@@ -158,7 +163,7 @@ export const Calendar = (props: CalendarProps) => {
         } else if (startDate) {
           dates[startDate] = {
             textColor: 'white',
-            color: theme.colors[selectedColor]['500'],
+            color: theme.colors[colorScheme]['500'],
             selected: true,
             startingDay: true,
           };
@@ -291,14 +296,14 @@ export const Calendar = (props: CalendarProps) => {
     'stylesheet.day.period': {
       todayText: {
         fontWeight: '600',
-        color: theme.colors[selectedColor][500],
+        color: theme.colors[colorScheme][500],
       },
       base: styles.day,
     },
     'stylesheet.day.basic': {
       todayText: {
         fontWeight: '600',
-        color: theme.colors[selectedColor][500],
+        color: theme.colors[colorScheme][500],
       },
       base: styles.day,
     },
@@ -369,6 +374,7 @@ export const Calendar = (props: CalendarProps) => {
         onPressYear={onPressYear}
         startYear={startYear}
         endYear={endYear}
+        colorScheme={colorScheme}
       />
     </View>
   );

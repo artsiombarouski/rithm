@@ -11,12 +11,14 @@ export default function YearPicker({
   onPressYear,
   startYear,
   endYear,
+  colorScheme,
 }: {
   selectedYear: number | undefined;
   selectingYear: boolean;
   onPressYear: (year: number) => any;
   startYear: number;
   endYear: number;
+  colorScheme: string;
 }) {
   const flatList = React.useRef<FlatList<number> | null>(null);
   const years = range(
@@ -55,6 +57,7 @@ export default function YearPicker({
             year={item}
             selected={selectedYear === item}
             onPressYear={onPressYear}
+            colorScheme={colorScheme}
           />
         )}
         keyExtractor={(item) => `${item}`}
@@ -73,10 +76,12 @@ function YearPure({
   year,
   selected,
   onPressYear,
+  colorScheme,
 }: {
   year: number;
   selected: boolean;
   onPressYear: (newYear: number) => any;
+  colorScheme: string;
 }) {
   const theme = useTheme();
 
@@ -91,7 +96,9 @@ function YearPure({
         <View
           style={[
             styles.yearInner,
-            selected ? { backgroundColor: theme.colors.primary['500'] } : null,
+            selected
+              ? { backgroundColor: theme.colors[colorScheme]['500'] }
+              : null,
           ]}
         >
           <Text

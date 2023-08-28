@@ -51,6 +51,11 @@ const theme = extendTheme({
     },
   },
   components: {
+    Calendar: {
+      defaultProps: {
+        colorScheme: 'secondary',
+      },
+    },
     MenuItem: {
       baseStyle: {
         _stack: {
