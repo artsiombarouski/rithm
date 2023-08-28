@@ -27,6 +27,7 @@ export const Calendar = (props: CalendarProps) => {
     mode = 'dual',
     useNavigationToCurrentMonth = false,
     selectedColor,
+    onDayChanged,
     ...calendarProps
   } = props;
   const { markingType, ...restCalendarProps } = calendarProps;
@@ -208,8 +209,9 @@ export const Calendar = (props: CalendarProps) => {
           onChange({ startDate, endDate });
           break;
       }
+      onDayChanged?.();
     },
-    [leftDate, rightDate, selectionType, value],
+    [leftDate, rightDate, selectionType, value, onDayChanged],
   );
 
   const generateArrow = useCallback(

@@ -52,8 +52,8 @@ export const DatePicker = (props: DatePickerProps) => {
           selectionType={selectionType}
           mode={mode}
           value={value}
-          onChange={(selectedDate) => {
-            onChange(selectedDate);
+          onChange={onChange}
+          onDayChanged={() => {
             if (selectionType === SelectionType.SINGLE) {
               setShowPopover(false);
             }
