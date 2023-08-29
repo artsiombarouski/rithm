@@ -1,13 +1,13 @@
+import { PageBuilderElement, PageBuilderElementPayload } from '../types';
+import DraggableFlatListFixed from './DraggableFlatListFixed';
+import { ElementContainer, ElementContainerProps } from './ElementContainer';
+import { BinIcon, DragIcon } from './Icons';
+import { HStack, IconButton, IIconButtonProps } from 'native-base';
+import React from 'react';
 import {
   DragEndParams,
   RenderItemParams,
 } from 'react-native-draggable-flatlist';
-import DraggableFlatListFixed from './DraggableFlatListFixed';
-import { PageBuilderElement, PageBuilderElementPayload } from '../types';
-import { ElementContainer, ElementContainerProps } from './ElementContainer';
-import { HStack, IconButton, IIconButtonProps } from 'native-base';
-import { BinIcon, DragIcon } from './Icons';
-import React from 'react';
 
 export type PageBuilderListProps = {
   data: PageBuilderElementPayload[];
@@ -16,7 +16,7 @@ export type PageBuilderListProps = {
   onMove?: (from: number, to: number) => void;
   onChange?: (data: PageBuilderElementPayload[]) => void;
   namePrefix?: string;
-  elementContainerProps?: Omit<ElementContainerProps, 'title'>;
+  elementContainerProps?: Omit<ElementContainerProps, 'title' | 'icon'>;
   removeIconProps?: IIconButtonProps;
   dragIconProps?: IIconButtonProps;
 };
@@ -50,6 +50,7 @@ export const PageBuilderList = (props: PageBuilderListProps) => {
       <ElementContainer
         mb={3}
         {...elementContainerProps}
+        icon={element.Icon}
         title={element.title}
         isDragging={isActive}
         actions={
