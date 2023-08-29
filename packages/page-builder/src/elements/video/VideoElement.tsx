@@ -1,8 +1,8 @@
 import { PageBuilderElement, PageBuilderElementPayload } from '../../types';
-import { StoredFile } from '@artsiombarouski/rn-upload';
-import { TextElementIcon } from '../../ui/Icons';
+import { VideoElementIcon } from '../../ui/Icons';
 import { VideoElementEdit, VideoElementEditProps } from './VideoElementEdit';
 import { VideoElementView, VideoElementViewProps } from './VideoElementView';
+import { StoredFile } from '@artsiombarouski/rn-upload';
 
 export type VideoElementPayload = PageBuilderElementPayload<StoredFile>;
 
@@ -12,8 +12,8 @@ export const VideoElement: PageBuilderElement<
   VideoElementViewProps
 > = {
   type: 'video',
-  title: 'Video',
-  Icon: TextElementIcon,
+  title: 'Add Video',
+  Icon: VideoElementIcon,
   Edit: VideoElementEdit,
   View: VideoElementView,
 };

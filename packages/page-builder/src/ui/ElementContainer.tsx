@@ -1,10 +1,10 @@
 import {
   Card,
-  Heading,
   HStack,
   IBoxProps,
   ICardProps,
   IHeadingProps,
+  Text,
   VStack,
 } from 'native-base';
 import React, { PropsWithChildren } from 'react';
@@ -48,9 +48,9 @@ export const ElementContainer = (props: ElementContainerProps) => {
           {...headerProps}
         >
           {title && (
-            <Heading size={'md'} flex={1} {...titleProps}>
+            <Text fontSize={16} fontWeight={'bold'} flex={1} {...titleProps}>
               {title}
-            </Heading>
+            </Text>
           )}
           {actions}
         </HStack>

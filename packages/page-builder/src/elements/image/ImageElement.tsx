@@ -1,8 +1,8 @@
 import { PageBuilderElement, PageBuilderElementPayload } from '../../types';
-import { StoredFile } from '@artsiombarouski/rn-upload';
+import { ImageElementIcon } from '../../ui/Icons';
 import { ImageElementEdit, ImageElementEditProps } from './ImageElementEdit';
 import { ImageElementView, ImageElementViewProps } from './ImageElementView';
-import { BinIcon } from '../../ui/Icons';
+import { StoredFile } from '@artsiombarouski/rn-upload';
 
 export type ImageElementPayload = PageBuilderElementPayload<StoredFile>;
 
@@ -12,8 +12,8 @@ export const ImageElement: PageBuilderElement<
   ImageElementViewProps
 > = {
   type: 'image',
-  title: 'Image',
-  Icon: BinIcon,
+  title: 'Add Image',
+  Icon: ImageElementIcon,
   Edit: ImageElementEdit,
   View: ImageElementView,
 };

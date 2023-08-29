@@ -1,7 +1,7 @@
 import { PageBuilderElement, PageBuilderElementPayload } from '../../types';
+import { TextElementIcon } from '../../ui/Icons';
 import { TextElementEdit, TextElementEditProps } from './TextElementEdit';
 import { TextElementView, TextElementViewProps } from './TextElementView';
-import { TextElementIcon } from '../../ui/Icons';
 
 export type TextElementPayload = PageBuilderElementPayload<string>;
 
@@ -11,7 +11,7 @@ export const TextElement: PageBuilderElement<
   TextElementViewProps
 > = {
   type: 'text',
-  title: 'Text',
+  title: 'Add Text',
   Icon: TextElementIcon,
   Edit: TextElementEdit,
   View: TextElementView,
