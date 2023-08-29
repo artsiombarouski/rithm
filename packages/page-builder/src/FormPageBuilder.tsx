@@ -9,6 +9,7 @@ import {
   FormValues,
 } from '@artsiombarouski/rn-form';
 import { HStack, VStack } from 'native-base';
+import { IHStackProps } from 'native-base/lib/typescript/components/primitives/Stack/HStack';
 import React from 'react';
 import { useFieldArray } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
@@ -18,12 +19,14 @@ export type FormPageBuilderProps<T extends FormValues = FormValues> =
     Partial<PageBuilderListProps> & {
       elements?: { [key: string]: PageBuilderElement<any> };
       elementButtonProps?: ElementButtonProps;
+      elementButtonsContainerProps?: IHStackProps;
     };
 
 export const FormPageBuilder = (props: FormPageBuilderProps) => {
   const {
     elements: externalElements,
     elementButtonProps,
+    elementButtonsContainerProps,
     ...restProps
   } = props;
 
@@ -53,7 +56,7 @@ export const FormPageBuilder = (props: FormPageBuilderProps) => {
           elements={elements}
           namePrefix={renderProps.field.name}
         />
-        <HStack space={'md'}>
+        <HStack space={'md'} {...elementButtonsContainerProps}>
           {Object.values(elements).map((element) => {
             return (
               <ElementButton
