@@ -1,4 +1,7 @@
-import React from 'react';
+import { ImageElement, TextElement, VideoElement } from './elements';
+import { PageBuilderElement } from './types';
+import { PageBuilderList, PageBuilderListProps } from './ui';
+import { ElementButton, ElementButtonProps } from './ui/ElementButton';
 import {
   FormElementRenderProps,
   FormItem,
@@ -6,12 +9,9 @@ import {
   FormValues,
 } from '@artsiombarouski/rn-form';
 import { HStack, VStack } from 'native-base';
-import { PageBuilderList, PageBuilderListProps } from './ui';
-import { v4 as uuidv4 } from 'uuid';
-import { ImageElement, TextElement, VideoElement } from './elements';
-import { PageBuilderElement } from './types';
-import { ElementButton, ElementButtonProps } from './ui/ElementButton';
+import React from 'react';
 import { useFieldArray } from 'react-hook-form';
+import { v4 as uuidv4 } from 'uuid';
 
 export type FormPageBuilderProps<T extends FormValues = FormValues> =
   FormItemProps<T> &
@@ -65,7 +65,7 @@ export const FormPageBuilder = (props: FormPageBuilderProps) => {
                   });
                 }}
                 icon={element.Icon}
-                title={element.title}
+                title={element.buttonTitle}
                 {...elementButtonProps}
               />
             );

@@ -12,7 +12,8 @@ export const ImageElement: PageBuilderElement<
   ImageElementViewProps
 > = {
   type: 'image',
-  title: 'Add Image',
+  title: 'Image',
+  buttonTitle: 'Add Image',
   Icon: ImageElementIcon,
   Edit: ImageElementEdit,
   View: ImageElementView,

@@ -1,5 +1,5 @@
-import React from 'react';
 import { FormItemProps } from '@artsiombarouski/rn-form';
+import React from 'react';
 
 export type PageBuilderElementPayload<ValueType = any> = {
   key: string;
@@ -22,6 +22,7 @@ export type PageBuilderElement<
 > = {
   type: string;
   title: string;
+  buttonTitle: string;
   Icon: React.ComponentType<any>;
   Edit: React.ComponentType<PageBuilderElementEditProps>;
   View: React.ComponentType<ViewProps>;

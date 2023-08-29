@@ -12,7 +12,8 @@ export const VideoElement: PageBuilderElement<
   VideoElementViewProps
 > = {
   type: 'video',
-  title: 'Add Video',
+  title: 'Video',
+  buttonTitle: 'Add Video',
   Icon: VideoElementIcon,
   Edit: VideoElementEdit,
   View: VideoElementView,

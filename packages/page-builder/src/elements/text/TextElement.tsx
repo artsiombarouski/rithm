@@ -11,7 +11,8 @@ export const TextElement: PageBuilderElement<
   TextElementViewProps
 > = {
   type: 'text',
-  title: 'Add Text',
+  title: 'Text',
+  buttonTitle: 'Add Text',
   Icon: TextElementIcon,
   Edit: TextElementEdit,
   View: TextElementView,
