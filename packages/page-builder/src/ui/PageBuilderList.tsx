@@ -2,7 +2,7 @@ import { PageBuilderElement, PageBuilderElementPayload } from '../types';
 import DraggableFlatListFixed from './DraggableFlatListFixed';
 import { ElementContainer, ElementContainerProps } from './ElementContainer';
 import { BinIcon, DragIcon } from './Icons';
-import { HStack, IconButton, IIconButtonProps } from 'native-base';
+import { HStack, IconButton, IIconButtonProps, Pressable } from 'native-base';
 import React from 'react';
 import {
   DragEndParams,
@@ -66,7 +66,15 @@ export const PageBuilderList = (props: PageBuilderListProps) => {
                 style={{ color: removeIconProps?.color }}
               />
             </IconButton>
-            <IconButton
+            <Pressable
+              p={'10px'}
+              _hover={{
+                bg: `primary.600:alpha.10`,
+              }}
+              _pressed={{
+                bg: `primary.600:alpha.20`,
+              }}
+              borderRadius={4}
               {...dragIconProps}
               onLongPress={drag}
               onPressOut={dragCancel}
@@ -75,8 +83,20 @@ export const PageBuilderList = (props: PageBuilderListProps) => {
               isDisabled={isActive}
               focusable={false}
             >
-              <DragIcon style={{ color: dragIconProps?.color }} />
-            </IconButton>
+              <DragIcon size={5} style={{ color: dragIconProps?.color }} />
+            </Pressable>
+            {/*Somehow, IconButton doesn't let to drag from the first time in Felt*/}
+            {/*<IconButton*/}
+            {/*  {...dragIconProps}*/}
+            {/*  onLongPress={drag}*/}
+            {/*  onPressOut={dragCancel}*/}
+            {/*  delayLongPress={20}*/}
+            {/*  disabled={isActive}*/}
+            {/*  isDisabled={isActive}*/}
+            {/*  focusable={false}*/}
+            {/*>*/}
+            {/*  <DragIcon style={{ color: dragIconProps?.color }} />*/}
+            {/*</IconButton>*/}
           </HStack>
         }
       >
