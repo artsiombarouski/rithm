@@ -1,4 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { SurveyChatRunner } from './SurveyChatRunner';
+import { GrowingComponent } from './components';
+import {
+  ControlledTooltip,
+  ControlledTooltipProps,
+} from '@artsiombarouski/rn-components';
+import { observe } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import {
   IconButton,
@@ -8,14 +14,8 @@ import {
   View,
   VStack,
 } from 'native-base';
-import { SurveyChatRunner } from './SurveyChatRunner';
-import {
-  ControlledTooltip,
-  ControlledTooltipProps,
-} from '@artsiombarouski/rn-components';
-import { observe } from 'mobx';
-import { GrowingComponent } from './components';
 import { IViewProps } from 'native-base/lib/typescript/components/primitives/View';
+import React, { useEffect, useRef, useState } from 'react';
 
 export type SurveyActionContainerProps = IViewProps & {
   runner: SurveyChatRunner;
@@ -54,15 +54,13 @@ export const SurveyChatActionContainer = observer<SurveyActionContainerProps>(
           displayPending: true,
         }));
         setExiting(false);
-        if (runner.currentQuestion?.tooltipInitialVisible === true) {
-          setTimeout(() => {
-            setTooltipState((prevState) => ({
-              ...prevState,
-              visible: true,
-              displayPending: false,
-            }));
-          }, 400);
-        }
+        setTimeout(() => {
+          setTooltipState((prevState) => ({
+            ...prevState,
+            visible: runner.currentQuestion?.tooltipInitialVisible,
+            displayPending: false,
+          }));
+        }, 400);
       });
       return () => {
         mounted = false;
