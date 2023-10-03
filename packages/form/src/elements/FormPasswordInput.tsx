@@ -1,11 +1,11 @@
+import { EyeIcon, EyeOffIcon } from '../assets';
 import { FormValues } from '../types';
 import {
   FormInput,
   FormInputProps,
   NoSpaceFormInputFormatter,
 } from './FormInput';
-import { MaterialIcons } from '@expo/vector-icons';
-import { Icon, Pressable } from 'native-base';
+import { Pressable } from 'native-base';
 import React from 'react';
 
 export type FormPasswordInputProps<T extends FormValues = FormValues> =
@@ -20,12 +20,11 @@ export const FormPasswordInput = (props: FormPasswordInputProps) => {
       formatters={[NoSpaceFormInputFormatter]}
       InputRightElement={
         <Pressable onPress={() => setShow(!show)}>
-          <Icon
-            as={<MaterialIcons name={show ? 'visibility' : 'visibility-off'} />}
-            size={5}
-            mr="2"
-            color="muted.400"
-          />
+          {show ? (
+            <EyeIcon size={5} mr={2} color={'muted.400'} />
+          ) : (
+            <EyeOffIcon size={5} mr={2} color={'muted.400'} />
+          )}
         </Pressable>
       }
       {...props}
