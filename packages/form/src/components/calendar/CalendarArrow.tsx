@@ -1,6 +1,6 @@
+import { ArrowLeftIcon } from '../../assets';
 import { ArrowProps } from './types';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Icon, IconButton } from 'native-base';
+import { IconButton } from 'native-base';
 import React from 'react';
 
 export const CalendarArrow = ({ direction, onPress, ...props }: ArrowProps) => {
@@ -9,10 +9,12 @@ export const CalendarArrow = ({ direction, onPress, ...props }: ArrowProps) => {
       onPress={onPress}
       p={'6px'}
       icon={
-        <Icon
-          as={MaterialCommunityIcons}
-          name={direction === 'left' ? 'chevron-left' : 'chevron-right'}
+        <ArrowLeftIcon
+          size={5}
           color={'blueGray.700'}
+          style={{
+            transform: [{ rotate: `${direction === 'left' ? 0 : 180}deg` }],
+          }}
         />
       }
       {...props}

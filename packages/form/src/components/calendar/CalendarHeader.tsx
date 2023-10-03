@@ -1,3 +1,4 @@
+import { ArrowTopIcon } from '../../assets';
 import styleConstructor from './style';
 import { weekDayNames, formatNumbers } from './utils';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -263,9 +264,11 @@ const CalendarHeader = forwardRef((props: CalendarHeaderProps, ref) => {
             onPress={() => onPressHeader?.()}
             p={'6px'}
             icon={
-              <Icon
-                as={MaterialCommunityIcons}
-                name={selectingYear ? 'menu-up' : 'menu-down'}
+              <ArrowTopIcon
+                style={{
+                  transform: [{ rotate: `${selectingYear ? 0 : 180}deg` }],
+                }}
+                size={5}
                 color={'blueGray.700'}
               />
             }
@@ -303,7 +306,7 @@ const CalendarHeader = forwardRef((props: CalendarHeaderProps, ref) => {
           renderArrow(renderArrowDirection)
         ) : (
           <Icon
-            as={MaterialCommunityIcons}
+            as={MaterialCommunityIcons} //todo: remove if flickers
             name={iconName}
             color={'blueGray.700'}
             style={

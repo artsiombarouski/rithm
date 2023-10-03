@@ -1,8 +1,8 @@
+import { CalendarIcon } from '../../assets';
 import { Calendar, SelectionType } from '../calendar';
 import { DatePickerProps } from './types';
 import { getInputValue } from './utils';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Icon, Input, Popover, Pressable } from 'native-base';
+import { Input, Popover, Pressable } from 'native-base';
 import React, { useState } from 'react';
 
 export const DatePicker = (props: DatePickerProps) => {
@@ -29,7 +29,12 @@ export const DatePicker = (props: DatePickerProps) => {
           <Pressable {...triggerProps} onPress={() => setShowPopover(true)}>
             <Input
               InputLeftElement={
-                <Icon as={MaterialCommunityIcons} name={'calendar'} ml={3} />
+                <CalendarIcon
+                  size={5}
+                  ml={3}
+                  color={'white'}
+                  stroke={'#737373'}
+                />
               }
               size={'lg'}
               isFocused={false}
