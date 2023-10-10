@@ -96,6 +96,9 @@ const RootLayout = () => {
     //   apiKey: 'YOUR_API_KEY',
     // }),
     new FirebaseAnalyticsService(),
+    // new MixpanelAnalyticsService({
+    //   projectToken: 'YOUR_API_KEY',
+    // }),
   ];
   return (
     <AnalyticsWrapper services={analyticsServices}>
