@@ -155,6 +155,8 @@ export type TopTabNavigationOptions = HeaderOptions & {
     size: number;
   }) => React.ReactNode;
 
+  tabBarItemWrapper?: (child: React.ReactNode) => React.ReactNode;
+
   /**
    * Style object for the tab icon.
    */

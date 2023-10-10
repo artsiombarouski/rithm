@@ -346,6 +346,7 @@ export default function TopTabBar({
                     focused && options.tabBarActiveItemStyle,
                   ]}
                   scrollEnabled={scrollEnabled}
+                  wrapper={options.tabBarItemWrapper}
                 />
               </NavigationRouteContext.Provider>
             </NavigationContext.Provider>

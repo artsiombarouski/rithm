@@ -241,6 +241,7 @@ export default function SideTabBar({
                     options.tabBarItemStyle,
                     focused && options.tabBarActiveItemStyle,
                   ]}
+                  wrapper={options.tabBarItemWrapper}
                 />
               </NavigationRouteContext.Provider>
             </NavigationContext.Provider>

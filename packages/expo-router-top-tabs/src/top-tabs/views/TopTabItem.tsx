@@ -130,6 +130,8 @@ type Props = {
    * Style object for the wrapper element.
    */
   style?: StyleProp<ViewStyle>;
+
+  wrapper?: (child: any) => React.ReactNode;
 };
 
 export default function TopTabBarItem({
@@ -199,6 +201,7 @@ export default function TopTabBarItem({
   iconSize,
   scrollEnabled,
   style,
+  wrapper,
 }: Props) {
   const { colors } = useTheme();
 
@@ -308,17 +311,24 @@ export default function TopTabBarItem({
     ),
   }) as React.ReactElement;
 
+  let childToRender;
+
   if (child && !scrollEnabled) {
     const { options } = descriptor;
 
-    return (
+    childToRender = (
       <View style={[{ flex: 1 }, options.tabBarItemContainerStyle]}>
         {child}
       </View>
     );
+  } else {
+    childToRender = child;
   }
 
-  return child;
+  if (wrapper) {
+    return wrapper!(childToRender);
+  }
+  return childToRender;
 }
 
 const styles = StyleSheet.create({
