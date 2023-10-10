@@ -34,7 +34,12 @@ export class BrevoAnalyticsService extends AnalyticsService {
   async setUserProperties(
     params: { [p: string]: any } & InternalUserProperties,
   ): Promise<void> {
-    await this.instance.setUserProperties(params);
+    const { first_name, last_name, ...restProps } = params;
+    await this.instance.setUserProperties({
+      fistname: first_name,
+      lastname: last_name,
+      ...restProps,
+    });
   }
 
   async event(name: string, params: { [p: string]: any }): Promise<void> {
