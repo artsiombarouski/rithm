@@ -99,6 +99,9 @@ const RootLayout = () => {
     // new MixpanelAnalyticsService({
     //   projectToken: 'YOUR_API_KEY',
     // }),
+    // new BrevoAnalyticsService({
+    //   clientKey: 'YOUR_CLIENT_KEY',
+    // }),
   ];
   return (
     <AnalyticsWrapper services={analyticsServices}>

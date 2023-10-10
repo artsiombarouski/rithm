@@ -41,6 +41,7 @@
     "@artsiombarouski/rn-analytics-amplitude": "*",
     "@artsiombarouski/rn-analytics-firebase": "*",
     "@artsiombarouski/rn-analytics-mixpanel": "*",
+    "@artsiombarouski/rn-analytics-brevo": "*",
     "@artsiombarouski/rn-components": "*",
     "@artsiombarouski/rn-expo-router-service": "*",
     "@artsiombarouski/rn-expo-router-top-tabs": "*",
