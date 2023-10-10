@@ -36,7 +36,7 @@ export class BrevoAnalyticsService extends AnalyticsService {
   ): Promise<void> {
     const { first_name, last_name, ...restProps } = params;
     await this.instance.setUserProperties({
-      fistname: first_name,
+      firstname: first_name,
       lastname: last_name,
       ...restProps,
     });
