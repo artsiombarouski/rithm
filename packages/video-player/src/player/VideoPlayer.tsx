@@ -10,11 +10,18 @@ import { useSharedValue } from 'react-native-reanimated';
 
 export type VideoPlayerProps = VideoProps & {
   shadeStyle?: StyleProp<ViewStyle>;
+  canShowBottomControls?: boolean;
   autoPlay?: boolean;
 };
 
 export const VideoPlayer = observer<VideoPlayerProps>((props) => {
-  const { shadeStyle, autoPlay, muted = false, ...restProps } = props;
+  const {
+    shadeStyle,
+    canShowBottomControls,
+    autoPlay,
+    muted = false,
+    ...restProps
+  } = props;
   const videoRef = useRef();
   const uiVisibility = useSharedValue(0);
   const controller = useLocalObservable(() => {
@@ -58,7 +65,11 @@ export const VideoPlayer = observer<VideoPlayerProps>((props) => {
           {...restProps}
           {...playerProps}
         />
-        <VideoPlayerControls shadeStyle={shadeStyle} controller={controller} />
+        <VideoPlayerControls
+          shadeStyle={shadeStyle}
+          controller={controller}
+          canShowBottomControls={canShowBottomControls}
+        />
       </VideoPlayerInteractOverlay>
     </View>
   );

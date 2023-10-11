@@ -28,10 +28,11 @@ import Animated, {
 type Props = {
   controller: VideoPlayerController;
   shadeStyle?: StyleProp<ViewStyle>;
+  canShowBottomControls?: boolean;
 };
 
 export const VideoPlayerControls = observer<Props>((props) => {
-  const { controller, shadeStyle } = props;
+  const { controller, shadeStyle, canShowBottomControls = true } = props;
   const containerStyle = useAnimatedStyle(() => {
     return {
       opacity: withTiming(controller.uiVisibilityValue.value, {
@@ -53,66 +54,70 @@ export const VideoPlayerControls = observer<Props>((props) => {
           'rgba(0,0,0, 0.7)',
         ]}
       />
-      <Pressable style={styles.buttonsContainer} onPress={() => {}}>
-        <VideoPlayerIcon
-          style={styles.button}
-          source={controller.isManualPaused ? icPlay : icPause}
-          onPress={() => {
-            controller.togglePause();
-          }}
-          color={'white'}
-        />
-        {controller.duration ? (
-          <View
-            style={{
-              flex: 1,
-              paddingLeft: 16,
-              paddingRight: 16,
-              flexDirection: 'row',
-              alignItems: 'center',
+      {canShowBottomControls && (
+        <Pressable style={styles.buttonsContainer} onPress={() => {}}>
+          <VideoPlayerIcon
+            style={styles.button}
+            source={controller.isManualPaused ? icPlay : icPause}
+            onPress={() => {
+              controller.togglePause();
             }}
-          >
-            <Slider
-              flex={1}
-              step={1}
-              value={controller.playProgress?.currentTime ?? 0}
-              minValue={0}
-              maxValue={controller.duration}
-              onChange={(value) => {
-                controller.seekTo(value, true);
+            color={'white'}
+          />
+          {controller.duration ? (
+            <View
+              style={{
+                flex: 1,
+                paddingLeft: 16,
+                paddingRight: 16,
+                flexDirection: 'row',
+                alignItems: 'center',
               }}
             >
-              <Slider.Track>
-                <Slider.FilledTrack />
-              </Slider.Track>
-              <Slider.Thumb />
-            </Slider>
-            <Text style={{ paddingLeft: 16 }} color={'white'}>
-              {formatPlayerProgress(controller.playProgress?.currentTime ?? 0)}
-              {' / '}
-              {formatPlayerProgress(controller.duration)}
-            </Text>
-          </View>
-        ) : (
-          <View style={{ flex: 1 }} />
-        )}
-        <VideoPlayerIcon
-          style={styles.button}
-          source={!controller.isMuted ? icSoundUp : icSoundOff}
-          onPress={() => {
-            controller.toggleMute();
-          }}
-          color={'white'}
-        />
-        <VideoPlayerIcon
-          style={styles.button}
-          source={icFullscreen}
-          onPress={() => {
-            controller.enterFullscreen();
-          }}
-          color={'white'}
-        />
-      </Pressable>
+              <Slider
+                flex={1}
+                step={1}
+                value={controller.playProgress?.currentTime ?? 0}
+                minValue={0}
+                maxValue={controller.duration}
+                onChange={(value) => {
+                  controller.seekTo(value, true);
+                }}
+              >
+                <Slider.Track>
+                  <Slider.FilledTrack />
+                </Slider.Track>
+                <Slider.Thumb />
+              </Slider>
+              <Text style={{ paddingLeft: 16 }} color={'white'}>
+                {formatPlayerProgress(
+                  controller.playProgress?.currentTime ?? 0,
+                )}
+                {' / '}
+                {formatPlayerProgress(controller.duration)}
+              </Text>
+            </View>
+          ) : (
+            <View style={{ flex: 1 }} />
+          )}
+          <VideoPlayerIcon
+            style={styles.button}
+            source={!controller.isMuted ? icSoundUp : icSoundOff}
+            onPress={() => {
+              controller.toggleMute();
+            }}
+            color={'white'}
+          />
+          <VideoPlayerIcon
+            style={styles.button}
+            source={icFullscreen}
+            onPress={() => {
+              controller.enterFullscreen();
+            }}
+            color={'white'}
+          />
+        </Pressable>
+      )}
       {controller.isManualPaused && (
         <VideoPlayerButton
           style={styles.centerPlayButton}
