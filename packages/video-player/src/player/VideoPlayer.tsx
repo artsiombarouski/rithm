@@ -7,11 +7,13 @@ import { observer, useLocalObservable } from 'mobx-react-lite';
 import React, { useCallback, useEffect, useRef } from 'react';
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { useSharedValue } from 'react-native-reanimated';
+import { VideoPlayerButtonProps } from './VideoPlayerButton';
 
 export type VideoPlayerProps = VideoProps & {
   shadeStyle?: StyleProp<ViewStyle>;
-  canShowBottomControls?: boolean;
   autoPlay?: boolean;
+  canShowBottomControls?: boolean;
+  centerPlayerButtonProps?: VideoPlayerButtonProps;
 };
 
 export const VideoPlayer = observer<VideoPlayerProps>((props) => {
@@ -20,6 +22,7 @@ export const VideoPlayer = observer<VideoPlayerProps>((props) => {
     canShowBottomControls,
     autoPlay,
     muted = false,
+    centerPlayerButtonProps,
     ...restProps
   } = props;
   const videoRef = useRef();
@@ -69,6 +72,7 @@ export const VideoPlayer = observer<VideoPlayerProps>((props) => {
           shadeStyle={shadeStyle}
           controller={controller}
           canShowBottomControls={canShowBottomControls}
+          centerPlayerButtonProps={centerPlayerButtonProps}
         />
       </VideoPlayerInteractOverlay>
     </View>

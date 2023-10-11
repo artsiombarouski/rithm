@@ -7,7 +7,7 @@ import {
 } from '../assets';
 import { formatPlayerProgress } from '../utils';
 import LinearGradient from './LinearGradient';
-import { VideoPlayerButton } from './VideoPlayerButton';
+import { VideoPlayerButton, VideoPlayerButtonProps } from './VideoPlayerButton';
 import { VideoPlayerController } from './VideoPlayerController';
 import { VideoPlayerIcon } from './VideoPlayerIcon';
 import { observer } from 'mobx-react-lite';
@@ -25,113 +25,124 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-type Props = {
+export type VideoPlayerControlsProps = {
   controller: VideoPlayerController;
   shadeStyle?: StyleProp<ViewStyle>;
   canShowBottomControls?: boolean;
+  centerPlayerButtonProps?: VideoPlayerButtonProps;
 };
 
-export const VideoPlayerControls = observer<Props>((props) => {
-  const { controller, shadeStyle, canShowBottomControls = true } = props;
-  const containerStyle = useAnimatedStyle(() => {
-    return {
-      opacity: withTiming(controller.uiVisibilityValue.value, {
-        duration: 100,
-      }),
-    };
-  }, [controller.uiVisibilityValue.value]);
-  return (
-    <Animated.View
-      style={[styles.container, containerStyle]}
-      pointerEvents={controller.isUiVisible ? undefined : 'none'}
-    >
-      <LinearGradient
-        style={StyleSheet.flatten([styles.shade, shadeStyle])}
-        colors={[
-          'transparent',
-          'transparent',
-          'rgba(0,0,0, 0.4)',
-          'rgba(0,0,0, 0.7)',
-        ]}
-      />
-      {canShowBottomControls && (
-        <Pressable style={styles.buttonsContainer} onPress={() => {}}>
-          <VideoPlayerIcon
-            style={styles.button}
-            source={controller.isManualPaused ? icPlay : icPause}
+export const VideoPlayerControls = observer<VideoPlayerControlsProps>(
+  (props) => {
+    const {
+      controller,
+      shadeStyle,
+      canShowBottomControls = true,
+      centerPlayerButtonProps,
+    } = props;
+    const containerStyle = useAnimatedStyle(() => {
+      return {
+        opacity: withTiming(controller.uiVisibilityValue.value, {
+          duration: 100,
+        }),
+      };
+    }, [controller.uiVisibilityValue.value]);
+    return (
+      <Animated.View
+        style={[styles.container, containerStyle]}
+        pointerEvents={controller.isUiVisible ? undefined : 'none'}
+      >
+        {canShowBottomControls && (
+          <>
+            <LinearGradient
+              style={StyleSheet.flatten([styles.shade, shadeStyle])}
+              colors={[
+                'transparent',
+                'transparent',
+                'rgba(0,0,0, 0.4)',
+                'rgba(0,0,0, 0.7)',
+              ]}
+            />
+            <Pressable style={styles.buttonsContainer} onPress={() => {}}>
+              <VideoPlayerIcon
+                style={styles.button}
+                source={controller.isManualPaused ? icPlay : icPause}
+                onPress={() => {
+                  controller.togglePause();
+                }}
+                color={'white'}
+              />
+              {controller.duration ? (
+                <View
+                  style={{
+                    flex: 1,
+                    paddingLeft: 16,
+                    paddingRight: 16,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Slider
+                    flex={1}
+                    step={1}
+                    value={controller.playProgress?.currentTime ?? 0}
+                    minValue={0}
+                    maxValue={controller.duration}
+                    onChange={(value) => {
+                      controller.seekTo(value, true);
+                    }}
+                  >
+                    <Slider.Track>
+                      <Slider.FilledTrack />
+                    </Slider.Track>
+                    <Slider.Thumb />
+                  </Slider>
+                  <Text style={{ paddingLeft: 16 }} color={'white'}>
+                    {formatPlayerProgress(
+                      controller.playProgress?.currentTime ?? 0,
+                    )}
+                    {' / '}
+                    {formatPlayerProgress(controller.duration)}
+                  </Text>
+                </View>
+              ) : (
+                <View style={{ flex: 1 }} />
+              )}
+              <VideoPlayerIcon
+                style={styles.button}
+                source={!controller.isMuted ? icSoundUp : icSoundOff}
+                onPress={() => {
+                  controller.toggleMute();
+                }}
+                color={'white'}
+              />
+              <VideoPlayerIcon
+                style={styles.button}
+                source={icFullscreen}
+                onPress={() => {
+                  controller.enterFullscreen();
+                }}
+                color={'white'}
+              />
+            </Pressable>
+          </>
+        )}
+        {controller.isManualPaused && (
+          <VideoPlayerButton
+            icon={controller.isManualPaused ? icPlay : icPause}
             onPress={() => {
               controller.togglePause();
             }}
-            color={'white'}
+            large={true}
+            dark={true}
+            {...centerPlayerButtonProps}
+            style={[styles.centerPlayButton, centerPlayerButtonProps?.style]}
           />
-          {controller.duration ? (
-            <View
-              style={{
-                flex: 1,
-                paddingLeft: 16,
-                paddingRight: 16,
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}
-            >
-              <Slider
-                flex={1}
-                step={1}
-                value={controller.playProgress?.currentTime ?? 0}
-                minValue={0}
-                maxValue={controller.duration}
-                onChange={(value) => {
-                  controller.seekTo(value, true);
-                }}
-              >
-                <Slider.Track>
-                  <Slider.FilledTrack />
-                </Slider.Track>
-                <Slider.Thumb />
-              </Slider>
-              <Text style={{ paddingLeft: 16 }} color={'white'}>
-                {formatPlayerProgress(
-                  controller.playProgress?.currentTime ?? 0,
-                )}
-                {' / '}
-                {formatPlayerProgress(controller.duration)}
-              </Text>
-            </View>
-          ) : (
-            <View style={{ flex: 1 }} />
-          )}
-          <VideoPlayerIcon
-            style={styles.button}
-            source={!controller.isMuted ? icSoundUp : icSoundOff}
-            onPress={() => {
-              controller.toggleMute();
-            }}
-            color={'white'}
-          />
-          <VideoPlayerIcon
-            style={styles.button}
-            source={icFullscreen}
-            onPress={() => {
-              controller.enterFullscreen();
-            }}
-            color={'white'}
-          />
-        </Pressable>
-      )}
-      {controller.isManualPaused && (
-        <VideoPlayerButton
-          style={styles.centerPlayButton}
-          icon={controller.isManualPaused ? icPlay : icPause}
-          onPress={() => {
-            controller.togglePause();
-          }}
-          large={true}
-          dark={true}
-        />
-      )}
-    </Animated.View>
-  );
-});
+        )}
+      </Animated.View>
+    );
+  },
+);
 
 const styles = StyleSheet.create({
   container: {
