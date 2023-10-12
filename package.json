@@ -70,7 +70,8 @@
     "packages/upload",
     "packages/video-player",
     "packages/upload-imagekit-controller",
-    "packages/page-builder"
+    "packages/page-builder",
+    "packages/spotlight"
   ],
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"

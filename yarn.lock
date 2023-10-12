@@ -15943,16 +15943,6 @@ react-native-screens@~3.20.0:
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
 
-react-native-spotlight-tour@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/react-native-spotlight-tour/-/react-native-spotlight-tour-3.0.1.tgz#8976b79fe187d7a3544f57e1b9e9bb8269adc4b3"
-  integrity sha512-533HFAZmQv9L85opgnFQKeTnWoz6z5v/09ML8mgSPkfMqCmW6BtQKYjSiIkFo7qZRn63Bn60tdk6DikPhbkWXg==
-  dependencies:
-    "@floating-ui/react-native" "^0.10.1"
-    react-fast-compare "^3.2.2"
-    react-native-responsive-dimensions "^3.1.1"
-    styled-components "^6.0.8"
-
 react-native-svg@12.1.1:
   version "12.1.1"
   resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-12.1.1.tgz#5f292410b8bcc07bbc52b2da7ceb22caf5bcaaee"

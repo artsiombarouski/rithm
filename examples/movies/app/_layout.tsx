@@ -20,6 +20,12 @@ import { Stack } from 'expo-router';
 import { observe } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React, { PropsWithChildren, useEffect, useState } from 'react';
+import {
+  flip,
+  offset,
+  shift,
+  SpotlightTourProvider,
+} from '@artsiombarouski/rn-spotlight';
 
 const ExampleIcon = require('../assets/icon.png');
 
@@ -110,15 +116,27 @@ const RootLayout = () => {
           <ScopedLayout>
             <NavigationServiceWrapper>
               <AppThemeProvider>
-                <AlertProvider theme={ALERT_THEME}>
-                  <ModalDialogProvider>
-                    <Stack
-                      screenOptions={{
-                        headerShown: false,
-                      }}
-                    />
-                  </ModalDialogProvider>
-                </AlertProvider>
+                <SpotlightTourProvider
+                  overlayColor={'black'}
+                  overlayOpacity={0.5}
+                  shape={'rectangle'}
+                  motion={'slide'}
+                  // This configurations will apply to all steps
+                  floatingProps={{
+                    middleware: [offset(10), shift(), flip()],
+                    placement: 'bottom',
+                  }}
+                >
+                  <AlertProvider theme={ALERT_THEME}>
+                    <ModalDialogProvider>
+                      <Stack
+                        screenOptions={{
+                          headerShown: false,
+                        }}
+                      />
+                    </ModalDialogProvider>
+                  </AlertProvider>
+                </SpotlightTourProvider>
               </AppThemeProvider>
             </NavigationServiceWrapper>
           </ScopedLayout>

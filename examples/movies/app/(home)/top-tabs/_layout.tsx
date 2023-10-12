@@ -3,55 +3,54 @@ import { TopTabs } from '@artsiombarouski/rn-expo-router-top-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import {
   AttachStep,
-  flip,
-  offset,
-  shift,
-  SpotlightTour,
-  SpotlightTourProvider,
   TourBox,
   TourStep,
-} from 'react-native-spotlight-tour';
-import { createRef, useEffect } from 'react';
+  useSpotlightTour,
+} from '@artsiombarouski/rn-spotlight';
+import { useEffect } from 'react';
 
-const tourSteps: TourStep[] = [
-  {
-    motion: 'fade',
-    render: (props) => (
-      <TourBox
-        title="Tour: Customization"
-        backText="Previous"
-        nextText="Next"
-        {...props}
-      >
-        <Text>
-          {'This is the first step of tour example.\n'}
-          {'If you want to go to the next step, please press '}
-          <Text bold={true}>{'Next.\n'}</Text>
-          {'If you want to go to the previous step, press '}
-          <Text bold={true}>{'Previous.\n'}</Text>
-        </Text>
-      </TourBox>
-    ),
-  },
-  {
-    render: (props) => (
-      <TourBox
-        title="Tour: Customization 2"
-        backText="Previous"
-        nextText="Next"
-        {...props}
-      >
-        <Text>
-          {'This is the first step of tour example.\n'}
-          {'If you want to go to the next step, please press '}
-          <Text bold={true}>{'Next.\n'}</Text>
-          {'If you want to go to the previous step, press '}
-          <Text bold={true}>{'Previous.\n'}</Text>
-        </Text>
-      </TourBox>
-    ),
-  },
-];
+const step1: TourStep = {
+  key: 'step1',
+  motion: 'fade',
+  next: () => step2,
+  render: (props) => (
+    <TourBox
+      title="Tour: Customization"
+      backText="Previous"
+      nextText="Next"
+      {...props}
+    >
+      <Text>
+        {'This is the first step of tour example.\n'}
+        {'If you want to go to the next step, please press '}
+        <Text bold={true}>{'Next.\n'}</Text>
+        {'If you want to go to the previous step, press '}
+        <Text bold={true}>{'Previous.\n'}</Text>
+      </Text>
+    </TourBox>
+  ),
+};
+
+const step2: TourStep = {
+  key: 'step2',
+  previous: () => step1,
+  render: (props) => (
+    <TourBox
+      title="Tour: Customization 2"
+      backText="Previous"
+      nextText="Next"
+      {...props}
+    >
+      <Text>
+        {'This is the first step of tour example.\n'}
+        {'If you want to go to the next step, please press '}
+        <Text bold={true}>{'Next.\n'}</Text>
+        {'If you want to go to the previous step, press '}
+        <Text bold={true}>{'Previous.\n'}</Text>
+      </Text>
+    </TourBox>
+  ),
+};
 
 export default function Layout() {
   const theme = useTheme();
@@ -88,66 +87,52 @@ export default function Layout() {
       },
     },
   });
-  const spotlightRef = createRef<SpotlightTour>();
+  const spotlight = useSpotlightTour();
 
   useEffect(() => {
-    spotlightRef.current?.start();
+    spotlight.setCurrentStep(step1);
   }, []);
 
   return (
-    <SpotlightTourProvider
-      ref={spotlightRef}
-      steps={tourSteps}
-      overlayColor={'black'}
-      overlayOpacity={0.5}
-      shape={'rectangle'}
-      motion={'slide'}
-      // This configurations will apply to all steps
-      floatingProps={{
-        middleware: [offset(10), shift(), flip()],
-        placement: 'bottom',
+    <TopTabs
+      {...adaptiveProps}
+      screenOptions={{
+        tabBarGap: 24,
+        tabBarIconSize: 20,
+        ...adaptiveProps.screenOptions,
       }}
     >
-      <TopTabs
-        {...adaptiveProps}
-        screenOptions={{
-          tabBarGap: 24,
-          tabBarIconSize: 20,
-          ...adaptiveProps.screenOptions,
+      <TopTabs.Screen
+        name={'tab1'}
+        options={{
+          tabBarItemWrapper: (child) => {
+            return <AttachStep step={step1}>{child as any}</AttachStep>;
+          },
         }}
-      >
-        <TopTabs.Screen
-          name={'tab1'}
-          options={{
-            tabBarItemWrapper: (child) => {
-              return <AttachStep index={0}>{child as any}</AttachStep>;
-            },
-          }}
-        />
-        <TopTabs.Screen
-          name={'tab2'}
-          options={{
-            tabBarLabel: 'Label with some long title',
-            tabBarItemWrapper: (child) => {
-              return <AttachStep index={1}>{child as any}</AttachStep>;
-            },
-          }}
-        />
-        <TopTabs.Screen
-          name={'tab3'}
-          options={{
-            tabBarIcon: ({ color, size }) => {
-              return <Ionicons name="home" color={color} size={size} />;
-            },
-          }}
-        />
-        <TopTabs.Screen
-          name={'tab4'}
-          options={{ tabBarLabel: 'Label with long title' }}
-        />
-        <TopTabs.Screen name={'tab5'} />
-        <TopTabs.Screen name={'tab6'} options={{ href: null }} />
-      </TopTabs>
-    </SpotlightTourProvider>
+      />
+      <TopTabs.Screen
+        name={'tab2'}
+        options={{
+          tabBarLabel: 'Label with some long title',
+          tabBarItemWrapper: (child) => {
+            return <AttachStep step={step2}>{child as any}</AttachStep>;
+          },
+        }}
+      />
+      <TopTabs.Screen
+        name={'tab3'}
+        options={{
+          tabBarIcon: ({ color, size }) => {
+            return <Ionicons name="home" color={color} size={size} />;
+          },
+        }}
+      />
+      <TopTabs.Screen
+        name={'tab4'}
+        options={{ tabBarLabel: 'Label with long title' }}
+      />
+      <TopTabs.Screen name={'tab5'} />
+      <TopTabs.Screen name={'tab6'} options={{ href: null }} />
+    </TopTabs>
   );
 }
