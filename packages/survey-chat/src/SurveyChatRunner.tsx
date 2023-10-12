@@ -1,4 +1,4 @@
-import { action, makeObservable, observable, toJS } from 'mobx';
+import { action, makeObservable, observable, observe, toJS } from 'mobx';
 import { SurveyMessage, SurveyQuestion } from './types';
 import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash';
@@ -10,6 +10,10 @@ export type SurveyChatRunnerOptions = {
   completeDelay?: number;
   afterAnswerDelay?: number;
   onChange?: (answers: { [key: string]: any }) => void;
+  onQuestionChanged?: (
+    previous?: SurveyQuestion,
+    current?: SurveyQuestion,
+  ) => void;
 };
 
 export class SurveyChatRunner {
@@ -33,6 +37,9 @@ export class SurveyChatRunner {
     readonly options: SurveyChatRunnerOptions = {},
   ) {
     makeObservable(this);
+    observe(this, 'currentQuestion', (event) => {
+      this.options.onQuestionChanged?.(event.oldValue, event.newValue);
+    });
   }
 
   @action.bound

@@ -17,6 +17,7 @@ import {
   SurveyQuestion,
   SurveyTooltipProps,
 } from '@artsiombarouski/rn-survey-chat';
+import { useRef } from 'react';
 
 const Tooltip = (props: SurveyTooltipProps) => {
   return (
@@ -128,6 +129,7 @@ const questions: SurveyQuestion[] = [
 
 export default function SurveyPage() {
   const theme = useTheme();
+  const questionTracker = useRef<{ [key: string]: number }>({});
   return (
     <Box flex={1}>
       <SurveyChat
@@ -141,6 +143,19 @@ export default function SurveyPage() {
         runnerOptions={{
           onChange: (answers) => {
             console.log('answers', answers);
+          },
+          onQuestionChanged: (previous, current) => {
+            if (previous && questionTracker.current[previous.key]) {
+              console.log(
+                'onScreenTime: ',
+                previous.key,
+                ' - ',
+                Date.now() - questionTracker.current[previous.key],
+              );
+            }
+            if (current && current.surveyAction) {
+              questionTracker.current[current.key] = Date.now();
+            }
           },
         }}
         tooltipProps={{
