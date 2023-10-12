@@ -33,7 +33,7 @@ export class Analytics {
   }
 
   static setLoggingEnabled(enabled: boolean) {
-    this.isLoggingEnabled = true;
+    this.isLoggingEnabled = enabled;
   }
 
   static event(name: string, ...params: AnalyticParams[]) {
