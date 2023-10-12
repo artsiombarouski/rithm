@@ -13,6 +13,8 @@ export class Analytics {
   private static servicesSupportedEvents: AnalyticsService[] = [];
   private static servicesSupportedScreen: AnalyticsService[] = [];
 
+  private static isLoggingEnabled: boolean = false;
+
   static registerServices(...services: AnalyticsService[]) {
     for (const service of services) {
       this.services.push(service);
@@ -30,8 +32,20 @@ export class Analytics {
     Promise.all(this.services.map((e) => e.setAppTrackingAllowed(allowed)));
   }
 
+  static setLoggingEnabled(enabled: boolean) {
+    this.isLoggingEnabled = true;
+  }
+
   static event(name: string, ...params: AnalyticParams[]) {
     const targetParams = mergeParams(params);
+    if (this.isLoggingEnabled) {
+      console.info(
+        'Analytics - event: ',
+        name,
+        ' -> ',
+        JSON.stringify(targetParams),
+      );
+    }
     Promise.all(
       this.servicesSupportedEvents.map((e) =>
         e.event(name, targetParams).catch((error) => {
@@ -43,6 +57,14 @@ export class Analytics {
   }
 
   static screen(name: string, params: AnalyticParams) {
+    if (this.isLoggingEnabled) {
+      console.info(
+        'Analytics - screen: ',
+        name,
+        ' -> ',
+        JSON.stringify(params),
+      );
+    }
     Promise.all(
       this.servicesSupportedScreen.map((e) =>
         e.screen(name, params).catch((error) => {
@@ -54,6 +76,9 @@ export class Analytics {
   }
 
   static subscription(info: AnalyticsSubscriptionInfo) {
+    if (this.isLoggingEnabled) {
+      console.info('Analytics - subscription: ', JSON.stringify(info));
+    }
     Promise.all(
       this.servicesSupportedScreen.map((e) =>
         e.subscription(info).catch((error) => {
@@ -68,6 +93,9 @@ export class Analytics {
   }
 
   static purchase(info: AnalyticsPurchaseInfo) {
+    if (this.isLoggingEnabled) {
+      console.info('Analytics - purchase: ', JSON.stringify(info));
+    }
     Promise.all(
       this.servicesSupportedScreen.map((e) =>
         e.purchase(info).catch((error) => {
@@ -79,6 +107,9 @@ export class Analytics {
   }
 
   static initiateCheckout(info: AnalyticsInitiateCheckoutInfo) {
+    if (this.isLoggingEnabled) {
+      console.info('Analytics - initiateCheckout: ', JSON.stringify(info));
+    }
     Promise.all(
       this.servicesSupportedScreen.map((e) =>
         e.initiateCheckout(info).catch((error) => {
