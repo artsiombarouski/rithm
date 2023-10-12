@@ -19,7 +19,6 @@ import {
 import { Defs, Mask, Rect, Svg } from 'react-native-svg';
 
 import { Optional } from '../../../helpers/common';
-import { vhDP, vwDP } from '../../../helpers/responsive';
 import { ShapeProps } from '../../../helpers/shape';
 import {
   BackdropPressBehavior,
@@ -182,7 +181,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>(
             testID="Spot Svg"
             height="100%"
             width="100%"
-            viewBox={`0 0 ${vwDP(100)} ${vhDP(100)}`}
+            viewBox={`0 0 100% 100%`}
             onPress={handleBackdropPress}
             shouldRasterizeIOS={true}
             renderToHardwareTextureAndroid={true}

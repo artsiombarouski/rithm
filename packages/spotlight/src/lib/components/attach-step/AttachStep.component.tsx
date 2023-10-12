@@ -6,6 +6,7 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useLayoutEffect,
   useRef,
 } from 'react';
 import { StyleProp, useWindowDimensions, View } from 'react-native';
@@ -85,6 +86,13 @@ export function AttachStep<T>({
     dimensions.width,
     dimensions.height,
   ]);
+  useLayoutEffect(measure, [
+    changeSpot,
+    currentStep,
+    step,
+    dimensions.width,
+    dimensions.height,
+  ]);
 
   if (typeof children.type === 'function') {
     const { style, ...rest } = children.props;
@@ -97,6 +105,9 @@ export function AttachStep<T>({
         style={{ alignSelf: fill ? 'stretch' : 'flex-start', ...childStyle }}
         collapsable={false}
         focusable={false}
+        onLayout={() => {
+          measure();
+        }}
       >
         {cloneElement(children, rest, children.props.children)}
       </View>
