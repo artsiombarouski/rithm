@@ -156,14 +156,16 @@ export const SpotlightTourProvider = forwardRef<
         Promise.all([
           overlay.current.hideTooltip(),
           Promise.resolve().then(step.before),
-        ]).then(() => setCurrentStep(step));
+        ]).then(() => {
+          setSpot(ZERO_SPOT);
+          setCurrentStep(step);
+        });
       } else if (currentStep) {
         onComplete?.(currentStep);
         Object.values(listeners.current).forEach((e) => {
           e(currentStep);
         });
         setCurrentStep(undefined);
-        setSpot(ZERO_SPOT);
       }
     },
     [onComplete, currentStep, setCurrentStep],
