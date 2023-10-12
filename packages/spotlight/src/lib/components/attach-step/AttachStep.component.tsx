@@ -3,11 +3,12 @@ import React, {
   ReactElement,
   ReactNode,
   RefObject,
+  useCallback,
   useContext,
   useEffect,
   useRef,
 } from 'react';
-import { StyleProp, View } from 'react-native';
+import { StyleProp, useWindowDimensions, View } from 'react-native';
 
 import { SpotlightTourContext, TourStep } from '../../SpotlightTour.context';
 
@@ -64,8 +65,9 @@ export function AttachStep<T>({
   const { currentStep, changeSpot } = useContext(SpotlightTourContext);
 
   const childRef = useRef<View>(null);
+  const dimensions = useWindowDimensions();
 
-  useEffect(() => {
+  const measure = useCallback(() => {
     if (
       currentStep?.key ===
       (typeof step === 'string' ? step : (step as TourStep).key)
@@ -74,7 +76,15 @@ export function AttachStep<T>({
         changeSpot({ height, width, x, y });
       });
     }
-  }, [changeSpot, currentStep, step]);
+  }, [changeSpot, currentStep, step, dimensions.width, dimensions.height]);
+
+  useEffect(measure, [
+    changeSpot,
+    currentStep,
+    step,
+    dimensions.width,
+    dimensions.height,
+  ]);
 
   if (typeof children.type === 'function') {
     const { style, ...rest } = children.props;

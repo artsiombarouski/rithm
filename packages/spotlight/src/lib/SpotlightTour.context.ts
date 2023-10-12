@@ -17,6 +17,8 @@ export type Motion = 'bounce' | 'slide' | 'fade';
  */
 export type Shape = 'circle' | 'rectangle';
 
+export type OnSpotlightTourComplete = (lastStep: TourStep) => void;
+
 export interface RenderProps {
   currentStep?: TourStep;
   setCurrentStep: (step?: TourStep) => void;
@@ -28,6 +30,8 @@ export interface RenderProps {
    * Goes to the previous step, if any.
    */
   previous: () => void;
+
+  close: () => void;
 }
 
 export interface OSConfig<T> {
@@ -83,6 +87,9 @@ export interface FloatingProps {
 
 export interface TourStep {
   key: string;
+
+  group?: string;
+
   /**
    * Hook called right before the step starts. Useful to run effects or
    * animations required fo the step to show correctly. If a promise is
@@ -141,8 +148,10 @@ export interface TourStep {
 export interface SpotlightTour {
   next: () => void;
   previous: () => void;
+  close: () => void;
   currentStep?: TourStep | undefined;
   setCurrentStep: (step?: TourStep) => void;
+  addTourListener: (listener: OnSpotlightTourComplete) => () => void;
 }
 
 export interface SpotlightTourCtx extends SpotlightTour {
@@ -160,6 +169,8 @@ export interface SpotlightTourCtx extends SpotlightTour {
   next: () => void;
 
   previous: () => void;
+
+  close: () => void;
 }
 
 export const ZERO_SPOT: LayoutRectangle = {
@@ -172,8 +183,10 @@ export const ZERO_SPOT: LayoutRectangle = {
 export const SpotlightTourContext = createContext<SpotlightTourCtx>({
   next: () => undefined,
   previous: () => undefined,
+  close: () => undefined,
   changeSpot: () => undefined,
   setCurrentStep: () => undefined,
+  addTourListener: () => undefined,
   spot: ZERO_SPOT,
 });
 

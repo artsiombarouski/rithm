@@ -1,16 +1,13 @@
-export {
-  ChildFn,
-  Optional,
-} from "./helpers/common";
+export { ChildFn, Optional } from './helpers/common';
 export {
   AttachStep,
   AttachStepProps,
   ChildProps,
-} from "./lib/components/attach-step/AttachStep.component";
+} from './lib/components/attach-step/AttachStep.component';
 export {
   TourBox,
   TourBoxProps,
-} from "./lib/components/tour-box/TourBox.component";
+} from './lib/components/tour-box/TourBox.component';
 export {
   BackdropPressBehavior,
   FloatingProps,
@@ -22,11 +19,11 @@ export {
   StopParams,
   TourStep,
   useSpotlightTour,
-} from "./lib/SpotlightTour.context";
+} from './lib/SpotlightTour.context';
 export {
   SpotlightTourProvider,
   SpotlightTourProviderProps,
-} from "./lib/SpotlightTour.provider";
+} from './lib/SpotlightTour.provider';
 export {
   autoPlacement,
   arrow,
@@ -35,4 +32,8 @@ export {
   flip,
   offset,
   shift,
-} from "@floating-ui/react-native";
+} from '@floating-ui/react-native';
+export {
+  SpotlightTourCompleter,
+  SpotlightTourCompleterProps,
+} from './lib/SpotlightTourCompleter';

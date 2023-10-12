@@ -67,8 +67,14 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>(
       tourStep,
     } = props;
 
-    const { currentStep, next, previous, setCurrentStep } =
-      useContext(SpotlightTourContext);
+    const {
+      currentStep,
+      next,
+      previous,
+      close,
+      setCurrentStep,
+      addTourListener,
+    } = useContext(SpotlightTourContext);
     const { refs, floatingStyles } = useFloating(
       tourStep?.floatingProps ?? floatingProps,
     );
@@ -107,6 +113,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>(
     }, [stepShape]);
 
     const handleBackdropPress = useCallback((): void => {
+      console.log('handleBackdropPress');
       const handler = tourStep?.onBackdropPress ?? onBackdropPress;
 
       if (handler !== undefined && tourStep !== undefined) {
@@ -115,10 +122,17 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>(
             return next();
 
           case 'stop':
-            return stop();
+            return close();
 
           default:
-            return handler({ currentStep, next, previous, setCurrentStep });
+            return handler({
+              currentStep,
+              next,
+              previous,
+              close,
+              setCurrentStep,
+              addTourListener,
+            });
         }
       }
     }, [currentStep, tourStep, onBackdropPress, next, previous, stop]);
@@ -204,6 +218,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>(
                 <tourStep.render
                   next={next}
                   previous={previous}
+                  close={close}
                   currentStep={tourStep}
                   setCurrentStep={setCurrentStep}
                 />

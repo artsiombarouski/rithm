@@ -15,6 +15,7 @@ import {
   BackdropPressBehavior,
   FloatingProps,
   Motion,
+  OnSpotlightTourComplete,
   OSConfig,
   Shape,
   SpotlightTour,
@@ -110,6 +111,8 @@ export interface SpotlightTourProviderProps {
   spotPadding?: number;
 }
 
+let listenerId = 0;
+
 /**
  * React provider component to get access to the SpotlightTour context.
  */
@@ -138,6 +141,14 @@ export const SpotlightTourProvider = forwardRef<
   const overlay = useRef<TourOverlayRef>({
     hideTooltip: () => Promise.resolve({ finished: false }),
   });
+  const listeners = useRef<{ [key: number]: OnSpotlightTourComplete }>({});
+  const addListener = useCallback((listener: OnSpotlightTourComplete) => {
+    const id = ++listenerId;
+    listeners.current[id] = listener;
+    return () => {
+      delete listeners.current[id];
+    };
+  }, []);
 
   const handleSetCurrentStep = useCallback(
     (step?: TourStep) => {
@@ -148,6 +159,9 @@ export const SpotlightTourProvider = forwardRef<
         ]).then(() => setCurrentStep(step));
       } else if (currentStep) {
         onComplete?.(currentStep);
+        Object.values(listeners.current).forEach((e) => {
+          e(currentStep);
+        });
         setCurrentStep(undefined);
         setSpot(ZERO_SPOT);
       }
@@ -171,13 +185,21 @@ export const SpotlightTourProvider = forwardRef<
     }
   }, [handleSetCurrentStep, currentStep]);
 
+  const handleClose = useCallback(() => {
+    if (currentStep) {
+      setCurrentStep(undefined);
+    }
+  }, [setCurrentStep, currentStep]);
+
   const tour = useMemo(
     (): SpotlightTourCtx => ({
       next: handleNext,
       previous: handlePrevious,
+      close: handleClose,
       changeSpot,
       currentStep,
       setCurrentStep: handleSetCurrentStep,
+      addTourListener: addListener,
       spot,
     }),
     [changeSpot, currentStep, handleSetCurrentStep, spot],
@@ -186,8 +208,10 @@ export const SpotlightTourProvider = forwardRef<
   useImperativeHandle(ref, () => ({
     next: handleNext,
     previous: handlePrevious,
+    close: handleClose,
     currentStep,
     setCurrentStep: handleSetCurrentStep,
+    addTourListener: addListener,
   }));
 
   return (
