@@ -126,12 +126,18 @@ export class ResourceList<T extends ResourceModel> {
 
   @computed
   get hasNext() {
-    return !isUndefined(this.meta?.nextPageToken);
+    return (
+      !isUndefined(this.meta?.nextPageToken) &&
+      this.meta?.nextPageToken !== null
+    );
   }
 
   @computed
   get hasPrevious() {
-    return !isUndefined(this.meta?.previousPageToken);
+    return (
+      !isUndefined(this.meta?.previousPageToken) &&
+      this.meta?.previousPageToken !== null
+    );
   }
 
   @computed
