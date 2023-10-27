@@ -154,6 +154,14 @@ export class ResourceModel<IdType extends Id = any> {
     return this._debugKey;
   }
 
+  get store() {
+    return this.modelStore;
+  }
+
+  get api() {
+    return this.modelStore?.api;
+  }
+
   mutate<T = this>(): T {
     if (!this.modelStore) {
       throw new Error('ModelStore is not defined');
