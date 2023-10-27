@@ -365,11 +365,21 @@ export class ResourceList<T extends ResourceModel> {
             return result;
           } else {
             const resultData = result.data!;
-            const total = resultData.meta.count;
+            const {
+              count,
+              page,
+              totalPages,
+              nextPageToken,
+              previousPageToken,
+              ...restMeta
+            } = resultData.meta;
             this.meta = {
-              ...this.meta,
-              ...resultData.meta,
-              total: total,
+              ...restMeta,
+              total: count,
+              page: page,
+              totalPages: totalPages,
+              nextPageToken: nextPageToken,
+              previousPageToken: previousPageToken,
             };
             const models = this.modelStore.upsert(resultData.data);
             if (replaceData) {
