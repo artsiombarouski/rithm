@@ -1,6 +1,6 @@
 import { Analytics } from './Analytics';
-import { parseName } from './utils/NameParser';
 import { UserIdentifyService } from './UserIdentify.service';
+import { parseName } from './utils/NameParser';
 
 export type InternalUserProperties = {
   name?: string;
@@ -27,7 +27,7 @@ export class UserIdentifier {
   static identifyUser(
     id: string | undefined,
     email: string | undefined = undefined,
-  ) {
+  ): Promise<any> | void {
     return Promise.all(
       this.services.map((e) =>
         e.identifyUser(id, email).catch((error) => {
@@ -62,11 +62,11 @@ export class UserIdentifier {
 
   static setUserProperties(
     params: { [p: string]: any } & InternalUserProperties,
-  ) {
+  ): Promise<any> | void {
     const targetParams = { ...this.cachedUserProperties, ...params };
     trySplitNameFromParams(targetParams);
     this.cachedUserProperties = targetParams;
-    Promise.all(
+    return Promise.all(
       this.services.map((e) =>
         e.setUserProperties(targetParams).catch((error) => {
           console.error(
