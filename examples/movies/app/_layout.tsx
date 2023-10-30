@@ -16,16 +16,16 @@ import {
   ServiceContainer,
   ServiceContainerBootstrap,
 } from '@artsiombarouski/rn-services';
-import { Stack } from 'expo-router';
-import { observe } from 'mobx';
-import { observer } from 'mobx-react-lite';
-import React, { PropsWithChildren, useEffect, useState } from 'react';
 import {
   flip,
   offset,
   shift,
   SpotlightTourProvider,
 } from '@artsiombarouski/rn-spotlight';
+import { Stack } from 'expo-router';
+import { observe } from 'mobx';
+import { observer } from 'mobx-react-lite';
+import React, { PropsWithChildren, useEffect, useState } from 'react';
 
 const ExampleIcon = require('../assets/icon.png');
 
@@ -107,6 +107,10 @@ const RootLayout = () => {
     // }),
     // new BrevoAnalyticsService({
     //   clientKey: 'YOUR_CLIENT_KEY',
+    // }),
+    // new CleverTapAnalyticsService({
+    //   accountId: 'TEST-Z6K-5Z4-896Z',
+    //   whiteLabelEvents: ['test-event-2'],
     // }),
   ];
   return (

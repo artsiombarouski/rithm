@@ -9,6 +9,8 @@ export interface AnalyticsServiceOptions {
   isEventsEnabled?: boolean;
   isScreenEnabled?: boolean;
   isErrorEnabled?: boolean;
+  whiteLabelEvents?: string[];
+  whiteLabelScreens?: string[];
 }
 
 export class AnalyticsService extends UserIdentifyService {

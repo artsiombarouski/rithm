@@ -1,5 +1,5 @@
-import { Button, Heading, HStack, VStack } from 'native-base';
 import { Analytics } from '@artsiombarouski/rn-analytics';
+import { Button, Heading, HStack, VStack } from 'native-base';
 
 const AnalyticsPage = () => {
   return (
@@ -16,6 +16,17 @@ const AnalyticsPage = () => {
           }}
         >
           Event
+        </Button>
+        <Button
+          onPress={() => {
+            Analytics.event('test-event-2', {
+              testPropertyBool: true,
+              testPropertyString: 'test-string',
+              testPropertyNumber: 1234.5,
+            });
+          }}
+        >
+          Second event
         </Button>
       </HStack>
     </VStack>

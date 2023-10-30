@@ -11,6 +11,7 @@ export type InternalUserProperties = {
   internal_user_id?: any;
   last_login?: any;
   first_login?: any;
+  phone?: string;
 };
 
 export class UserIdentifier {

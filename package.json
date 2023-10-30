@@ -62,6 +62,7 @@
     "packages/analytics-firebase",
     "packages/analytics-mixpanel",
     "packages/analytics-brevo",
+    "packages/analytics-clever-tap",
     "packages/resources",
     "packages/user-store-service",
     "packages/expo-router-service",

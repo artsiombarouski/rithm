@@ -5669,6 +5669,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/clevertap-web-sdk@^1.1.5":
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/@types/clevertap-web-sdk/-/clevertap-web-sdk-1.1.5.tgz#cdc6d351b6d5d94a5302667dc76df6e0a501ee72"
+  integrity sha512-RweZP+ZWVMx8Mkj5ytp45MOhRHyr+Q7evHBo+g3OFETG6MfI0rIBVI/I/5xSNnrLOYXiW45o3UIfRMo0ovNbJg==
+
 "@types/connect-history-api-fallback@^1.3.5":
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/@types/connect-history-api-fallback/-/connect-history-api-fallback-1.5.0.tgz#9fd20b3974bdc2bcd4ac6567e2e0f6885cb2cf41"
@@ -7693,6 +7698,11 @@ clean-webpack-plugin@^4.0.0:
   integrity sha512-WuWE1nyTNAyW5T7oNyys2EN0cfP2fdRxhxnIQWiAp0bMabPdHhoGxM8A6YL2GhqwgrPnnaemVE7nv5XJ2Fhh2w==
   dependencies:
     del "^4.1.1"
+
+clevertap-web-sdk@^1.6.7:
+  version "1.6.7"
+  resolved "https://registry.yarnpkg.com/clevertap-web-sdk/-/clevertap-web-sdk-1.6.7.tgz#4401768683987d12873cedcb81826a0c3bf46ad5"
+  integrity sha512-oVuqIaR90JGugL5irVizTn6Ae2Z8rLHTt/v18bm2Hi4oifhaNMmOKxZ8phZCXWpsBTPhXVBdl++A60ee4lvnFw==
 
 cli-cursor@3.1.0, cli-cursor@^3.1.0:
   version "3.1.0"

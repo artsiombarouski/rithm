@@ -1,3 +1,5 @@
+import { InternalUserProperties } from './UserIdentifier';
+
 export class UserIdentifyService {
   constructor(readonly name: string) {}
 
@@ -12,7 +14,9 @@ export class UserIdentifyService {
 
   async setEmail(email: string | undefined) {}
 
-  async setUserProperties(params: { [key: string]: any }) {}
+  async setUserProperties(
+    params: { [key: string]: any } & InternalUserProperties,
+  ) {}
 
   async afterSetUserProperties() {}
 

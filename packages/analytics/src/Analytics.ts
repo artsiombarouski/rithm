@@ -1,12 +1,12 @@
-import { isEmpty } from 'lodash';
+import { AnalyticsService } from './Analytics.service';
+import { UserIdentifier } from './UserIdentifier';
 import {
   AnalyticParams,
   AnalyticsInitiateCheckoutInfo,
   AnalyticsPurchaseInfo,
   AnalyticsSubscriptionInfo,
 } from './types';
-import { UserIdentifier } from './UserIdentifier';
-import { AnalyticsService } from './Analytics.service';
+import { isEmpty } from 'lodash';
 
 export class Analytics {
   private static services: AnalyticsService[] = [];
@@ -36,7 +36,7 @@ export class Analytics {
     this.isLoggingEnabled = enabled;
   }
 
-  static event(name: string, ...params: AnalyticParams[]) {
+  static event(name: string, ...params: AnalyticParams[]): Promise<any> | void {
     const targetParams = mergeParams(params);
     if (this.isLoggingEnabled) {
       console.info(
@@ -46,17 +46,23 @@ export class Analytics {
         JSON.stringify(targetParams),
       );
     }
-    Promise.all(
-      this.servicesSupportedEvents.map((e) =>
-        e.event(name, targetParams).catch((error) => {
-          console.error(`Analytics event track error (${e.name})`, error);
-          this.error(error);
-        }),
-      ),
+    return Promise.all(
+      this.servicesSupportedEvents
+        .filter(
+          (e) =>
+            !e.options.whiteLabelEvents ||
+            e.options.whiteLabelEvents.includes(name),
+        )
+        .map((e) =>
+          e.event(name, targetParams).catch((error) => {
+            console.error(`Analytics event track error (${e.name})`, error);
+            this.error(error);
+          }),
+        ),
     );
   }
 
-  static screen(name: string, params: AnalyticParams) {
+  static screen(name: string, params: AnalyticParams): Promise<any> | void {
     if (this.isLoggingEnabled) {
       console.info(
         'Analytics - screen: ',
@@ -65,13 +71,19 @@ export class Analytics {
         JSON.stringify(params),
       );
     }
-    Promise.all(
-      this.servicesSupportedScreen.map((e) =>
-        e.screen(name, params).catch((error) => {
-          console.error(`Analytics screen track error (${e.name})`, error);
-          this.error(error);
-        }),
-      ),
+    return Promise.all(
+      this.servicesSupportedScreen
+        .filter(
+          (e) =>
+            !e.options.whiteLabelScreens ||
+            e.options.whiteLabelScreens.includes(name),
+        )
+        .map((e) =>
+          e.screen(name, params).catch((error) => {
+            console.error(`Analytics screen track error (${e.name})`, error);
+            this.error(error);
+          }),
+        ),
     );
   }
 
