@@ -1,12 +1,15 @@
-import { Box, Button, IInputProps, Input } from 'native-base';
-import { ReactElement, useState } from 'react';
 import { SurveyActionProps } from '../types';
 import { useInputAutoHeight } from '@artsiombarouski/rn-form';
+import { Box, Button, IInputProps, Input } from 'native-base';
+import { ReactElement, useState } from 'react';
 
 export type SurveyInputActionProps = SurveyActionProps & {
   inputProps?: IInputProps;
   actionElement?: (
-    props: SurveyActionProps & { handleSubmit: () => void },
+    props: SurveyActionProps & {
+      handleSubmit: () => void;
+      isButtonDisabled: boolean;
+    },
   ) => ReactElement;
   required?: boolean;
 };
@@ -28,6 +31,10 @@ export const SurveyInputAction = (props: SurveyInputActionProps) => {
       onSubmit(null, null);
     }
   };
+
+  const isButtonDisabled =
+    required && (!currentValue || currentValue.length === 0);
+
   return (
     <Box>
       <Input
@@ -36,13 +43,11 @@ export const SurveyInputAction = (props: SurveyInputActionProps) => {
           closeTooltip();
         }}
         InputRightElement={
-          actionElement?.({ ...props, handleSubmit }) ?? (
+          actionElement?.({ ...props, handleSubmit, isButtonDisabled }) ?? (
             <Button
               variant={'link'}
               onPress={handleSubmit}
-              isDisabled={
-                required && (!currentValue || currentValue.length === 0)
-              }
+              isDisabled={isButtonDisabled}
             >
               Answer
             </Button>
