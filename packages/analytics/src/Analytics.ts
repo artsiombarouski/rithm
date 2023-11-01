@@ -92,7 +92,7 @@ export class Analytics {
       console.info('Analytics - subscription: ', JSON.stringify(info));
     }
     Promise.all(
-      this.servicesSupportedScreen.map((e) =>
+      this.services.map((e) =>
         e.subscription(info).catch((error) => {
           console.error(
             `Analytics subscription track error (${e.name})`,
@@ -109,7 +109,7 @@ export class Analytics {
       console.info('Analytics - purchase: ', JSON.stringify(info));
     }
     Promise.all(
-      this.servicesSupportedScreen.map((e) =>
+      this.services.map((e) =>
         e.purchase(info).catch((error) => {
           console.error(`Analytics purchase track error (${e.name})`, error);
           this.error(error);
@@ -123,7 +123,7 @@ export class Analytics {
       console.info('Analytics - initiateCheckout: ', JSON.stringify(info));
     }
     Promise.all(
-      this.servicesSupportedScreen.map((e) =>
+      this.services.map((e) =>
         e.initiateCheckout(info).catch((error) => {
           console.error(
             `Analytics initiate checkout track error (${e.name})`,
