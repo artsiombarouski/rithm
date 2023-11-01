@@ -1,1 +1,1 @@
-export function initializeFirebaseAnalytics(config: string) {}
+export function initializeFirebaseAnalytics(config: { [key: string]: any }) {}

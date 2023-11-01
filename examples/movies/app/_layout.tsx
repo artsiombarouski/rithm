@@ -3,7 +3,6 @@ import { rootServices, scopedServices } from '../services/Services';
 import { useUsers } from '../services/utils';
 import { AppThemeProvider } from '../theme';
 import { AnalyticsWrapper } from '@artsiombarouski/rn-analytics';
-import { FirebaseAnalyticsService } from '@artsiombarouski/rn-analytics-firebase';
 import {
   AlertProvider,
   ModalDialogProvider,
@@ -101,7 +100,17 @@ const RootLayout = () => {
     // new AmplitudeAnalyticsService({
     //   apiKey: 'YOUR_API_KEY',
     // }),
-    new FirebaseAnalyticsService(),
+    // new FirebaseAnalyticsService({
+    //   config: {
+    //     apiKey: 'AIzaSyC3SVkq7oJpcoJbjbptFQFLn5s1GEy7wDo',
+    //     authDomain: 'movies-f71b1.firebaseapp.com',
+    //     projectId: 'movies-f71b1',
+    //     storageBucket: 'movies-f71b1.appspot.com',
+    //     messagingSenderId: '144349028350',
+    //     appId: '1:144349028350:web:3e6670f6c5de29d0992aaf',
+    //     measurementId: 'G-7RM68GJ8BX',
+    //   },
+    // }),
     // new MixpanelAnalyticsService({
     //   projectToken: 'YOUR_API_KEY',
     // }),

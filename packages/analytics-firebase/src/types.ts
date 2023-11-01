@@ -49,4 +49,6 @@ export type IFirebaseAnalytics = {
 
 export const kFirebaseId = 'firebaseId';
 
-export type FirebaseServiceOptions = AnalyticsServiceOptions & {};
+export type FirebaseServiceOptions = AnalyticsServiceOptions & {
+  config?: { [key: string]: any };
+};

@@ -1,12 +1,16 @@
 import { FirebaseAnalytics } from './FirebaseAnalytics';
+import { initializeFirebaseAnalytics } from './initializeFirebaseAnalytics';
 import { FirebaseServiceOptions, kFirebaseId } from './types';
 import { AnalyticsService } from '@artsiombarouski/rn-analytics';
 import { AnalyticsSubscriptionInfo } from '@artsiombarouski/rn-analytics/src/types';
 
+
 const Analytics = FirebaseAnalytics;
+
 export class FirebaseAnalyticsService extends AnalyticsService {
   constructor(readonly options: FirebaseServiceOptions = {}) {
     super('firebase', options);
+    initializeFirebaseAnalytics(options.config ?? {});
   }
 
   async identifyUser(
