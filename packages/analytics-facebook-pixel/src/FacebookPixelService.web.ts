@@ -48,6 +48,8 @@ export class FacebookPixelService extends AnalyticsService {
   async initiateCheckout(info: AnalyticsInitiateCheckoutInfo): Promise<void> {
     ReactPixel.track('InitiateCheckout', {
       content_ids: [info.product_id],
+      value: info.price,
+      currency: info.currency,
     });
   }
 }

@@ -78,6 +78,8 @@ export class MixpanelAnalyticsService extends AnalyticsService {
         'initiateCheckout',
         {
           productId: info.product_id,
+          currency: info.currency ? info.currency : '',
+          price: info.price ? parseInt(info.price.toString(), 10) : 0,
         },
         resolve,
       );
