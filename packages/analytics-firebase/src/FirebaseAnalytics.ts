@@ -1,4 +1,5 @@
 import {
+  BeginCheckoutParams,
   IFirebaseAnalytics,
   PurchaseEventParameters,
   ScreenViewParameters,
@@ -28,5 +29,8 @@ export const FirebaseAnalytics: IFirebaseAnalytics = {
   },
   logPurchase(params: PurchaseEventParameters): Promise<void> {
     return Analytics.logPurchase(params);
+  },
+  logBeginCheckout(params: BeginCheckoutParams): Promise<void> {
+    return Analytics.logBeginCheckout(params);
   },
 };

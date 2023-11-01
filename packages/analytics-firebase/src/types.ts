@@ -35,6 +35,13 @@ export interface PurchaseEventParameters {
   transaction_id?: string;
 }
 
+export interface BeginCheckoutParams {
+  currency?: string;
+  value?: number;
+  coupon?: string;
+  items?: Item[];
+}
+
 export type IFirebaseAnalytics = {
   getAppInstanceId(): Promise<string | null>;
   setUserId(id: string | null): Promise<void>;
@@ -45,6 +52,7 @@ export type IFirebaseAnalytics = {
   logEvent(name: string, params?: { [key: string]: any }): Promise<void>;
   logScreenView(params: ScreenViewParameters): Promise<void>;
   logPurchase(params: PurchaseEventParameters): Promise<void>;
+  logBeginCheckout(params: BeginCheckoutParams): Promise<void>;
 };
 
 export const kFirebaseId = 'firebaseId';

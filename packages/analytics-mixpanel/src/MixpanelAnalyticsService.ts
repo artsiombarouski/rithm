@@ -4,11 +4,11 @@ import {
   InternalUserProperties,
 } from '@artsiombarouski/rn-analytics';
 import {
+  AnalyticsInitiateCheckoutInfo,
   AnalyticsPurchaseInfo,
   AnalyticsSubscriptionInfo,
 } from '@artsiombarouski/rn-analytics/src/types';
 import { Mixpanel } from 'mixpanel-react-native';
-
 
 export class MixpanelAnalyticsService extends AnalyticsService {
   private instance: Mixpanel;
@@ -58,11 +58,18 @@ export class MixpanelAnalyticsService extends AnalyticsService {
     await this.instance.track('page_view', params);
   }
 
+  async initiateCheckout(info: AnalyticsInitiateCheckoutInfo): Promise<void> {
+    await this.instance.track('initiateCheckout', {
+      productId: info.product_id,
+    });
+  }
+
   async subscription(info: AnalyticsSubscriptionInfo): Promise<void> {
     await this.instance.track('purchase', {
       productId: info.product_id,
       currency: info.currency ? info.currency : '',
       price: info.price ? parseInt(info.price.toString(), 10) : 0,
+      isSubscription: true,
     });
   }
 

@@ -1,8 +1,13 @@
+import { kMixpanelId, MixpanelServiceOptions } from './types';
 import {
   AnalyticsService,
   InternalUserProperties,
 } from '@artsiombarouski/rn-analytics';
-import { kMixpanelId, MixpanelServiceOptions } from './types';
+import {
+  AnalyticsInitiateCheckoutInfo,
+  AnalyticsPurchaseInfo,
+  AnalyticsSubscriptionInfo,
+} from '@artsiombarouski/rn-analytics/src/types';
 import mixpanel from 'mixpanel-browser';
 
 export class MixpanelAnalyticsService extends AnalyticsService {
@@ -65,6 +70,47 @@ export class MixpanelAnalyticsService extends AnalyticsService {
 
   async screen(name: string, params: { [p: string]: any }): Promise<void> {
     mixpanel.track_pageview({ page: name, ...params });
+  }
+
+  async initiateCheckout(info: AnalyticsInitiateCheckoutInfo): Promise<void> {
+    await new Promise((resolve) => {
+      mixpanel.track(
+        'initiateCheckout',
+        {
+          productId: info.product_id,
+        },
+        resolve,
+      );
+    });
+  }
+
+  async subscription(info: AnalyticsSubscriptionInfo): Promise<void> {
+    new Promise((resolve) => {
+      mixpanel.track(
+        'purchase',
+        {
+          productId: info.product_id,
+          currency: info.currency ? info.currency : '',
+          price: info.price ? parseInt(info.price.toString(), 10) : 0,
+          isSubscription: true,
+        },
+        resolve,
+      );
+    });
+  }
+
+  async purchase(info: AnalyticsPurchaseInfo): Promise<void> {
+    new Promise((resolve) => {
+      mixpanel.track(
+        'purchase',
+        {
+          productId: info.product_id,
+          currency: info.currency ? info.currency : '',
+          price: info.price ? parseInt(info.price.toString(), 10) : 0,
+        },
+        resolve,
+      );
+    });
   }
 
   async collectUniqueIds(): Promise<{ [p: string]: string }> {

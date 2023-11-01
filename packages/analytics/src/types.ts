@@ -12,6 +12,8 @@ export type AnalyticsPurchaseInfo = {
 
 export type AnalyticsInitiateCheckoutInfo = {
   product_id: string;
+  currency?: string;
+  price?: number;
 };
 
 export type AnalyticParams = { [p: string]: any } & {

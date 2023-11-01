@@ -3,6 +3,7 @@ import { initializeFirebaseAnalytics } from './initializeFirebaseAnalytics';
 import { FirebaseServiceOptions, kFirebaseId } from './types';
 import { AnalyticsService } from '@artsiombarouski/rn-analytics';
 import {
+  AnalyticsInitiateCheckoutInfo,
   AnalyticsPurchaseInfo,
   AnalyticsSubscriptionInfo,
 } from '@artsiombarouski/rn-analytics/src/types';
@@ -47,6 +48,7 @@ export class FirebaseAnalyticsService extends AnalyticsService {
 
   async purchase(info: AnalyticsPurchaseInfo): Promise<void> {
     await Analytics.logPurchase({
+      items: info.product_id ? [{ item_id: info.product_id }] : undefined,
       currency: info.currency ? info.currency : '',
       value: info.price ? parseInt(info.price.toString(), 10) : 0,
     });
@@ -54,6 +56,15 @@ export class FirebaseAnalyticsService extends AnalyticsService {
 
   async subscription(info: AnalyticsSubscriptionInfo) {
     await Analytics.logPurchase({
+      items: info.product_id ? [{ item_id: info.product_id }] : undefined,
+      currency: info.currency ? info.currency : '',
+      value: info.price ? parseInt(info.price.toString(), 10) : 0,
+    });
+  }
+
+  async initiateCheckout(info: AnalyticsInitiateCheckoutInfo): Promise<void> {
+    await Analytics.logBeginCheckout({
+      items: info.product_id ? [{ item_id: info.product_id }] : undefined,
       currency: info.currency ? info.currency : '',
       value: info.price ? parseInt(info.price.toString(), 10) : 0,
     });
