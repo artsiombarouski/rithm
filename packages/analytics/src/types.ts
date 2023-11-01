@@ -1,12 +1,7 @@
 export type AnalyticsSubscriptionInfo = {
-  plan_type?: string;
-  trial_start?: string;
-  trial_expiration?: string;
-  subscription_start_timestamp?: string;
-  referring_expert: any;
-  platform?: string;
+  product_id: string;
   currency?: string;
-  price?: any;
+  price?: number | string;
 };
 
 export type AnalyticsPurchaseInfo = {

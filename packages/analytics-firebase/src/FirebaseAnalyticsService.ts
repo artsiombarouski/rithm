@@ -2,8 +2,10 @@ import { FirebaseAnalytics } from './FirebaseAnalytics';
 import { initializeFirebaseAnalytics } from './initializeFirebaseAnalytics';
 import { FirebaseServiceOptions, kFirebaseId } from './types';
 import { AnalyticsService } from '@artsiombarouski/rn-analytics';
-import { AnalyticsSubscriptionInfo } from '@artsiombarouski/rn-analytics/src/types';
-
+import {
+  AnalyticsPurchaseInfo,
+  AnalyticsSubscriptionInfo,
+} from '@artsiombarouski/rn-analytics/src/types';
 
 const Analytics = FirebaseAnalytics;
 
@@ -43,10 +45,17 @@ export class FirebaseAnalyticsService extends AnalyticsService {
     await Analytics.logScreenView(targetParams);
   }
 
+  async purchase(info: AnalyticsPurchaseInfo): Promise<void> {
+    await Analytics.logPurchase({
+      currency: info.currency ? info.currency : '',
+      value: info.price ? parseInt(info.price.toString(), 10) : 0,
+    });
+  }
+
   async subscription(info: AnalyticsSubscriptionInfo) {
     await Analytics.logPurchase({
       currency: info.currency ? info.currency : '',
-      value: info.price ? parseInt(info.price, 10) : 0,
+      value: info.price ? parseInt(info.price.toString(), 10) : 0,
     });
   }
 

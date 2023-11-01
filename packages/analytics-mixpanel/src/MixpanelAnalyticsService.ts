@@ -1,9 +1,14 @@
+import { MixpanelServiceOptions } from './types';
 import {
   AnalyticsService,
   InternalUserProperties,
 } from '@artsiombarouski/rn-analytics';
-import { MixpanelServiceOptions } from './types';
+import {
+  AnalyticsPurchaseInfo,
+  AnalyticsSubscriptionInfo,
+} from '@artsiombarouski/rn-analytics/src/types';
 import { Mixpanel } from 'mixpanel-react-native';
+
 
 export class MixpanelAnalyticsService extends AnalyticsService {
   private instance: Mixpanel;
@@ -51,5 +56,21 @@ export class MixpanelAnalyticsService extends AnalyticsService {
 
   async screen(name: string, params: { [p: string]: any }): Promise<void> {
     await this.instance.track('page_view', params);
+  }
+
+  async subscription(info: AnalyticsSubscriptionInfo): Promise<void> {
+    await this.instance.track('purchase', {
+      productId: info.product_id,
+      currency: info.currency ? info.currency : '',
+      price: info.price ? parseInt(info.price.toString(), 10) : 0,
+    });
+  }
+
+  async purchase(info: AnalyticsPurchaseInfo): Promise<void> {
+    await this.instance.track('purchase', {
+      productId: info.product_id,
+      currency: info.currency ? info.currency : '',
+      price: info.price ? parseInt(info.price.toString(), 10) : 0,
+    });
   }
 }
