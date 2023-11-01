@@ -87,11 +87,11 @@ export class Analytics {
     );
   }
 
-  static subscription(info: AnalyticsSubscriptionInfo) {
+  static subscription(info: AnalyticsSubscriptionInfo): Promise<any> | void {
     if (this.isLoggingEnabled) {
       console.info('Analytics - subscription: ', JSON.stringify(info));
     }
-    Promise.all(
+    return Promise.all(
       this.services.map((e) =>
         e.subscription(info).catch((error) => {
           console.error(
@@ -104,11 +104,11 @@ export class Analytics {
     );
   }
 
-  static purchase(info: AnalyticsPurchaseInfo) {
+  static purchase(info: AnalyticsPurchaseInfo): Promise<any> | void {
     if (this.isLoggingEnabled) {
       console.info('Analytics - purchase: ', JSON.stringify(info));
     }
-    Promise.all(
+    return Promise.all(
       this.services.map((e) =>
         e.purchase(info).catch((error) => {
           console.error(`Analytics purchase track error (${e.name})`, error);
@@ -118,11 +118,13 @@ export class Analytics {
     );
   }
 
-  static initiateCheckout(info: AnalyticsInitiateCheckoutInfo) {
+  static initiateCheckout(
+    info: AnalyticsInitiateCheckoutInfo,
+  ): Promise<any> | void {
     if (this.isLoggingEnabled) {
       console.info('Analytics - initiateCheckout: ', JSON.stringify(info));
     }
-    Promise.all(
+    return Promise.all(
       this.services.map((e) =>
         e.initiateCheckout(info).catch((error) => {
           console.error(
