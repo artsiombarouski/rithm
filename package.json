@@ -63,6 +63,7 @@
     "packages/analytics-mixpanel",
     "packages/analytics-brevo",
     "packages/analytics-clever-tap",
+    "packages/analytics-facebook-pixel",
     "packages/resources",
     "packages/user-store-service",
     "packages/expo-router-service",
