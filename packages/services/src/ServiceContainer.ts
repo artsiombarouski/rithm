@@ -13,7 +13,8 @@ export class ServiceContainer {
       services: ServiceInfo[];
       serviceSetupCallbacks?: OnServiceSetupCallback[];
     },
-  ) {}
+  ) {
+  }
 
   get parent() {
     return this._parent;
@@ -51,6 +52,16 @@ export class ServiceContainer {
     await ServiceContainer.notifyLoaded(loadedServices);
     await ServiceContainer.notifyReady(loadedServices);
     this._isInitialized = true;
+  }
+
+  destroy(): Promise<void> | void {
+    return Promise.all(Object.values(this.services).map(async (value) => {
+      if ((value as any).onDestroy) {
+        return value.onDestroy();
+      }
+      return undefined;
+    }).filter((e) => e)).then(() => {
+    });
   }
 
   getService<T extends new (...args: any[]) => any>(clazz: T): InstanceType<T> {

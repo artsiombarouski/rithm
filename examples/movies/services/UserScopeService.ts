@@ -1,8 +1,4 @@
-import {
-  BaseService,
-  OnServicesLoaded,
-  service,
-} from '@artsiombarouski/rn-services';
+import { BaseService, OnServicesDestroy, OnServicesLoaded, service } from '@artsiombarouski/rn-services';
 import { UserStoreService } from '@artsiombarouski/rn-user-store-service';
 import { UserPayload } from '../api/User.payload';
 import { defaultResourceApiConfig } from '@artsiombarouski/rn-resources';
@@ -10,7 +6,7 @@ import { MovieDbConfig } from '../api/MovieDbConfig';
 import { UserIdentifier } from '@artsiombarouski/rn-analytics';
 
 @service()
-export class UserScopeService extends BaseService implements OnServicesLoaded {
+export class UserScopeService extends BaseService implements OnServicesLoaded, OnServicesDestroy {
   private _currentUserKey?: string;
 
   get currentUserKey() {
@@ -31,5 +27,9 @@ export class UserScopeService extends BaseService implements OnServicesLoaded {
         currentUser.info.email,
       );
     }
+  }
+
+  onDestroy(): void | Promise<void> {
+    console.log('onDestroy');
   }
 }

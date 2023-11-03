@@ -74,6 +74,7 @@ const ScopedLayout = (props: PropsWithChildren) => {
     const unsubscribe = observe(users, 'currentUser', (change) => {
       const newKey = change.newValue?.key;
       if (newKey !== currentContainer?.userKey) {
+        currentContainer?.container?.destroy();
         setCurrentContainer({
           userKey: newKey,
           container: scopedServices(),
