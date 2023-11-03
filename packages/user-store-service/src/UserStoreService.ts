@@ -1,11 +1,17 @@
-import { service } from '@artsiombarouski/rn-services';
+import { OnServicesReady, service } from '@artsiombarouski/rn-services';
 import { action, makeObservable, observable, runInAction } from 'mobx';
 import { persist } from 'mobx-persist';
 import _ from 'lodash';
 import { DeepPartial } from './DeepPartial';
 
+export interface UserStoreServiceOptions<UserPayload> {
+  callbacks?: {
+    onCurrentUserChanged?: (user?: UserPayload) => Promise<void> | void;
+  };
+}
+
 @service()
-export class UserStoreService<UserPayload extends { key: any }> {
+export class UserStoreService<UserPayload extends { key: any }> implements OnServicesReady {
   @observable
   @persist('object')
   currentUser?: UserPayload | undefined | null;
@@ -14,8 +20,12 @@ export class UserStoreService<UserPayload extends { key: any }> {
   @persist('list')
   users: UserPayload[] = [];
 
-  constructor() {
+  constructor(readonly options?: UserStoreServiceOptions<UserPayload>) {
     makeObservable(this);
+  }
+
+  async onServicesReady() {
+    await this.onCurrentUserChanged(this.currentUser);
   }
 
   @action.bound
@@ -29,6 +39,7 @@ export class UserStoreService<UserPayload extends { key: any }> {
       }
       this.currentUser = user;
     });
+    await this.onCurrentUserChanged(this.currentUser);
   }
 
   @action.bound
@@ -65,6 +76,7 @@ export class UserStoreService<UserPayload extends { key: any }> {
         this.currentUser = targetUser;
       }
     });
+    await this.onCurrentUserChanged(this.currentUser);
   }
 
   @action.bound
@@ -76,5 +88,10 @@ export class UserStoreService<UserPayload extends { key: any }> {
       this.currentUser =
         !this.users || this.users.length === 0 ? null : this.users[0];
     });
+    await this.onCurrentUserChanged(this.currentUser);
+  }
+
+  protected async onCurrentUserChanged(user: UserPayload): Promise<void> {
+    await this.options.callbacks.onCurrentUserChanged(user);
   }
 }

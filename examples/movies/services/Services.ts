@@ -7,18 +7,24 @@ import { TvActions } from '../api/tvs/Tv.actions';
 import { TvService } from '../api/tvs/Tv.service';
 import { UserScopeService } from './UserScopeService';
 import { NavigationService } from '@artsiombarouski/rn-expo-router-service';
-import {
-  ServiceContainer,
-  withServicePersist,
-} from '@artsiombarouski/rn-services';
+import { ServiceContainer, withServicePersist } from '@artsiombarouski/rn-services';
 import { UserStoreService } from '@artsiombarouski/rn-user-store-service';
-
 
 export const rootServices = () =>
   new ServiceContainer({
     services: [
       NavigationService,
-      withServicePersist('user-state', UserStoreService),
+      withServicePersist(
+        'user-state',
+        () =>
+          new UserStoreService({
+            callbacks: {
+              onCurrentUserChanged: (user) => {
+                console.log('onUserChanged', user?.key);
+              },
+            },
+          }),
+      ),
     ],
   });
 
