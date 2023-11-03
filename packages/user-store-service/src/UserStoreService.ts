@@ -92,6 +92,6 @@ export class UserStoreService<UserPayload extends { key: any }> implements OnSer
   }
 
   protected async onCurrentUserChanged(user: UserPayload): Promise<void> {
-    await this.options.callbacks.onCurrentUserChanged(user);
+    await this.options?.callbacks?.onCurrentUserChanged?.(user);
   }
 }
