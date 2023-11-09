@@ -1,3 +1,4 @@
+import { useTimePickerTheme } from './TimePickerThemeProvider';
 import { getAmPm, getTime } from './utils';
 import { useTheme, Text, ChevronDownIcon } from 'native-base';
 import React, { useCallback, useState } from 'react';
@@ -54,6 +55,7 @@ export function TimePicker({
   ...props
 }: TimePickerProps) {
   const theme = useTheme();
+  const customTheme = useTimePickerTheme();
   const [borderColor, setBorderColor] = useState(theme.colors.muted[300]);
   const [time, setTime] = useState(
     value ?? { hours: new Date().getHours(), minutes: new Date().getMinutes() },
@@ -92,6 +94,7 @@ export function TimePicker({
         fonts: configureFonts({
           config: { fontFamily: `${theme.fonts.body}-Medium` },
         }),
+        ...customTheme,
       }}
     >
       <Pressable

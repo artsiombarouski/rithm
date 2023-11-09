@@ -1,9 +1,11 @@
+import { TimePickerThemeProvider } from '@artsiombarouski/rn-form';
 import { DefaultTheme, Theme, ThemeProvider } from '@react-navigation/native';
 import { extendTheme, NativeBaseProvider } from 'native-base';
 import React from 'react';
 import { Platform } from 'react-native';
 import {
   DefaultTheme as PaperDefaultTheme,
+  MD3LightTheme,
   PaperProvider,
 } from 'react-native-paper';
 
@@ -90,9 +92,28 @@ export const AppThemeProvider = (props: { children: any }) => {
 
   return (
     <PaperProvider theme={PaperDefaultTheme}>
-      <ThemeProvider value={navigationTheme}>
-        <NativeBaseProvider theme={theme}>{props.children}</NativeBaseProvider>
-      </ThemeProvider>
+      <TimePickerThemeProvider
+        theme={{
+          ...MD3LightTheme,
+          colors: {
+            ...MD3LightTheme.colors,
+            primary: theme.colors.secondary[200],
+            primaryContainer: theme.colors.secondary[200],
+            onPrimary: theme.colors.blueGray[800],
+            onPrimaryContainer: theme.colors.blueGray[800],
+            surface: theme.colors.blueGray[300],
+            onSurface: theme.colors.blueGray[800],
+            surfaceVariant: theme.colors.secondary[100],
+            secondaryContainer: theme.colors.secondary[400],
+          },
+        }}
+      >
+        <ThemeProvider value={navigationTheme}>
+          <NativeBaseProvider theme={theme}>
+            {props.children}
+          </NativeBaseProvider>
+        </ThemeProvider>
+      </TimePickerThemeProvider>
     </PaperProvider>
   );
 };
