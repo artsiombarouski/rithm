@@ -32,7 +32,6 @@ export class MixpanelAnalyticsService extends AnalyticsService {
     if (!id) {
       return;
     }
-    mixpanel.reset();
     mixpanel.identify(id);
     await new Promise((resolve) => {
       mixpanel.people.set('$email', email, resolve);
@@ -120,5 +119,8 @@ export class MixpanelAnalyticsService extends AnalyticsService {
     return {
       [kMixpanelId]: distinctId,
     };
+  }
+  async onUserLogout(): Promise<void> {
+    mixpanel.reset();
   }
 }
