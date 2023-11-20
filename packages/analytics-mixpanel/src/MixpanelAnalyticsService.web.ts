@@ -120,6 +120,7 @@ export class MixpanelAnalyticsService extends AnalyticsService {
       [kMixpanelId]: distinctId,
     };
   }
+
   async onUserLogout(): Promise<void> {
     mixpanel.reset();
   }

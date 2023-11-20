@@ -29,7 +29,6 @@ export class MixpanelAnalyticsService extends AnalyticsService {
     if (!id) {
       return;
     }
-    await this.instance.reset(); //todo: test removing reset on react-native
     await this.instance.identify(id);
     await this.instance.getPeople().set({ $email: email });
   }
@@ -81,8 +80,7 @@ export class MixpanelAnalyticsService extends AnalyticsService {
     });
   }
 
-  //todo: test on react-native
-  // async onUserLogout(): Promise<void> {
-  //   this.instance.reset()
-  // }
+  async onUserLogout(): Promise<void> {
+    this.instance.reset();
+  }
 }
