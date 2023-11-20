@@ -32,6 +32,7 @@ export type CalendarProps<T extends SelectedDates = SelectedDates> =
     useNavigationToCurrentMonth?: boolean;
     selectedColor?: string;
     onDayChanged?: () => void;
+    selectYearFirst?: boolean;
   };
 
 export type CalendarTheme = Theme & {

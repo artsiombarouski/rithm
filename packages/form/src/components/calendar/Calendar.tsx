@@ -28,6 +28,7 @@ export const Calendar = (props: CalendarProps) => {
     useNavigationToCurrentMonth = false,
     selectedColor,
     onDayChanged,
+    selectYearFirst = false,
     ...calendarProps
   } = props;
   const { markingType, ...restCalendarProps } = calendarProps;
@@ -47,7 +48,7 @@ export const Calendar = (props: CalendarProps) => {
   const [leftDate, setLeftDate] = useState(initialLeftDate);
   const [rightDate, setRightDate] = useState(initialLeftDate.add(1, 'month'));
 
-  const [selectingYear, setSelectingYear] = useState<boolean>(false);
+  const [selectingYear, setSelectingYear] = useState<boolean>(selectYearFirst);
 
   const onPressYear = useCallback(
     (newYear: number) => {

@@ -1,3 +1,4 @@
+import { UploadCareController } from '../../services/UploadCareController';
 import {
   Form,
   FormCalendar,
@@ -17,6 +18,8 @@ import {
   SelectionType,
   useForm,
 } from '@artsiombarouski/rn-form';
+import { FormUpload } from '@artsiombarouski/rn-form-upload';
+import { FormSelect } from '@artsiombarouski/rn-form/src/elements/FormSelect';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { setTimeout } from '@testing-library/react-native/build/helpers/timers';
 import {
@@ -34,9 +37,6 @@ import {
 import React, { PropsWithChildren, useEffect, useState } from 'react';
 import { UseFormProps } from 'react-hook-form';
 import { View } from 'react-native';
-import { FormUpload } from '@artsiombarouski/rn-form-upload';
-import { UploadCareController } from '../../services/UploadCareController';
-import { FormSelect } from '@artsiombarouski/rn-form/src/elements/FormSelect';
 
 type FormItemDto = {
   item_input: string;
@@ -359,6 +359,7 @@ const FormExample = () => {
               name={'date-picker'}
               title={'Date'}
               dateOnly={true}
+              selectYearFirst={true}
               rules={{ required: true }}
               inputProps={{
                 InputLeftElement: (
