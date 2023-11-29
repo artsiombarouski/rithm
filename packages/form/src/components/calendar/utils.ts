@@ -1,4 +1,10 @@
-import { MultiDates, RangeDates, SelectionType, SingleDate } from './types';
+import {
+  MultiDates,
+  RangeDates,
+  SelectedDates,
+  SelectionType,
+  SingleDate,
+} from './types';
 import dayjs from 'dayjs';
 import XDate from 'xdate';
 
@@ -50,19 +56,31 @@ export function range(start: number, end: number) {
 
 export const determineInitialLeftDate = (
   selectionType: SelectionType,
-  value: any,
+  value: SelectedDates,
+  fallbackValue: SelectedDates,
 ): dayjs.Dayjs => {
   switch (selectionType) {
     case SelectionType.SINGLE:
       return (value as SingleDate)?.date
         ? dayjs((value as SingleDate).date)
+        : (fallbackValue as SingleDate)?.date
+        ? dayjs((fallbackValue as SingleDate).date)
         : dayjs();
     case SelectionType.MULTI:
       const dates = (value as MultiDates)?.dates;
-      return dates && dates.length ? dayjs(dates[0]) : dayjs();
+      return dates && dates.length
+        ? dayjs(dates[0])
+        : (fallbackValue as MultiDates)?.dates &&
+          (fallbackValue as MultiDates).dates.length
+        ? dayjs((fallbackValue as MultiDates).dates[0])
+        : dayjs();
     case SelectionType.RANGE:
       const startDate = (value as RangeDates)?.startDate;
-      return startDate ? dayjs(startDate) : dayjs();
+      return startDate
+        ? dayjs(startDate)
+        : (fallbackValue as RangeDates)?.startDate
+        ? dayjs((fallbackValue as RangeDates).startDate)
+        : dayjs();
     default:
       return dayjs();
   }

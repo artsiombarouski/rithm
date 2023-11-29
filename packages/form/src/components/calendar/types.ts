@@ -27,6 +27,7 @@ export type CalendarProps<T extends SelectedDates = SelectedDates> =
     containerStyle?: ViewStyle;
     arrowProps?: IIconButtonProps;
     value: T;
+    fallbackValue?: T;
     onChange: Dispatch<SetStateAction<T>>;
     mode?: 'single' | 'dual';
     useNavigationToCurrentMonth?: boolean;

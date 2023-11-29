@@ -21,6 +21,7 @@ export const Calendar = (props: CalendarProps) => {
   const {
     selectionType,
     value,
+    fallbackValue,
     onChange,
     containerStyle,
     arrowProps,
@@ -43,7 +44,7 @@ export const Calendar = (props: CalendarProps) => {
   const rightArrowMonthShift = mode === 'dual' ? 2 : 1;
 
   const initialLeftDate = !useNavigationToCurrentMonth
-    ? determineInitialLeftDate(selectionType, value)
+    ? determineInitialLeftDate(selectionType, value, fallbackValue)
     : dayjs();
   const [leftDate, setLeftDate] = useState(initialLeftDate);
   const [rightDate, setRightDate] = useState(initialLeftDate.add(1, 'month'));
