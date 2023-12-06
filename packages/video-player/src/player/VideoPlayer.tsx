@@ -1,5 +1,6 @@
 import { useBasePlaybackVideoProps } from '../hooks';
 import { VideoProps, VideoView } from '../video';
+import { VideoPlayerButtonProps } from './VideoPlayerButton';
 import { VideoPlayerController } from './VideoPlayerController';
 import { VideoPlayerControls } from './VideoPlayerControls';
 import { VideoPlayerInteractOverlay } from './VideoPlayerInteractOverlay';
@@ -7,7 +8,6 @@ import { observer, useLocalObservable } from 'mobx-react-lite';
 import React, { useCallback, useEffect, useRef } from 'react';
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { useSharedValue } from 'react-native-reanimated';
-import { VideoPlayerButtonProps } from './VideoPlayerButton';
 
 export type VideoPlayerProps = VideoProps & {
   shadeStyle?: StyleProp<ViewStyle>;
@@ -82,6 +82,7 @@ export const VideoPlayer = observer<VideoPlayerProps>((props) => {
 const styles = StyleSheet.create({
   videoWrapper: {
     height: '100%',
+    backgroundColor: 'black',
   },
   video: {
     height: '100%',
