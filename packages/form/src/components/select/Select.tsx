@@ -78,7 +78,7 @@ export function Select<OptionType = any>(props: SelectProps<OptionType>) {
 
   let value: OptionType | OptionType[] | null | undefined = undefined;
 
-  if (valueFromProps !== undefined) {
+  if (valueFromProps !== undefined && valueFromProps !== null) {
     if (multiple) {
       if (useObjects) {
         value = valueFromProps;
