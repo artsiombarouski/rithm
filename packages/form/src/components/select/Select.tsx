@@ -1,3 +1,5 @@
+import { Chip, ChipProps } from './Chip';
+import { SelectMultipleContainer } from './SelectMultipleContainer';
 import {
   Backdrop,
   Box,
@@ -16,12 +18,10 @@ import {
   useTheme,
   View,
 } from 'native-base';
-import React, { useRef, useState } from 'react';
 import { Popper } from 'native-base/lib/module/components/composites/Popper';
-import { ListRenderItemInfo, useWindowDimensions } from 'react-native';
 import { IFlatListProps } from 'native-base/lib/typescript/components/basic/FlatList';
-import { Chip, ChipProps } from './Chip';
-import { SelectMultipleContainer } from './SelectMultipleContainer';
+import React, { useRef, useState } from 'react';
+import { ListRenderItemInfo, useWindowDimensions } from 'react-native';
 
 export type SelectProps<OptionType = any> = {
   options?: OptionType[];
@@ -78,7 +78,7 @@ export function Select<OptionType = any>(props: SelectProps<OptionType>) {
 
   let value: OptionType | OptionType[] | null | undefined = undefined;
 
-  if (valueFromProps) {
+  if (valueFromProps !== undefined) {
     if (multiple) {
       if (useObjects) {
         value = valueFromProps;
@@ -169,7 +169,7 @@ export function Select<OptionType = any>(props: SelectProps<OptionType>) {
                 {(value as OptionType[])?.map(
                   renderChip ?? internalRenderChip,
                 ) ?? (
-                  <Text pl={2} color={'gray.400'}>
+                  <Text pl={2} color={'text.100'}>
                     {placeholder}
                   </Text>
                 )}

@@ -219,6 +219,28 @@ const FormExample = () => {
               })}
             />
           </FormExampleRow>
+          <FormExampleRow
+            title={'Select (single, no objects) - true/false keys'}
+          >
+            <FormSelect
+              name={'select'}
+              keyProperty={'key'}
+              titleProperty={'value'}
+              useObjects={false}
+              options={[
+                { key: true, value: 'true' },
+                { key: false, value: 'false' },
+              ]}
+              rules={{
+                validate: (value) => {
+                  if (value === null || value === undefined) {
+                    return 'Field is required';
+                  }
+                  return true;
+                },
+              }}
+            />
+          </FormExampleRow>
           <FormExampleRow title={'Select (multiple, no objects)'}>
             <FormSelect
               name={'select'}
