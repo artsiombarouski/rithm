@@ -20,8 +20,8 @@ export type RithmFlatListProps<ItemT = any> = {
   initialLoading?: boolean;
   footer?: React.ComponentType<any> | React.ReactElement | null | undefined;
 } & Omit<IFlatListProps<ItemT>, 'renderItem' | 'ListFooterComponent'> & {
-    key?: string;
-  };
+  key?: string;
+};
 
 export type RithmListRenderItem<ItemT> = (
   info: RithmListRenderItemInfo<ItemT>,
@@ -42,6 +42,7 @@ export function RithmFlatList<ItemT>(props: RithmFlatListProps<ItemT>) {
     hasMore,
     initialLoading,
     footer,
+    ListEmptyComponent,
     ...restProps
   } = props;
   const renderItemCallback = (
@@ -60,7 +61,7 @@ export function RithmFlatList<ItemT>(props: RithmFlatListProps<ItemT>) {
         const spacesToFill =
           data.length % numColumns !== 0
             ? numColumns -
-              (data.length - Math.floor(data.length / numColumns) * numColumns)
+            (data.length - Math.floor(data.length / numColumns) * numColumns)
             : 0;
         containerStyle = {
           marginLeft: itemIndex % numColumns !== 0 ? spacing : 0,
@@ -108,19 +109,19 @@ export function RithmFlatList<ItemT>(props: RithmFlatListProps<ItemT>) {
       renderItem={renderItemCallback}
       onEndReachedThreshold={0.1}
       ListFooterComponent={
-        !canShowEmpty && (
-          <RithmListFooter
-            initialLoading={initialLoading}
-            hasMore={hasMore}
-            numColumns={numColumns}
-            spacing={spacing}
-          >
-            {footer &&
-              (typeof footer === 'function'
-                ? React.createElement(footer)
-                : footer)}
-          </RithmListFooter>
-        )
+        <RithmListFooter
+          spacing={spacing}
+          numColumns={numColumns}
+          hasMore={hasMore}
+          initialLoading={initialLoading}
+          canShowEmpty={canShowEmpty}
+          emptyComponent={ListEmptyComponent}
+        >
+          {footer &&
+            (typeof footer === 'function'
+              ? React.createElement(footer)
+              : footer)}
+        </RithmListFooter>
       }
       {...restProps}
       contentContainerStyle={StyleSheet.flatten([

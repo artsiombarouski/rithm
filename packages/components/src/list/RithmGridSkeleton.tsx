@@ -3,7 +3,7 @@ import { Skeleton, useTheme, VStack } from 'native-base';
 export const RithmGridSkeleton = () => {
   const theme = useTheme();
   return (
-    <VStack minH={'100px'} flex={1} space={'sm'}>
+    <VStack minH={'100px'} flex={1} space={'sm'} overflow={'hidden'}>
       <Skeleton
         h={'200px'}
         borderRadius={theme.components.Card.baseStyle.borderRadius}
