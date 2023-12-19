@@ -1,3 +1,6 @@
+import { RithmListFooter } from './RithmListFooter';
+import { FlatList } from 'native-base';
+import { IFlatListProps } from 'native-base/lib/typescript/components/basic/FlatList';
 import React, { LegacyRef } from 'react';
 import {
   FlatList as NativeFlatList,
@@ -8,9 +11,6 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import { FlatList } from 'native-base';
-import { IFlatListProps } from 'native-base/lib/typescript/components/basic/FlatList';
-import { RithmListFooter } from './RithmListFooter';
 
 export type RithmFlatListProps<ItemT = any> = {
   listRef?: LegacyRef<NativeFlatList>;
@@ -20,8 +20,8 @@ export type RithmFlatListProps<ItemT = any> = {
   initialLoading?: boolean;
   footer?: React.ComponentType<any> | React.ReactElement | null | undefined;
 } & Omit<IFlatListProps<ItemT>, 'renderItem' | 'ListFooterComponent'> & {
-  key?: string;
-};
+    key?: string;
+  };
 
 export type RithmListRenderItem<ItemT> = (
   info: RithmListRenderItemInfo<ItemT>,
@@ -61,7 +61,7 @@ export function RithmFlatList<ItemT>(props: RithmFlatListProps<ItemT>) {
         const spacesToFill =
           data.length % numColumns !== 0
             ? numColumns -
-            (data.length - Math.floor(data.length / numColumns) * numColumns)
+              (data.length - Math.floor(data.length / numColumns) * numColumns)
             : 0;
         containerStyle = {
           marginLeft: itemIndex % numColumns !== 0 ? spacing : 0,
@@ -99,6 +99,7 @@ export function RithmFlatList<ItemT>(props: RithmFlatListProps<ItemT>) {
   }
 
   const canShowEmpty = !initialLoading && !hasMore && data.length === 0;
+  const targetFlexGrow = canShowEmpty ? 1 : undefined;
 
   return (
     <FlatList<ItemT>
@@ -124,10 +125,16 @@ export function RithmFlatList<ItemT>(props: RithmFlatListProps<ItemT>) {
         </RithmListFooter>
       }
       {...restProps}
+      ListFooterComponentStyle={StyleSheet.flatten([
+        {
+          flexGrow: targetFlexGrow,
+        },
+        props.ListFooterComponentStyle,
+      ])}
       contentContainerStyle={StyleSheet.flatten([
         props.contentContainerStyle,
         {
-          flexGrow: canShowEmpty ? 1 : 0,
+          flexGrow: targetFlexGrow,
         },
       ])}
     />

@@ -1,10 +1,11 @@
+import { RithmGridSkeleton } from './RithmGridSkeleton';
+import { RithmListSkeleton } from './RithmListSkeleton';
 import { Box, HStack, Spinner, Text, VStack } from 'native-base';
 import React, { Fragment, PropsWithChildren } from 'react';
-import { RithmListSkeleton } from './RithmListSkeleton';
-import { RithmGridSkeleton } from './RithmGridSkeleton';
 
 export const RithmListFooterGlobal: {
-  renderMore?: React.Component,
+  renderMore?: React.Component;
+  shimmerColors?: string[];
 } = {};
 
 export type RithmListFooterProps = PropsWithChildren & {
@@ -12,7 +13,8 @@ export type RithmListFooterProps = PropsWithChildren & {
   hasMore?: boolean;
   numColumns?: number;
   spacing?: number;
-  emptyComponent?: React.ComponentType<any>
+  emptyComponent?:
+    | React.ComponentType<any>
     | React.ReactElement
     | null
     | undefined;
@@ -29,7 +31,6 @@ export const RithmListFooter = (props: RithmListFooterProps) => {
     emptyComponent,
     canShowEmpty,
   } = props;
-  console.log('canShowEmpty', canShowEmpty)
   if (canShowEmpty) {
     if (emptyComponent) {
       if (typeof emptyComponent === 'function') {
