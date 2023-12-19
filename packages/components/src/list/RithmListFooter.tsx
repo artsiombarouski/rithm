@@ -1,13 +1,22 @@
-import { Box, HStack, Spinner, VStack } from 'native-base';
-import { Fragment, PropsWithChildren } from 'react';
+import { Box, HStack, Spinner, Text, VStack } from 'native-base';
+import React, { Fragment, PropsWithChildren } from 'react';
 import { RithmListSkeleton } from './RithmListSkeleton';
 import { RithmGridSkeleton } from './RithmGridSkeleton';
+
+export const RithmListFooterGlobal: {
+  renderMore?: React.Component,
+} = {};
 
 export type RithmListFooterProps = PropsWithChildren & {
   initialLoading?: boolean;
   hasMore?: boolean;
   numColumns?: number;
   spacing?: number;
+  emptyComponent?: React.ComponentType<any>
+    | React.ReactElement
+    | null
+    | undefined;
+  canShowEmpty?: boolean;
 };
 
 export const RithmListFooter = (props: RithmListFooterProps) => {
@@ -17,11 +26,27 @@ export const RithmListFooter = (props: RithmListFooterProps) => {
     children,
     numColumns = 0,
     spacing = 8,
+    emptyComponent,
+    canShowEmpty,
   } = props;
+  console.log('canShowEmpty', canShowEmpty)
+  if (canShowEmpty) {
+    if (emptyComponent) {
+      if (typeof emptyComponent === 'function') {
+        return React.createElement(emptyComponent);
+      }
+      return emptyComponent;
+    }
+    return (
+      <Box alignItems={'center'} justifyContent={'center'}>
+        <Text>No data</Text>
+      </Box>
+    );
+  }
   if (initialLoading) {
     if (numColumns && numColumns > 0) {
       return (
-        <VStack space={'md'}>
+        <VStack space={'md'} overflow={'hidden'}>
           <HStack space={`${spacing}px`}>
             {Array(numColumns)
               .fill(<RithmGridSkeleton />)
@@ -33,7 +58,7 @@ export const RithmListFooter = (props: RithmListFooterProps) => {
       );
     }
     return (
-      <VStack space={'md'}>
+      <VStack space={'md'} overflow={'hidden'}>
         <RithmListSkeleton key={'sk1'} />
         <RithmListSkeleton key={'sk2'} />
         <RithmListSkeleton key={'sk3'} />
@@ -41,6 +66,9 @@ export const RithmListFooter = (props: RithmListFooterProps) => {
     );
   }
   if (hasMore) {
+    if (RithmListFooterGlobal.renderMore) {
+      return React.createElement(RithmListFooterGlobal.renderMore as any);
+    }
     return (
       <Box p={2} alignItems={'center'} justifyContent={'center'}>
         <Spinner />
