@@ -51,6 +51,30 @@ export function getCapitalizedAndLowercasedString(input: string) {
     .join(' ');
 }
 
-export function getLowercasedAndUnderscoredString(input: string) {
-  return input.trim().toLowerCase().replace(/\s+/g, '_');
+export function getLowercasedAndUnderscoredString(input) {
+  return input
+    .trim()
+    .split(/\s+/)
+    .map((word) => {
+      // Detect acronyms (a sequence of uppercase letters, optionally enclosed in parentheses)
+      const isAcronym = word.match(/^(\([A-Z]+\)|[A-Z]+)$/);
+      return isAcronym ? word : word.toLowerCase();
+    })
+    .join('_');
+}
+
+export function getKeyConvertedToTitle(input: string) {
+  // Replace underscores with spaces
+  const stringWithSpaces = input.replace(/_/g, ' ');
+
+  // Capitalize the first letter of each word, but keep acronyms in uppercase
+  return stringWithSpaces
+    .split(/\s+/)
+    .map((word) =>
+      // Check if the word is in parentheses and is uppercase, keep it uppercase
+      word.startsWith('(') && word.endsWith(')') && word.toUpperCase() === word
+        ? word
+        : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
+    )
+    .join(' ');
 }
