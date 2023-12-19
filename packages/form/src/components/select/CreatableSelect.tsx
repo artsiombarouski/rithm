@@ -29,7 +29,7 @@ import { useWindowDimensions, ListRenderItemInfo } from 'react-native';
 
 export type CreatableSelectProps<OptionType = any> = Omit<
   SelectProps<OptionType>,
-  'useObjects' | 'multiple'
+  'multiple'
 > & {
   inputProps?: Omit<IInputProps, 'value' | 'onChangeText'>;
 };
@@ -47,6 +47,7 @@ export function CreatableSelect<OptionType = any>(
     renderItem,
     renderChip,
     placeholder,
+    useObjects = true,
     chipProps,
     containerProps,
     inputProps,
@@ -67,10 +68,27 @@ export function CreatableSelect<OptionType = any>(
     return titleProperty ? option[titleProperty] : option;
   };
 
+  const [listOptions, setListOptions] = useState(options);
+
+  const getOptions = async (query: string) => {
+    await new Promise((resolve) => {
+      setTimeout(resolve, 300);
+    });
+    return listOptions.filter((e) =>
+      e[titleProperty].toLowerCase().includes(query.trim().toLowerCase()),
+    );
+  };
+
   let value: OptionType | OptionType[] | null | undefined = undefined;
 
   if (valueFromProps !== undefined && valueFromProps !== null) {
-    value = valueFromProps;
+    if (useObjects) {
+      value = valueFromProps;
+    } else {
+      value = listOptions.filter((e) =>
+        (valueFromProps as OptionType[]).includes(getOptionKey(e)),
+      );
+    }
   }
 
   const isOptionSelected = (option: OptionType) => {
@@ -90,7 +108,7 @@ export function CreatableSelect<OptionType = any>(
     const targetOptions = (value as OptionType[]).filter(
       (e) => getOptionKey(e) !== optionKey,
     );
-    onChange?.(targetOptions);
+    onChange?.(useObjects ? targetOptions : targetOptions.map(getOptionKey));
   };
 
   const renderIcon = () => {
@@ -110,17 +128,6 @@ export function CreatableSelect<OptionType = any>(
           handleRemove(option);
         }}
       />
-    );
-  };
-
-  const [listOptions, setListOptions] = useState(options);
-
-  const getOptions = async (query: string) => {
-    await new Promise((resolve) => {
-      setTimeout(resolve, 300);
-    });
-    return listOptions.filter((e) =>
-      e[titleProperty].toLowerCase().includes(query.trim().toLowerCase()),
     );
   };
 
@@ -239,7 +246,7 @@ export function CreatableSelect<OptionType = any>(
       } else {
         targetOptions = [...(value as []), info.item];
       }
-      onChange?.(targetOptions);
+      onChange?.(useObjects ? targetOptions : targetOptions.map(getOptionKey));
     };
     if (renderItem) {
       return renderItem({ ...info, isSelected, onClick: handleClick });
@@ -280,7 +287,9 @@ export function CreatableSelect<OptionType = any>(
               newOption as OptionType,
             ];
           }
-          onChange?.(targetOptions);
+          onChange?.(
+            useObjects ? targetOptions : targetOptions.map(getOptionKey),
+          );
           setCurrentValue('');
           setOverlayVisible(false);
         }
