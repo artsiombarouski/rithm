@@ -10,3 +10,4 @@ export * from './FormTimePicker';
 export * from './FormNumericInput';
 export * from './FormDatePicker';
 export * from './FormSelect';
+export * from './FormCreatableSelect';

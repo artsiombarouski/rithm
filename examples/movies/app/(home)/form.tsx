@@ -3,6 +3,7 @@ import {
   Form,
   FormCalendar,
   FormCheckbox,
+  FormCreatableSelect,
   FormDatePicker,
   FormDropDown,
   FormDropDownOption,
@@ -108,7 +109,7 @@ const DEFAULT_DATE = {
   [SelectionType.RANGE]: { startDate: null, endDate: null },
 };
 
-const FormExampleRow = (
+export const FormExampleRow = (
   props: PropsWithChildren & { title: string; formProps?: UseFormProps },
 ) => {
   const { children, title, formProps } = props;
@@ -181,6 +182,19 @@ const FormExample = () => {
           </Row>
         </FormExampleRow>
         <VStack flex={1} space={6}>
+          <FormExampleRow title={'Creatable Select'}>
+            <FormCreatableSelect
+              name={'select'}
+              keyProperty={'key'}
+              titleProperty={'value'}
+              options={new Array(100).fill(null).map((_, index) => {
+                return { key: `key${index}`, value: `Key ${index}` };
+              })}
+              containerProps={{
+                size: 'xl',
+              }}
+            />
+          </FormExampleRow>
           <FormExampleRow title={'Select'}>
             <FormSelect
               name={'select'}

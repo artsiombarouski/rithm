@@ -42,3 +42,15 @@ export const isSafari =
   !navigator.userAgent?.match(/crios/i) &&
   !navigator.userAgent?.match(/fxios/i) &&
   !navigator.userAgent?.match(/Opera|OPT\//);
+
+export function getCapitalizedAndLowercasedString(input: string) {
+  return input
+    .trim()
+    .split(/\s+/)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ');
+}
+
+export function getLowercasedAndUnderscoredString(input: string) {
+  return input.trim().toLowerCase().replace(/\s+/g, '_');
+}

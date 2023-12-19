@@ -1,19 +1,22 @@
-import { Select, SelectProps } from '../components';
 import { FormItem } from '../components';
+import {
+  CreatableSelect,
+  CreatableSelectProps,
+} from '../components/select/CreatableSelect';
 import { FormElementRenderProps, FormItemProps, FormValues } from '../types';
 
-export type FormSelectProps<T extends FormValues = FormValues> =
-  FormItemProps<T> & SelectProps & {};
+export type FormCreatableSelectProps<T extends FormValues = FormValues> =
+  FormItemProps<T> & CreatableSelectProps & {};
 
-export function FormSelect<T extends FormValues = FormValues>(
-  props: FormSelectProps<T>,
+export function FormCreatableSelect<T extends FormValues = FormValues>(
+  props: FormCreatableSelectProps<T>,
 ) {
   const renderSelect = (
-    props: SelectProps,
+    props: CreatableSelectProps,
     renderProps: FormElementRenderProps,
   ) => {
     return (
-      <Select
+      <CreatableSelect
         {...props}
         value={renderProps.field.value}
         onChange={renderProps.field.onChange}
