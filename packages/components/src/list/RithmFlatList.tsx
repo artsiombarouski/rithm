@@ -19,6 +19,7 @@ export type RithmFlatListProps<ItemT = any> = {
   hasMore?: boolean;
   initialLoading?: boolean;
   footer?: React.ComponentType<any> | React.ReactElement | null | undefined;
+  renderMore?: any;
 } & Omit<IFlatListProps<ItemT>, 'renderItem' | 'ListFooterComponent'> & {
     key?: string;
   };
@@ -43,6 +44,7 @@ export function RithmFlatList<ItemT>(props: RithmFlatListProps<ItemT>) {
     initialLoading,
     footer,
     ListEmptyComponent,
+    renderMore,
     ...restProps
   } = props;
   const renderItemCallback = (
@@ -117,6 +119,7 @@ export function RithmFlatList<ItemT>(props: RithmFlatListProps<ItemT>) {
           initialLoading={initialLoading}
           canShowEmpty={canShowEmpty}
           emptyComponent={ListEmptyComponent}
+          renderMore={renderMore}
         >
           {footer &&
             (typeof footer === 'function'

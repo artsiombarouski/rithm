@@ -1,6 +1,6 @@
 import { RithmGridSkeleton } from './RithmGridSkeleton';
 import { RithmListSkeleton } from './RithmListSkeleton';
-import { Box, HStack, Spinner, Text, VStack } from 'native-base';
+import { Box, HStack, Spinner, VStack } from 'native-base';
 import React, { Fragment, PropsWithChildren } from 'react';
 
 export const RithmListFooterGlobal: {
@@ -19,6 +19,7 @@ export type RithmListFooterProps = PropsWithChildren & {
     | null
     | undefined;
   canShowEmpty?: boolean;
+  renderMore?: any;
 };
 
 export const RithmListFooter = (props: RithmListFooterProps) => {
@@ -30,6 +31,7 @@ export const RithmListFooter = (props: RithmListFooterProps) => {
     spacing = 8,
     emptyComponent,
     canShowEmpty,
+    renderMore,
   } = props;
   if (canShowEmpty) {
     if (emptyComponent) {
@@ -38,11 +40,7 @@ export const RithmListFooter = (props: RithmListFooterProps) => {
       }
       return emptyComponent;
     }
-    return (
-      <Box alignItems={'center'} justifyContent={'center'}>
-        <Text>No data</Text>
-      </Box>
-    );
+    return <></>;
   }
   if (initialLoading) {
     if (numColumns && numColumns > 0) {
@@ -67,6 +65,9 @@ export const RithmListFooter = (props: RithmListFooterProps) => {
     );
   }
   if (hasMore) {
+    if (renderMore) {
+      return React.createElement(renderMore);
+    }
     if (RithmListFooterGlobal.renderMore) {
       return React.createElement(RithmListFooterGlobal.renderMore as any);
     }
