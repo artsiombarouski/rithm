@@ -35,10 +35,13 @@ export const RithmListFooter = (props: RithmListFooterProps) => {
   } = props;
   if (canShowEmpty) {
     if (emptyComponent) {
-      if (typeof emptyComponent === 'function') {
-        return React.createElement(emptyComponent);
+      if (React.isValidElement(emptyComponent)) {
+        // emptyComponent is a JSX element
+        return emptyComponent;
+      } else {
+        // emptyComponent is assumed to be a React component type
+        return React.createElement(emptyComponent as React.ComponentType<any>);
       }
-      return emptyComponent;
     }
     return <></>;
   }
