@@ -54,7 +54,10 @@ export class MixpanelAnalyticsService extends AnalyticsService {
   }
 
   async screen(name: string, params: { [p: string]: any }): Promise<void> {
-    await this.instance.track('page_view', params);
+    await this.instance.track('page_view', {
+      page: name,
+      ...params,
+    });
   }
 
   async initiateCheckout(info: AnalyticsInitiateCheckoutInfo): Promise<void> {
