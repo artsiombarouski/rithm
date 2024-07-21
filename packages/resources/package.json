@@ -1,6 +1,6 @@
 {
   "name": "@artsiombarouski/rn-resources",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "",
   "main": "src/index.ts",
   "author": "Artsiom Barouski",
@@ -11,9 +11,9 @@
     "eventemitter3": "5.0.1",
     "events": "^3.3.0",
     "lodash": "4.17.21",
-    "mobx": "6.9.0",
+    "mobx": "6.13.1",
     "mobx-persist": "0.4.1",
-    "mobx-react-lite": "3.4.3",
+    "mobx-react-lite": "4.0.7",
     "object.fromentries": "2.0.6"
   },
   "devDependencies": {

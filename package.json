@@ -57,6 +57,7 @@
     "packages/form-upload",
     "packages/components",
     "packages/services",
+    "packages/services-persist",
     "packages/analytics",
     "packages/analytics-amplitude",
     "packages/analytics-firebase",

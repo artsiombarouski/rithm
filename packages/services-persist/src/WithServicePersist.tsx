@@ -1,7 +1,7 @@
-import { create as createHydrate } from 'mobx-persist';
+import { ServiceContainer, ServiceInfo } from '@artsiombarouski/rn-services';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ServiceInfo } from '../types';
-import { ServiceContainer } from '../ServiceContainer';
+import { create as createHydrate } from 'mobx-persist';
+
 
 const hydrate = createHydrate({
   storage: AsyncStorage,
