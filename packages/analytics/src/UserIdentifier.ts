@@ -21,7 +21,12 @@ export class UserIdentifier {
   } & InternalUserProperties = {};
 
   static registerService(...services: UserIdentifyService[]) {
-    this.services.push(...services);
+    for (const service of services) {
+      if (this.services.find((e) => e.name === service.name)) {
+        continue;
+      }
+      this.services.push(service);
+    }
   }
 
   static identifyUser(

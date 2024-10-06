@@ -17,6 +17,9 @@ export class Analytics {
 
   static registerServices(...services: AnalyticsService[]) {
     for (const service of services) {
+      if (this.services.find((e) => e.name === service.name)) {
+        continue;
+      }
       this.services.push(service);
       if (!(service.options && service.options.isEventsEnabled === false)) {
         this.servicesSupportedEvents.push(service);
