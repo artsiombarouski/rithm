@@ -7,7 +7,7 @@ import {
   runInAction,
 } from 'mobx';
 import fromEntries from 'object.fromentries';
-import { DestroyOptions, Id, OptimisticId, SaveOptions } from './types';
+import { type DestroyOptions, Id, OptimisticId, type SaveOptions } from './types';
 import {
   ResourceExtendedActions,
   ResourceModelStore,
@@ -19,7 +19,7 @@ import {
   isNothing,
 } from './utils';
 import { includes, isEmpty, uniqueId } from 'lodash';
-import { ResourceApiError, ResourceApiResponse, ResourceQuery } from './api';
+import { ResourceApiError, ResourceApiResponse, type ResourceQuery } from './api';
 import { ResourceModelStoreRegister } from './ResourceModelStoreRegister';
 
 export type ResourceReference = {

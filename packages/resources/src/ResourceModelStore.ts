@@ -2,20 +2,20 @@ import { DEFAULT_PRIMARY, ResourceModel } from './ResourceModel';
 import {
   action,
   computed,
-  IObservableArray,
+  type IObservableArray,
   makeObservable,
   observable,
 } from 'mobx';
 import {
-  CreateOptions,
-  FindOptions,
-  GetOptions,
+  type CreateOptions,
+  type FindOptions,
+  type GetOptions,
   Id,
-  SetOptions,
+  type SetOptions,
 } from './types';
 import { difference, intersection, isEmpty, isObject } from 'lodash';
 import EventEmitter from 'events';
-import { ResourceApi, ResourceApiResponse, ResourceQuery } from './api';
+import { ResourceApi, ResourceApiResponse, type ResourceQuery } from './api';
 import { ResourceModelStoreRegister } from './ResourceModelStoreRegister';
 
 type IndexTree<T> = Map<string, Index<T>>;

@@ -1,7 +1,7 @@
 import {
   action,
   computed,
-  IObservableArray,
+  type IObservableArray,
   makeObservable,
   observable,
   observe,
@@ -19,14 +19,14 @@ import {
   ResourceApi,
   ResourceApiError,
   ResourceApiResponse,
-  ResourceListQuery,
+  type ResourceListQuery,
   ResourcePage,
 } from './api';
 import {
   ResourceExtendedActions,
   ResourceModelStore,
 } from './ResourceModelStore';
-import { ResourceListMeta } from './types';
+import { type ResourceListMeta } from './types';
 import { isNothing } from './utils';
 
 export class ResourceList<T extends ResourceModel> {
