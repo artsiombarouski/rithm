@@ -25,6 +25,10 @@ export class ResourceList<T extends ResourceModel> {
     return list;
   }
 
+  static getByKey(key: string | undefined) {
+    return this._cached[key];
+  }
+
   @observable
   meta: ResourceListMeta = {};
   @observable
