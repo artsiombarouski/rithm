@@ -69,6 +69,7 @@ export class ResourceList<T extends ResourceModel> {
             delete this.selectedModels[item.key];
           }
         });
+        this.onRemoved(toRemove);
       }
     });
 
@@ -420,5 +421,8 @@ export class ResourceList<T extends ResourceModel> {
   @action
   removeSelected(model: T) {
     delete this.selectedModels[model.key];
+  }
+
+  onRemoved(models: T[]) {
   }
 }
