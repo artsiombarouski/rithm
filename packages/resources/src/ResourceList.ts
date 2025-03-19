@@ -1,31 +1,10 @@
-import {
-  action,
-  computed,
-  type IObservableArray,
-  makeObservable,
-  observable,
-  observe,
-  runInAction,
-} from 'mobx';
+import { action, computed, type IObservableArray, makeObservable, observable, observe, runInAction } from 'mobx';
 import { isUndefined } from 'lodash';
 import deepEqual from 'deep-equal';
-import {
-  CancellablePromise,
-  CancelState,
-  createCancellablePromise,
-} from '@artsiombarouski/rn-services';
+import { CancellablePromise, CancelState, createCancellablePromise } from '@artsiombarouski/rn-services';
 import { ResourceModel } from './ResourceModel';
-import {
-  ResourceApi,
-  ResourceApiError,
-  ResourceApiResponse,
-  type ResourceListQuery,
-  ResourcePage,
-} from './api';
-import {
-  ResourceExtendedActions,
-  ResourceModelStore,
-} from './ResourceModelStore';
+import { ResourceApi, ResourceApiError, ResourceApiResponse, type ResourceListQuery, ResourcePage } from './api';
+import { ResourceExtendedActions, ResourceModelStore } from './ResourceModelStore';
 import { type ResourceListMeta } from './types';
 import { isNothing } from './utils';
 
@@ -50,6 +29,8 @@ export class ResourceList<T extends ResourceModel> {
   meta: ResourceListMeta = {};
   @observable
   models: IObservableArray<T> = [] as any;
+  @observable
+  selectedModels: { [key: string | number]: T } = {};
   @observable
   isFetching: boolean = false;
   @observable
@@ -79,6 +60,11 @@ export class ResourceList<T extends ResourceModel> {
           ? change.removed.filter((e) => !change.added.includes(e))
           : change.removed;
         this.models.replace(this.models.filter((e) => !toRemove.includes(e)));
+        toRemove.forEach((item) => {
+          if (this.selectedModels[item.key]) {
+            delete this.selectedModels[item.key];
+          }
+        });
       }
     });
 
@@ -296,9 +282,9 @@ export class ResourceList<T extends ResourceModel> {
       isManualRefresh?: boolean;
     } & ResourceListQuery = {},
   ): // @ts-ignore
-  CancellablePromise<
-    (ResourceApiResponse<T> & { data: { models: T[] } }) | boolean
-  > {
+    CancellablePromise<
+      (ResourceApiResponse<T> & { data: { models: T[] } }) | boolean
+    > {
     const {
       next = false,
       previous = false,
@@ -405,5 +391,30 @@ export class ResourceList<T extends ResourceModel> {
         }
       });
     };
+  }
+
+  /** Selection **/
+
+  isSelected(model: T) {
+    return this.selectedModels[model.key] !== undefined;
+  }
+
+  @action
+  toggleSelected(model: T) {
+    if (this.isSelected(model)) {
+      this.removeSelected(model);
+    } else {
+      this.addSelected(model);
+    }
+  }
+
+  @action
+  addSelected(model: T) {
+    this.selectedModels[model.key] = model;
+  }
+
+  @action
+  removeSelected(model: T) {
+    delete this.selectedModels[model.key];
   }
 }
